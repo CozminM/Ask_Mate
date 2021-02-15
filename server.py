@@ -31,7 +31,9 @@ def questions_page(criteria, direction):
 
 @app.route('/question/<question_id>')
 def individual_q_and_a(question_id):
-    pass
+    question = data_manager.get_question_or_answer('id', data_manager.questions_file, question_id)
+    answer = data_manager.get_question_or_answer('question_id', data_manager.answers_file, question_id)
+    return render_template('individual_question_and_answer_page.html', questions=question, answers=answer)
 
 
 if __name__ == "__main__":
