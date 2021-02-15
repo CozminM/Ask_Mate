@@ -46,7 +46,7 @@ def add_question_page():
 def delete_answer(answer_id):
     raw_data = data_manager.read_from_csv(data_manager.answers_file)
     data_manager.delete_from_csv(answer_id, raw_data, data_manager.ANSWER_HEADER, data_manager.answers_file)
-    return redirect(url_for('individual_q_and_a', question_id=answer_id))
+    return redirect(url_for('questions_page', criteria='id', direction='asc'))
 
 
 @app.route('/question/<question_id>/delete')
