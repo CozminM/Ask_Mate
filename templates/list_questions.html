@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List stories</title>
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <th>Id</th>
+            <th>Submission time</th>
+            <th>View number</th>
+            <th>Vote number</th>
+            <th>Title</th>
+            <th>Message</th>
+        </tr>
+        {% for dat in data %}
+        <tr>
+            <td>{{ dat.id }}</td>
+            <td>{{ dat.submission_time }}</td>
+            <td>{{ dat.view_number }}</td>
+            <td>{{ dat.vote_number }}</td>
+            <td>{{ dat.title }}</td>
+            <td>{{ dat.message }}</td>
+        </tr>
+        {% endfor %}
+    <h3>Add a new question</h3>
+        <form method="post" action="" name="user_form" enctype="multipart/form-data">
+        <p>Message:</p>
+        <label>
+            <textarea cols="40" rows="5" name="message" required></textarea>
+        </label>
+        <p>Title:</p>
+        <label>
+            <textarea cols="40" rows="5" name="title" required></textarea>
+        </label>
+            <p>Image: </p>
+            <input type="file" id="img" name="img">
+        <br/>
+        <br/>
+        <button type="submit" value="submit" name="submit_button">Add question</button>
+    </form>
+    </table>
+</body>
+</html>
