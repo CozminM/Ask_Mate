@@ -34,3 +34,22 @@ def get_question_or_answer(matching_id, filename, used_id):
                 util.unix_date_converter(row)
                 list_of_items.append(row)
     return list_of_items
+
+
+def delete_from_csv(question_id, data, header, filename):
+    with open(filename, 'w', newline='') as file:
+        csv_dict_writer = csv.DictWriter(file, fieldnames=header, delimiter=',')
+        csv_dict_writer.writeheader()
+        for row in data:
+            if row['id'] == question_id:
+                data.remove(row)
+        for row in data:
+            csv_dict_writer.writerow(row)
+
+
+def delete_image(filename, question_id):
+    with open(filename, 'r') as file:
+        csv_reader = csv.DictReader(file)
+        for row in csv_reader:
+            if row['id'] == str(question_id):
+                os.remove('/home/bogdan/Desktop/web projects/ask-mate-1-python-bogdaniordan/static/images/' + row['image'])

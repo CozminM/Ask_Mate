@@ -11,12 +11,14 @@
             <th>Title</th>
             <th>Message</th>
             <th>Image</th>
+            <th>Delete</th>
         </tr>
         {% for question in questions %}
         <tr>
             <td>{{ question.title }}</td>
             <td>{{ question.message }}</td>
             <td><img src="{{url_for('static', filename='images/' + question.image)}}" width="100" height="100" alt="question image"></td>
+            <td><a href="{{url_for('delete_question', question_id=question.id)}}"> X </a></td>
         </tr>
         {% endfor %}
     </table>
