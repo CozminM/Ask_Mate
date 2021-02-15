@@ -5,6 +5,7 @@
     <title>List stories</title>
 </head>
 <body>
+    <h2 class="question-title">Question table</h2>
     <table border="1">
         <tr>
             <th>Id</th>
@@ -16,7 +17,7 @@
         </tr>
         {% for dat in data %}
         <tr>
-            <td>{{ dat.id }}</td>
+            <td><a href="{{ url_for('individual_q_and_a', question_id = dat.id) }}">{{ dat.id }}</a></td>
             <td>{{ dat.submission_time }}</td>
             <td>{{ dat.view_number }}</td>
             <td>{{ dat.vote_number }}</td>
@@ -24,22 +25,25 @@
             <td>{{ dat.message }}</td>
         </tr>
         {% endfor %}
-    <h3>Add a new question</h3>
-        <form method="post" action="" name="user_form" enctype="multipart/form-data">
-        <p>Message:</p>
-        <label>
-            <textarea cols="40" rows="5" name="message" required></textarea>
-        </label>
-        <p>Title:</p>
-        <label>
-            <textarea cols="40" rows="5" name="title" required></textarea>
-        </label>
-            <p>Image: </p>
-            <input type="file" id="img" name="img">
-        <br/>
-        <br/>
-        <button type="submit" value="submit" name="submit_button">Add question</button>
-    </form>
+
     </table>
+    <div class="add-question-container">
+            <h3>Add a new question</h3>
+                <form method="post" action="" name="user_form" enctype="multipart/form-data">
+                <p>Message:</p>
+                <label>
+                    <textarea cols="40" rows="5" name="message" required></textarea>
+                </label>
+                <p>Title:</p>
+                <label>
+                    <input cols="40" rows="5" name="title" required>
+                </label>
+                    <p>Image: </p>
+                    <input type="file" id="img" name="img">
+                <br/>
+                <br/>
+                <button type="submit" value="submit" name="submit_button">Add question</button>
+            </form>
+    </div>
 </body>
 </html>

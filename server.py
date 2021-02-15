@@ -6,7 +6,7 @@ import os
 
 app = Flask(__name__)
 
-app.config['UPLOAD_FOLDER'] = '/home/bogdan/Desktop/web projects/ask-mate-1-python-bogdaniordan/static/images'
+app.config['UPLOAD_FOLDER'] = '/home/bogdan/Desktop/web projects/ask-mate-1-python-bogdaniordan/static'
 
 
 @app.route("/")
@@ -14,6 +14,7 @@ def hello():
     return redirect(url_for('questions_page', criteria='id', direction='asc'))
 
 
+#or use uuid for id
 @app.route('/list/order_by=<criteria>&order_direction=<direction>', methods=['GET', 'POST'])
 def questions_page(criteria, direction):
     raw_data = data_manager.read_from_csv(data_manager.questions_file)
