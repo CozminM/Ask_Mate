@@ -6,11 +6,11 @@ import os
 
 app = Flask(__name__)
 
-app.config['UPLOAD_FOLDER'] = '/home/bogdan/Desktop/web projects/ask-mate-1-python-bogdaniordan/static'
+app.config['UPLOAD_FOLDER'] = '/home/bogdan/Desktop/web projects/ask-mate-1-python-bogdaniordan/static/images'
 
 
 @app.route("/")
-def hello():
+def index_page():
     return redirect(url_for('questions_page', criteria='id', direction='asc'))
 
 
