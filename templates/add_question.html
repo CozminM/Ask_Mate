@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add question</title>
+</head>
+<body>
+    <div class="add-question-container">
+            <h3>Add a new question</h3>
+                <form method="post" action="" name="user_form" enctype="multipart/form-data">
+                <p>Message:</p>
+                <label>
+                    <textarea cols="40" rows="5" name="message" required></textarea>
+                </label>
+                <p>Title:</p>
+                <label>
+                    <input name="title" required>
+                </label>
+                    <p>Image: </p>
+                    <input type="file" id="img" name="img">
+                <br/>
+                <br/>
+                <button type="submit" value="submit" name="submit_button">Add question</button>
+            </form>
+    </div>
+</body>
+</html>

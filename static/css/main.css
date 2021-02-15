@@ -4,7 +4,6 @@
 }
 
 
-.add-question-container {
-    border: 1px solid;
-    padding: 10%;
+body {
+    background-color: palegoldenrod;
 }
