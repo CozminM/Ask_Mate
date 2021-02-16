@@ -3,56 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/individual_question_answer.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <body>
-    <h1>Question</h1>
-    <table border="1">
-        <tr>
-            <th>Title</th>
-            <th>Message</th>
-            <th>Image</th>
-            <th>Delete</th>
-        </tr>
-        {% for question in questions %}
-        <tr>
-            <td>{{ question.title }}</td>
-            <td>{{ question.message }}</td>
-            {% if question.image != None %}
-                <td><img src="{{url_for('static', filename='images/' + question.image)}}" width="100" height="100" alt="question image"></td>
-            {% else %}
-                <td>No image</td>
-            {% endif %}
-            <td><a href="{{url_for('delete_question', question_id=question.id)}}"> X </a></td>
-        </tr>
-        {% endfor %}
-    </table>
+    <div class="question-container">
+        <h1>Question</h1>
+        <table border="1">
+            <tr>
+                <th>Title</th>
+                <th>Message</th>
+                <th>Image</th>
+                <th>Delete</th>
+            </tr>
+            {% for question in questions %}
+            <tr>
+                <td>{{ question.title }}</td>
+                <td>{{ question.message }}</td>
+                {% if question.image != None %}
+                    <td><img src="{{url_for('static', filename='images/' + question.image)}}" width="100" height="100" alt="question image"></td>
+                {% else %}
+                    <td>No image</td>
+                {% endif %}
+                <td><a href="{{url_for('delete_question', question_id=question.id)}}"> X </a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="answer-container">
     <h1>Answers</h1>
-    <table border="1">
-        <tr>
-            <th>Id</th>
-            <th>Submission time</th>
-            <th>Vote number</th>
-            <th>Question id</th>
-            <th>Message</th>
-            <th>Image</th>
-        </tr>
-        {% for answer in answers %}
-        <tr>
-            <td>{{ answer.id }}</td>
-            <td>{{ answer.submission_time }}</td>
-            <td>{{ answer.vote_number }}</td>
-            <td>{{ answer.question_id }}</td>
-            <td>{{ answer.message }}</td>
-            {% if answer.image != None %}
-                <td><img src="{{url_for('static', filename='images/' + answer.image)}}" width="100" height="100" alt="answer image"></td>
-            {% else %}
-                <td>No image</td>
-            {% endif %}
-            <td><a href="{{url_for('delete_answer', answer_id=answer.id)}}"> X </a></td>
-        </tr>
-        {% endfor %}
-    </table>
+        <table border="1">
+            <tr>
+                <th style="text-align: center; vertical-align: middle;">Id</th>
+                <th style="text-align: center; vertical-align: middle;">Submission time</th>
+                <th style="text-align: center; vertical-align: middle;">Vote number</th>
+                <th style="text-align: center; vertical-align: middle;">Question id</th>
+                <th style="text-align: center; vertical-align: middle;">Message</th>
+                <th style="text-align: center; vertical-align: middle;">Image</th>
+                <th>Delete</th>
+            </tr>
+            {% for answer in answers %}
+            <tr>
+                <td>{{ answer.id }}</td>
+                <td>{{ answer.submission_time }}</td>
+                <td>{{ answer.vote_number }}</td>
+                <td>{{ answer.question_id }}</td>
+                <td>{{ answer.message }}</td>
+                {% if answer.image != None %}
+                    <td><img src="{{url_for('static', filename='images/' + answer.image)}}" width="100" height="100" alt="answer image"></td>
+                {% else %}
+                    <td>No image</td>
+                {% endif %}
+                <td><a href="{{url_for('delete_answer', answer_id=answer.id)}}"> X </a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
     <br>
-    <a href="{{ url_for('index_page') }}"> Home </a>
+    <button class="home-btn" type="button"><a href="{{ url_for('index_page') }}"> Home </a></button>
 </body>
 </html>

@@ -1,9 +1,16 @@
 .question-title {
     font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
     text-align: center;
+    padding: 20px;
 }
 
 
 body {
     background-color: palegoldenrod;
+}
+
+
+table {
+    text-align: center;
+    vertical-align: middle;
 }

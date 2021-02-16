@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <title>List stories</title>
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/main.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <body>
     <h2 class="question-title">Question table</h2>
-    <table border="1">
+    <table class="table" border="1">
         <tr>
             <th>Id</th>
             <th>Submission time</th>
@@ -27,6 +28,6 @@
         </tr>
         {% endfor %}
     </table>
-    <a href="{{ url_for('add_question_page') }}">Add question</a>
+    <button type="button"><a href="{{ url_for('add_question_page') }}">Add question</a></button>
 </body>
 </html>

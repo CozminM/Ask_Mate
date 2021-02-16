@@ -15,8 +15,8 @@ def index_page():
 
 @app.route('/list/order_by=<criteria>&order_direction=<direction>', methods=['GET', 'POST'])
 def questions_page(criteria, direction):
-    raw_data = data_manager.read_from_csv(data_manager.questions_file)
-    sorted_data = util.sort_data(raw_data, criteria, direction)
+    unsorted_data = data_manager.read_from_csv(data_manager.questions_file)
+    sorted_data = util.sort_data(unsorted_data, criteria, direction)
     return render_template('list_questions.html', data=sorted_data)
 
 
