@@ -33,8 +33,9 @@ def answer_page(question_id):
     if request.method == 'POST':
         new_id = int(raw_data[-1].get('id')) + 1
         img = request.files['img']
+        submit_time = util.single_value_dateconverter(round(time.time()))
         img.save(os.path.join(app.config['UPLOAD_FOLDER'], img.filename))
-        data_row = {'id': new_id, 'submission_time': int(round(time.time())), 'vote_number': 0,
+        data_row = {'id': new_id, 'submission_time': submit_time, 'vote_number': 0,
                     'question_id': question_id, 'message': request.form['message'], 'image': img.filename}
         data_manager.append_to_csv(data_row, data_manager.ANSWER_HEADER, data_manager.answers_file)
         return redirect(url_for('individual_q_and_a', question_id=question_id))
@@ -48,7 +49,7 @@ def add_question_page():
         new_id = int(raw_data[-1].get('id')) + 1
         img = request.files['img']
         img.save(os.path.join(app.config['UPLOAD_FOLDER'], img.filename))
-        data_row = {'id': new_id, 'submission_time': int(round(time.time())), 'view_number': 0,
+        data_row = {'id': new_id, 'submission_time': util.single_value_dateconverter(round(time.time())), 'view_number': 0,
                     'vote_number': 0, 'title': request.form['title'], 'image': img.filename,
                     'message': request.form['message']}
         data_manager.append_to_csv(data_row, data_manager.QUESTION_HEADER, data_manager.questions_file)
@@ -63,7 +64,7 @@ def edit_question(question_id):
     if request.method == 'POST':
         title_input = request.form['title']
         message_input = request.form['message']
-        time_input = int(round(time.time()))
+        time_input = util.single_value_dateconverter(round(time.time()))
         data_manager.update_question(question_id, raw_data, data_manager.QUESTION_HEADER, data_manager.questions_file, title_input, message_input, time_input)
         return redirect(url_for('individual_q_and_a', question_id=question_id))
     return render_template('edit_question.html', questionz=question)

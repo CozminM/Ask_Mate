@@ -1,11 +1,11 @@
 from datetime import datetime
 
 
-def unix_date_converter(row):
-    value = row.get('submission_time')
-    if type(value) == int:
-        row['submission_time'] = datetime.utcfromtimestamp(value).strftime('%Y-%m-%d %H:%M:%S')
-        return row
+# def unix_date_converter(row):
+#     value = row.get('submission_time')
+#     if type(value) == int:
+#         row['submission_time'] = datetime.utcfromtimestamp(value).strftime('%Y-%m-%d %H:%M:%S')
+#         return row
 
 
 def sort_data(data, sort_criteria, order):
