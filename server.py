@@ -5,7 +5,7 @@ import data_manager
 import os
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = '/home/tutu/Desktop/projects/web/ask-mate-1-python-bogdaniordan/static/images/'
+app.config['UPLOAD_FOLDER'] = '/home/bogdan/Desktop/web projects/ask-mate-1-python-bogdaniordan/static/images/'
 
 
 @app.route("/")
@@ -40,6 +40,7 @@ def answer_page(question_id):
         return redirect(url_for('individual_q_and_a', question_id=question_id))
     return render_template('add_answers.html')
 
+
 @app.route('/add-question', methods=['GET', 'POST'])
 def add_question_page():
     raw_data = data_manager.read_from_csv(data_manager.questions_file)
@@ -57,24 +58,15 @@ def add_question_page():
 
 @app.route('/question/<question_id>/edit', methods=['GET', 'POST'])
 def edit_question(question_id):
-    if request.method == "POST":
-        questions = data_manager.read_from_csv(data_manager.questions_file)
-        question = questions[int(question_id) - 1]
-        id = int(question['id'])
-        updated_question = dict(request.form)
-        updated_question = dict((k.lower(), v.capitalize()) for k, v in updated_question.items())
-        updated_question['id'] = updated_question.get(id, str(id))
-        data_manager.edit_question(updated_question)
-        print(updated_question)
+    question = data_manager.get_question_or_answer('id', data_manager.questions_file, question_id)
+    raw_data = data_manager.read_from_csv(data_manager.questions_file)
+    if request.method == 'POST':
+        title_input = request.form['title']
+        message_input = request.form['message']
+        time_input = int(round(time.time()))
+        data_manager.update_question(question_id, raw_data, data_manager.QUESTION_HEADER, data_manager.questions_file, title_input, message_input, time_input)
         return redirect(url_for('individual_q_and_a', question_id=question_id))
-    else:
-        questions = data_manager.read_from_csv(data_manager.questions_file)
-        question = questions[int(question_id) - 1]
-        id = int(question['id'])
-        updated_question = dict(request.form)
-        updated_question['id'] = updated_question.get(id, str(id))
-
-        return render_template("edit_question.html", question=question)
+    return render_template('edit_question.html', questionz=question)
 
 
 @app.route('/answer/<answer_id>/delete')

@@ -3,17 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Edit question</title>
-
+        <h3>Edit question</h3>
+        <form method="post" action="" name="user_form" enctype="multipart/form-data">
+            {% for question in questionz %}
+            <p>Title:</p>
+            <input cols="40" rows="5" name="title" value="{{ question.title }}" required>
+        <p>Message:</p>
+            <textarea cols="40" rows="5" name="message" required>{{ question.message }}</textarea>
+            {% endfor %}
+            <br/>
+        <br/>
+        <button type="submit" value="submit" name="submit_button">Edit</button>
+    </form>
 </head>
 <body>
-    <h1>Edit question</h1>
 
-<form method="POST">
-<label for="title">Title</label><br>
-<input type="text" name="title" value="{{ question.title }}" id="title" size="25%" height="50"><brr><br></brr>
-<label for="message"></label><br>
-<textarea id="message" name="message" required rows="5" cols="20">{{ question.message }}</textarea><br><br>
-<button type="submit">Submit</button>
-</form>
 </body>
 </html>
