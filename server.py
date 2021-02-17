@@ -8,7 +8,7 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = '/home/bogdan/Desktop/web projects/ask-mate-1-python-bogdaniordan/static/images/'
 
 
-@app.route("/")
+@app.route("/", methods=['GET', 'POST'])
 def index_page():
     return redirect(url_for('questions_page', criteria='id', direction='asc'))
 
@@ -17,6 +17,11 @@ def index_page():
 def questions_page(criteria, direction):
     unsorted_data = data_manager.read_from_csv(data_manager.questions_file)
     sorted_data = util.sort_data(unsorted_data, criteria, direction)
+    if request.method == 'POST':
+        criteriazzz = request.form['sort-direction']
+        print(criteria)
+        directionzzz = request.form['sort-order']
+        return redirect(url_for('questions_page', criteria=criteriazzz, direction=directionzzz))
     return render_template('list_questions.html', data=sorted_data)
 
 
@@ -65,7 +70,8 @@ def edit_question(question_id):
         title_input = request.form['title']
         message_input = request.form['message']
         time_input = util.single_value_dateconverter(round(time.time()))
-        data_manager.update_question(question_id, raw_data, data_manager.QUESTION_HEADER, data_manager.questions_file, title_input, message_input, time_input)
+        data_manager.update_question(question_id, raw_data, data_manager.QUESTION_HEADER, data_manager.questions_file,
+                                     title_input, message_input, time_input)
         return redirect(url_for('individual_q_and_a', question_id=question_id))
     return render_template('edit_question.html', questionz=question)
 

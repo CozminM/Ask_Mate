@@ -29,5 +29,21 @@
         {% endfor %}
     </table>
     <button type="button"><a href="{{ url_for('add_question_page') }}">Add question</a></button>
+    <div class="sort">
+        <form mehod="post">
+            <select name="sort-direction">
+                <option value="title">title</option>
+                <option value="submission_time">submission_time</option>
+                <option value="view_number">view_number</option>
+                <option value="vote_number">vote_number</option>
+                <option value="message">message</option>
+            </select>
+            <select name="sort-order">
+                <option value="asc">asc</option>
+                <option value="desc">desc</option>
+            </select>
+            <button class="btn btn-primary" type="submit" value="submit" name="submit_button">Sort</button>
+        </form>
+        </div>
 </body>
 </html>
