@@ -5,8 +5,8 @@ import os
 
 ANSWER_HEADER = ['id', 'submission_time', 'vote_number', 'question_id', 'message', 'image']
 QUESTION_HEADER = ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image']
-questions_file = '/home/bogdan/Desktop/web projects/ask-mate-1-python-bogdaniordan/sample_data/question.csv'
-answers_file = '/home/bogdan/Desktop/web projects/ask-mate-1-python-bogdaniordan/sample_data/answer.csv'
+questions_file = './sample_data/question.csv'
+answers_file = './sample_data/answer.csv'
 
 
 def read_from_csv(filename):
@@ -20,7 +20,7 @@ def read_from_csv(filename):
 
 
 def append_to_csv(data_row, header, filename):
-    with open(filename, 'a+', newline='') as file:
+    with open(filename, 'a+') as file:
         csv_dict_writer = csv.DictWriter(file, fieldnames=header)
         csv_dict_writer.writerow(data_row)
 
@@ -52,4 +52,53 @@ def delete_image(filename, question_id):
         csv_reader = csv.DictReader(file)
         for row in csv_reader:
             if row['id'] == str(question_id):
-                os.remove('/home/bogdan/Desktop/web projects/ask-mate-1-python-bogdaniordan/static/images/' + row['image'])
+                os.remove('/home/tutu/Desktop/projects/web/ask-mate-1-python-bogdaniordan/static/images/'
+ + row['image'])
+
+
+def vote_questions(filename, question_id, action):
+    questions = read_from_csv(filename)
+    if action == 'up':
+        for row in questions:
+            if row['id'] == question_id:
+                row['vote_number'] = str(int(row['vote_number']) + 1)
+    elif action == 'down':
+        for row in questions:
+            if row['id'] == question_id:
+                row['vote_number'] = str(int(row['vote_number']) - 1)
+    print(questions)
+    with open(filename, "w") as csv_file:
+        fieldnames = QUESTION_HEADER
+        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+        writer.writeheader()
+        for row in questions:
+            writer.writerow(row)
+
+
+def vote_answer(filename, answer_id, action):
+    answers = read_from_csv(filename)
+    for row in answers:
+        if row['id'] == answer_id:
+            if action == 'up':
+                row['vote_number'] = str(int(row['vote_number']) + 1)
+            elif action == 'down':
+                row['vote_number'] = str(int(row['vote_number']) - 1)
+    with open(filename, "w") as csv_file:
+        fieldnames = ANSWER_HEADER
+        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+        writer.writeheader()
+        for row in answers:
+            writer.writerow(row)
+
+
+def edit_question(output):
+    questions = read_from_csv(questions_file)
+    for item in questions:
+        if int(item['id']) == int(output['id']):
+            item.update(output)
+    with open(questions_file, "w") as csv_file:
+        fieldnames = QUESTION_HEADER
+        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+        writer.writeheader()
+        for item in questions:
+            writer.writerow(item)

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit question</title>
+
+</head>
+<body>
+    <h1>Edit question</h1>
+
+<form method="POST">
+<label for="title">Title</label><br>
+<input type="text" name="title" value="{{ question.title }}" id="title" size="25%" height="50"><brr><br></brr>
+<label for="message"></label><br>
+<textarea id="message" name="message" required rows="5" cols="20">{{ question.message }}</textarea><br><br>
+<button type="submit">Submit</button>
+</form>
+</body>
+</html>
