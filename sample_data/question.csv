@@ -12,7 +12,7 @@ app.js (bundled file with webpack, including jquery)",images/image1.png
 3,2017-04-24 06:30:32,1364,57,Drawing canvas with an image picked with Cordova Camera Plugin,"I'm getting an image from device and drawing a canvas with filters using Pixi JS. It works all well using computer to get an image. But when I'm on IOS, it throws errors such as cross origin issue, or that I'm trying to use an unknown format.
 
 This is the code I'm using to draw the image (that works on web/desktop but not cordova built ios app)",
-4,2021-02-15 10:31:39,0,10,Steaua,Dinamo2222,darkest-dungeon-game-dungeon-crawl-banditry-brigandage-others-1f5b44d786a1109951c5e9513bdbd2e9.png
+4,2021-02-15 10:31:39,0,9,Steaua,Dinamo2222,darkest-dungeon-game-dungeon-crawl-banditry-brigandage-others-1f5b44d786a1109951c5e9513bdbd2e9.png
 5,2021-02-15 10:35:56,0,2,Steaua,Dinamo,133086639-erp-icon-enterprise-resource-planning-erp-process.jpg
 7,2021-02-15 10:48:42,0,0,Steauaaa,DInamo ,battlefield_5_2018_video_game-wallpaper-3440x1440.jpg
 9,2021-02-15 11:16:19,0,0,33423224324,234323442,133086639-erp-icon-enterprise-resource-planning-erp-process.jpg

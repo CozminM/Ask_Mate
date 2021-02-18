@@ -16,6 +16,7 @@
             <th>Vote number</th>
             <th>Title</th>
             <th>Message</th>
+            <th>Image</th>
         </tr>
         {% for dat in data %}
         <tr>
@@ -25,12 +26,17 @@
             <td>{{ dat.vote_number }}</td>
             <td>{{ dat.title }}</td>
             <td>{{ dat.message }}</td>
+            {% if not dat.image %}
+            <td>No image</td>
+            {% else %}
+            <td><img src="{{url_for('static', filename='images/' + dat.image)}}" width="100" height="100" alt="answer image"></td>
+            {% endif %}
         </tr>
         {% endfor %}
     </table>
     <button type="button"><a href="{{ url_for('add_question_page') }}">Add question</a></button>
     <div class="sort">
-        <form mehod="post">
+        <form method="post">
             <select name="sort-direction">
                 <option value="title">title</option>
                 <option value="submission_time">submission_time</option>
@@ -39,8 +45,8 @@
                 <option value="message">message</option>
             </select>
             <select name="sort-order">
-                <option value="asc">asc</option>
-                <option value="desc">desc</option>
+                <option value="ascending">asc</option>
+                <option value="descending">desc</option>
             </select>
             <button class="btn btn-primary" type="submit" value="submit" name="submit_button">Sort</button>
         </form>

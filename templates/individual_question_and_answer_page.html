@@ -15,6 +15,7 @@
                 <th>Message</th>
                 <th>Image</th>
                 <th>Delete</th>
+                <th>Vote number</th>
                 <th>Vote up</th>
                 <th>Vote down</th>
             </tr>
@@ -28,6 +29,7 @@
                     <td><img src="{{url_for('static', filename='images/' + question.image)}}" width="100" height="100" alt="question image"></td>
                 {% endif %}
                 <td><a href="{{url_for('delete_question', question_id=question.id)}}"> X </a></td>
+                <td>{{ question.vote_number }}</td>
                 <td><button class="home-btn" type="button"><a href="{{ url_for('vote_up', question_id=question.id) }}">⇧</a></button></td>
                 <td><button class="home-btn" type="button"><a href="{{ url_for('vote_down', question_id=question.id) }}">⇩</a></button></td>
             </tr>
@@ -44,6 +46,8 @@
                 <th style="text-align: center; vertical-align: middle;">Id</th>
                 <th style="text-align: center; vertical-align: middle;">Submission time</th>
                 <th style="text-align: center; vertical-align: middle;">Vote number</th>
+                <th style="text-align: center; vertical-align: middle;">Vote up</th>
+                <th style="text-align: center; vertical-align: middle;">Vote down</th>
                 <th style="text-align: center; vertical-align: middle;">Question id</th>
                 <th style="text-align: center; vertical-align: middle;">Message</th>
                 <th style="text-align: center; vertical-align: middle;">Image</th>
@@ -54,8 +58,8 @@
                 <td>{{ answer.id }}</td>
                 <td>{{ answer.submission_time }}</td>
                 <td>{{ answer.vote_number }}
-                <button type="button"><a href="{{ url_for('answer_vote_up', answer_id=answer.id) }}">⇧</a></button>
-                <button type="button"><a href="{{ url_for('answer_vote_down', answer_id=answer.id) }}">⇩</a></button></td>
+                <td><button type="button"><a href="{{ url_for('answer_vote_up', answer_id=answer.id) }}">⇧</a></button></td>
+                <td><button type="button"><a href="{{ url_for('answer_vote_down', answer_id=answer.id) }}">⇩</a></button></td>
                 <td>{{ answer.question_id }}</td>
                 <td>{{ answer.message }}</td>
                 {% if not answer.image %}
