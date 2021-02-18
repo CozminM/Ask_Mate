@@ -2,21 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/add_and_edit.css') }}">
     <title>Add answer</title>
 
 </head>
 <body>
-    <h3 class="title">Add a new answer</h3>
-                <form method="post" action="" name="user_form" enctype="multipart/form-data">
-                <p>Message:</p>
+    <div class="header"><h1 class="title">Add a new answer</h1></div>
+                <div class="container"><form method="post" action="" name="user_form" enctype="multipart/form-data">
+                <h3>Message:</h3>
                 <label>
                     <textarea cols="40" rows="5" name="message" required></textarea>
                 </label>
-                    <p>Image: </p>
+                    <h3>Image: </h3>
                     <input type="file" id="img" name="img" required>
                 <br/>
                 <br/>
-                <button class="btn btn-primary" type="submit" value="submit" name="submit_button">Add answer</button>
-            </form>
+                <button class="button" type="submit" value="submit" name="submit_button">Add answer</button>
+            </form></div>
 </body>
 </html>

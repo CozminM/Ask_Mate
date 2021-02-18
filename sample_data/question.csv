@@ -1,20 +1,5 @@
 id,submission_time,view_number,vote_number,title,message,image
-1,2021-02-17 12:01:40,29,2,How to make li2222sts in python? test2,"I am totally new to this, any hints? test2",
-2,2017-04-24 21:08:44,15,9,Wordpress loading multiple jQuery Versions,"I developed a plugin that uses the jquery booklet plugin (http://builtbywill.com/booklet/#/) this plugin binds a function to $ so I cann call $('.myBook').booklet();
-
-I could easy managing the loading order with wp_enqueue_script so first I load jquery then I load booklet so everything is fine.
-
-BUT in my theme i also using jquery via webpack so the loading order is now following:
-
-jquery
-booklet
-app.js (bundled file with webpack, including jquery)",images/image1.png
+1,2021-02-18 12:54:32,29,8,How to make li2222sts in python? ,"I am totally new to this, any hints? ",kisspng-logo-brand-organization-number-erp-icon-5b5b9ccb70c970.489304551532730571462.png
 3,2017-04-24 06:30:32,1364,57,Drawing canvas with an image picked with Cordova Camera Plugin,"I'm getting an image from device and drawing a canvas with filters using Pixi JS. It works all well using computer to get an image. But when I'm on IOS, it throws errors such as cross origin issue, or that I'm trying to use an unknown format.
 
-This is the code I'm using to draw the image (that works on web/desktop but not cordova built ios app)",
-4,2021-02-15 10:31:39,0,9,Steaua,Dinamo2222,darkest-dungeon-game-dungeon-crawl-banditry-brigandage-others-1f5b44d786a1109951c5e9513bdbd2e9.png
-5,2021-02-15 10:35:56,0,2,Steaua,Dinamo,133086639-erp-icon-enterprise-resource-planning-erp-process.jpg
-7,2021-02-15 10:48:42,0,0,Steauaaa,DInamo ,battlefield_5_2018_video_game-wallpaper-3440x1440.jpg
-9,2021-02-15 11:16:19,0,0,33423224324,234323442,133086639-erp-icon-enterprise-resource-planning-erp-process.jpg
-10,2021-02-17 17:22:03,0,0,989898989898,99999999,kisspng-logo-brand-organization-number-erp-icon-5b5b9ccb70c970.489304551532730571462.png
-15,2021-02-17 13:41:11,0,0,rwerweewrrwe,rwerwerwerwe,133086639-erp-icon-enterprise-resource-planning-erp-process.jpg
+This is the code I'm using to draw the image (that works on web/desktop but not cordova built ios app)",battlefield_5_2018_video_game-wallpaper-3440x1440.jpg

@@ -5,8 +5,8 @@ import os
 
 ANSWER_HEADER = ['id', 'submission_time', 'vote_number', 'question_id', 'message', 'image']
 QUESTION_HEADER = ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image']
-questions_file = '/home/bogdan/Desktop/web projects/ask-mate-1-python-bogdaniordan/sample_data/question.csv'
-answers_file = '/home/bogdan/Desktop/web projects/ask-mate-1-python-bogdaniordan/sample_data/answer.csv'
+questions_file = '/home/tutu/Desktop/projects/web/ask-mate-1-python-bogdaniordan/sample_data/question.csv'
+answers_file = '/home/tutu/Desktop/projects/web/ask-mate-1-python-bogdaniordan/sample_data/answer.csv'
 
 
 def read_from_csv(filename):
@@ -50,7 +50,7 @@ def delete_image(filename, question_id):
         csv_reader = csv.DictReader(file)
         for row in csv_reader:
             if row['id'] == str(question_id):
-                os.remove('/home/bogdan/Desktop/web projects/ask-mate-1-python-bogdaniordan/static/images/' + row['image'])
+                os.remove('/home/tutu/Desktop/projects/web/ask-mate-1-python-bogdaniordan/static/images/' + row['image'])
 
 
 def vote_questions(filename, question_id, action):

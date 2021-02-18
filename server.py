@@ -5,7 +5,7 @@ import data_manager
 import os
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = '/home/bogdan/Desktop/web projects/ask-mate-1-python-bogdaniordan/static/images/'
+app.config['UPLOAD_FOLDER'] = '/home/tutu/Desktop/projects/web/ask-mate-1-python-bogdaniordan/static/images/'
 
 
 @app.route("/", methods=['GET', 'POST'])
@@ -18,8 +18,8 @@ def questions_page(criteria, direction):
     unsorted_data = data_manager.read_from_csv(data_manager.questions_file)
     sorted_data = util.sort_data(unsorted_data, criteria, direction)
     if request.method == 'POST':
-        criteria = request.form['sort-direction']
-        direction = request.form['sort-order']
+        criteria = request.form['Sort by']
+        direction = request.form['Sort order']
         return redirect(url_for('questions_page', criteria=criteria, direction=direction))
     return render_template('list_questions.html', data=sorted_data)
 
