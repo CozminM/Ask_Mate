@@ -1,14 +1,13 @@
 from datetime import datetime
 
 
-# def unix_date_converter(row):
-#     value = row.get('submission_time')
-#     if type(value) == int:
-#         row['submission_time'] = datetime.utcfromtimestamp(value).strftime('%Y-%m-%d %H:%M:%S')
-#         return row
-
-
 def sort_data(data, sort_criteria, order):
+    # if sort criteria is vote-number or view-count, the data gets so it can be sorted
+    if data[0].get(sort_criteria).isnumeric():
+        for sub in data:
+            for key in sub:
+                if key == sort_criteria:
+                    sub[key] = int(sub[key])
     if order == 'desc':
         sorted_data = sorted(data, key=lambda k: k[sort_criteria], reverse=True)
     else:

@@ -18,10 +18,9 @@ def questions_page(criteria, direction):
     unsorted_data = data_manager.read_from_csv(data_manager.questions_file)
     sorted_data = util.sort_data(unsorted_data, criteria, direction)
     if request.method == 'POST':
-        criteriazzz = request.form['sort-direction']
-        print(criteria)
-        directionzzz = request.form['sort-order']
-        return redirect(url_for('questions_page', criteria=criteriazzz, direction=directionzzz))
+        criteria = request.form['sort-direction']
+        direction = request.form['sort-order']
+        return redirect(url_for('questions_page', criteria=criteria, direction=direction))
     return render_template('list_questions.html', data=sorted_data)
 
 

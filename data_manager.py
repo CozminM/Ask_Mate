@@ -14,7 +14,6 @@ def read_from_csv(filename):
     with open(filename, 'r') as file:
         csv_reader = csv.DictReader(file)
         for row in csv_reader:
-            # util.unix_date_converter(row)
             list_of_questions.append(row)
     return list_of_questions
 
@@ -31,7 +30,6 @@ def get_question_or_answer(matching_id, filename, used_id):
         csv_reader = csv.DictReader(file)
         for row in csv_reader:
             if row[matching_id] == used_id:
-                # util.unix_date_converter(row)
                 list_of_items.append(row)
     return list_of_items
 
