@@ -12,16 +12,16 @@
     <div class="menu" id="grad2"><ul>
         <li><button class="button" type="button"><a href="{{ url_for('add_question_page') }}">Add question</a></button></li>
         <li><div class="sort">
-            <form method="post">
+            <form>
 
-                <select name="Sort by">
+                <select name="order_by">
                     <option value="title">Title</option>
                     <option value="submission_time">Submission time</option>
                     <option value="view_number">View number</option>
                     <option value="vote_number">Vote number</option>
                     <option value="message">Message</option>
                 </select>
-                <select name="Sort order">
+                <select name="order_direction">
                     <option value="asc">Ascending</option>
                     <option value="desc">Descending</option>
                 </select>

@@ -5,7 +5,7 @@ import data_manager
 import os
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = '/home/tutu/Desktop/projects/web/ask-mate-1-python-bogdaniordan/static/images/'
+app.config['UPLOAD_FOLDER'] = 'static/images/'
 
 
 @app.route("/", methods=['GET', 'POST'])
@@ -13,14 +13,12 @@ def index_page():
     return redirect(url_for('questions_page', criteria='id', direction='asc'))
 
 
-@app.route('/list/order_by=<criteria>&order_direction=<direction>', methods=['GET', 'POST'])
-def questions_page(criteria, direction):
+@app.route('/list')
+def questions_page():
+    criteria = request.args.get('order_by', 'submission_time')
+    direction = request.args.get('order_direction', 'desc')
     unsorted_data = data_manager.read_from_csv(data_manager.questions_file)
     sorted_data = util.sort_data(unsorted_data, criteria, direction)
-    if request.method == 'POST':
-        criteria = request.form['Sort by']
-        direction = request.form['Sort order']
-        return redirect(url_for('questions_page', criteria=criteria, direction=direction))
     return render_template('list_questions.html', data=sorted_data)
 
 
@@ -66,6 +64,7 @@ def edit_question(question_id):
     question = data_manager.get_question_or_answer('id', data_manager.questions_file, question_id)
     raw_data = data_manager.read_from_csv(data_manager.questions_file)
     if request.method == 'POST':
+        #question = request.form.to_dict
         title_input = request.form['title']
         message_input = request.form['message']
         time_input = util.single_value_dateconverter(round(time.time()))

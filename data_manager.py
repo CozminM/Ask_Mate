@@ -24,7 +24,7 @@ def append_to_csv(data_row, header, filename):
         csv_dict_writer.writerow(data_row)
 
 
-def get_question_or_answer(matching_id, filename, used_id):
+def get_question_or_answer(matching_id, filename, used_id):#functie privata si o transformam in 2 functii
     list_of_items = []
     with open(filename, 'r') as file:
         csv_reader = csv.DictReader(file)
@@ -91,6 +91,7 @@ def update_question(question_id, data, header, filename, title_input, message_in
         writer.writeheader()
         for row in data:
             if row['id'] == question_id:
+                #row.update(question_arg)
                 row['title'] = title_input
                 row['message'] = message_input
                 row['submission_time'] = time_input
