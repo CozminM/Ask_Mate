@@ -1,4 +1,5 @@
 from datetime import datetime
+import os
 
 
 def sort_data(data, sort_criteria, order):
@@ -18,3 +19,7 @@ def sort_data(data, sort_criteria, order):
 def single_value_dateconverter(value):
     result = datetime.utcfromtimestamp(value).strftime('%Y-%m-%d %H:%M:%S')
     return result
+
+
+def delete_image(image_name):
+    os.remove('static/' + image_name)

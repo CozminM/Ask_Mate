@@ -62,17 +62,19 @@ def edit_question(question_id):
         title_input = request.form['title']
         message_input = request.form['message']
         submit_time = util.single_value_dateconverter(round(time.time()))
+        data_manager.update_question(question_id, title_input, message_input, submit_time)
         # data_manager.update_question(question_id, raw_data, data_manager.QUESTION_HEADER, data_manager.questions_file,
         #                              title_input, message_input, time_input)
-        data_manager.update_question(question_id, title_input, message_input, submit_time)
+        print(title_input)
+        print(message_input)
+        print(submit_time)
         return redirect(url_for('individual_q_and_a', question_id=question_id))
     return render_template('edit_question.html', questionz=question)
 
 
 @app.route('/answer/<answer_id>/delete')
 def delete_answer(answer_id):
-    raw_data = data_manager.read_from_csv(data_manager.answers_file)
-    data_manager.delete_from_csv(answer_id, raw_data, data_manager.ANSWER_HEADER, data_manager.answers_file)
+    data_manager.delete_answer(answer_id)
     return redirect(url_for('questions_page', criteria='id', direction='asc'))
 
 
