@@ -249,3 +249,14 @@ def search_in_questions(cursor: RealDictCursor, search_input: str) -> list:
         """
     cursor.execute(query, {'s': search_input})
     return cursor.fetchall()
+
+
+@database_common.connection_handler
+def search_in_answers(cursor: RealDictCursor, search_input: str) -> list:
+    query = """
+        SELECT id, submission_time, vote_number, image, message
+        FROM answer
+        WHERE message like %(s)s
+        """
+    cursor.execute(query, {'s': search_input})
+    return cursor.fetchall()

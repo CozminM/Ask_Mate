@@ -143,7 +143,9 @@ def delete_tag(question_id, tag_id):
 def search_results(search_phrase):
     modified_search_phrase = '%' + search_phrase + '%'
     question_results = data_manager.search_in_questions(modified_search_phrase)
-    return render_template('search_results.html', data=question_results, search_phrase=search_phrase)
+    answer_results = data_manager.search_in_answers(modified_search_phrase)
+    return render_template('search_results.html', questions=question_results, search_phrase=search_phrase,
+                           answers=answer_results)
 
 
 if __name__ == "__main__":

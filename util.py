@@ -28,3 +28,7 @@ def delete_image(image_name):
 
 def current_time():
     return single_value_dateconverter(round(time.time()))
+
+
+def convert_to_dict(value):
+    return [dict(row) for row in value]

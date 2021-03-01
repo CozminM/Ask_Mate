@@ -6,46 +6,75 @@
 </head>
 <body>
     <h3>Search results for {{ search_phrase }}: </h3>
-    <h4>Questions</h4>
-    <div class="table-container">
-        <table border="1">
-            <tr>
-                <th>Id</th>
-                <th>Submission time</th>
-                <th>View number</th>
-                <th>Vote number</th>
-                <th>Title</th>
-                <th>Message</th>
-                <th>Image</th>
-                <th>Vote up</th>
-                <th>Vote down</th>
-            </tr>
-              {% for dat in data %}
-            <tr>
-                <td><a href="{{ url_for('individual_q_and_a', question_id = dat.id) }}">{{ dat.id }}</a></td>
-                <td>{{ dat.submission_time }}</td>
-                <td>{{ dat.view_number }}</td>
-                <td>{{ dat.vote_number }}</td>
-                {% if search_phrase in dat.title %}
-                    <td><b>{{ dat.title }}</b></td>
-                {% else %}
-                    <td>{{ dat.title }}</td>
-                {% endif %}
-                {% if search_phrase in dat.message %}
-                    <td><b>{{ dat.message }}</b></td>
-                {% else %}
-                    <td>{{ dat.message }}</td>
-                {% endif %}
-                {% if dat.image != None %}
-                    <td><img src="{{url_for('static', filename=dat.image)}}" width="100" height="100"></td>
-                {% else %}
-                    <td><img src="{{url_for('static', filename='None')}}" width="100" height="100"></td>
-                {% endif %}
-                <td><a href="{{url_for('vote_up_question', question_id=dat.id)}}"> ⇧ </a></td>
-                <td><a href="{{url_for('vote_down_question', question_id=dat.id)}}"> ⇩ </a></td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
+    {% if questions|length > 0 %}
+        <h3>Questions</h3>
+        <div class="table-container">
+            <table border="1">
+                <tr>
+                    <th>Id</th>
+                    <th>Submission time</th>
+                    <th>View number</th>
+                    <th>Vote number</th>
+                    <th>Title</th>
+                    <th>Message</th>
+                    <th>Image</th>
+                </tr>
+                  {% for question in questions %}
+                <tr>
+                    <td>{{ question.id }}</td>
+                    <td>{{ question.submission_time }}</td>
+                    <td>{{ question.view_number }}</td>
+                    <td>{{ question.vote_number }}</td>
+                    {% if search_phrase in question.title %}
+                        <td><b>{{ question.title }}</b></td>
+                    {% else %}
+                        <td>{{ question.title }}</td>
+                    {% endif %}
+                    {% if search_phrase in question.message %}
+                        <td><b>{{ question.message }}</b></td>
+                    {% else %}
+                        <td>{{ question.message }}</td>
+                    {% endif %}
+                    {% if question.image != None %}
+                        <td><img src="{{url_for('static', filename=question.image)}}" width="100" height="100"></td>
+                    {% else %}
+                        <td><img src="{{url_for('static', filename='None')}}" width="100" height="100"></td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    {% endif %}
+    {% if answers|length > 0 %}
+        <h3>Answers</h3>
+        <div class="answers-table">
+            <table border="1">
+                <tr>
+                    <th>Id</th>
+                    <th>Submission time</th>
+                    <th>Vote number</th>
+                    <th>Image</th>
+                    <th>Message</th>
+                </tr>
+                    {% for answer in answers %}
+                        <tr>
+                            <td>{{ answer.id }}</td>
+                            <td>{{ answer.submission_time }}</td>
+                            <td>{{ answer.vote_number }}</td>
+                            {% if answer.image != None %}
+                                <td><img src="{{url_for('static', filename=answer.image)}}" width="100" height="100"></td>
+                            {% else %}
+                                <td><img src="{{url_for('static', filename='None')}}" width="100" height="100"></td>
+                            {% endif %}
+                            {% if search_phrase in answer.message %}
+                                <td><b>{{ answer.message }}</b></td>
+                            {% else %}
+                                <td>{{ answer.message }}</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+            </table>
+        </div>
+    {% endif %}
 </body>
 </html>

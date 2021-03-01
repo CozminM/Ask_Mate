@@ -48,7 +48,7 @@
             {% if not dat.image %}
             <td>No image</td>
             {% else %}
-            <td><img src="{{url_for('static', filename='images/' + dat.image)}}" width="100" height="100" alt="answer image"></td>
+            <td><img src="{{url_for('static', filename='images/' + dat.image)}}" width="100" height="100" alt="question image"></td>
             {% endif %}
         </tr>
         {% endfor %}
