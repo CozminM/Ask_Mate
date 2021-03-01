@@ -10,15 +10,17 @@ app.config['UPLOAD_FOLDER'] = 'static/images/'
 
 @app.route("/", methods=['GET', 'POST'])
 def index_page():
-    return redirect(url_for('questions_page', criteria='id', direction='asc'))
+    return redirect(url_for('questions_page'))
 
 
-@app.route('/list')
+@app.route('/list', methods=['GET', 'POST'])
 def questions_page():
     # criteria = request.args.get('order_by', 'submission_time')
     # direction = request.args.get('order_direction', 'desc')
     unsorted_data = data_manager.get_questions()
     # sorted_data = util.sort_data(unsorted_data, criteria, direction)
+    if request.method == 'POST':
+        return redirect(url_for('search_results', search_phrase=request.form['search-input']))
     return render_template('list_questions.html', data=unsorted_data)
 
 
@@ -135,6 +137,13 @@ def add_new_tag(question_id):
 def delete_tag(question_id, tag_id):
     data_manager.delete_tag(question_id, tag_id)
     return redirect(url_for('individual_q_and_a', question_id=question_id))
+
+
+@app.route('/search?q=<search_phrase>')
+def search_results(search_phrase):
+    modified_search_phrase = '%' + search_phrase + '%'
+    question_results = data_manager.search_in_questions(modified_search_phrase)
+    return render_template('search_results.html', data=question_results, search_phrase=search_phrase)
 
 
 if __name__ == "__main__":

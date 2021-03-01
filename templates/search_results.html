@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search results</title>
+</head>
+<body>
+    <h3>Search results for {{ search_phrase }}: </h3>
+    <h4>Questions</h4>
+    <div class="table-container">
+        <table border="1">
+            <tr>
+                <th>Id</th>
+                <th>Submission time</th>
+                <th>View number</th>
+                <th>Vote number</th>
+                <th>Title</th>
+                <th>Message</th>
+                <th>Image</th>
+                <th>Vote up</th>
+                <th>Vote down</th>
+            </tr>
+              {% for dat in data %}
+            <tr>
+                <td><a href="{{ url_for('individual_q_and_a', question_id = dat.id) }}">{{ dat.id }}</a></td>
+                <td>{{ dat.submission_time }}</td>
+                <td>{{ dat.view_number }}</td>
+                <td>{{ dat.vote_number }}</td>
+                {% if search_phrase in dat.title %}
+                    <td><b>{{ dat.title }}</b></td>
+                {% else %}
+                    <td>{{ dat.title }}</td>
+                {% endif %}
+                {% if search_phrase in dat.message %}
+                    <td><b>{{ dat.message }}</b></td>
+                {% else %}
+                    <td>{{ dat.message }}</td>
+                {% endif %}
+                {% if dat.image != None %}
+                    <td><img src="{{url_for('static', filename=dat.image)}}" width="100" height="100"></td>
+                {% else %}
+                    <td><img src="{{url_for('static', filename='None')}}" width="100" height="100"></td>
+                {% endif %}
+                <td><a href="{{url_for('vote_up_question', question_id=dat.id)}}"> ⇧ </a></td>
+                <td><a href="{{url_for('vote_down_question', question_id=dat.id)}}"> ⇩ </a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>
