@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/add_and_edit.css') }}">
+
+</head>
+<body>
+    <div class="header"><h1>Edit answer</h1></div>
+        <div class="container">
+            <form method="post" action="" name="user_form" enctype="multipart/form-data">
+            {% for answer in answers %}
+            <h3>Message:</h3>
+            <textarea cols="40" rows="5" name="message" required>{{ answer.message }}</textarea>
+            {% endfor %}
+            <br/>
+            <br/>
+            <button type="submit" class="button">Edit</button>
+{#        <button class="button" type="button"><a href="{{ url_for('individual_q_and_a', criteria='id') }}"> Back </a></button>#}
+            </form>
+        </div>
+</body>
+</html>

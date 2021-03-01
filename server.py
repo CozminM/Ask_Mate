@@ -72,6 +72,23 @@ def edit_question(question_id):
     return render_template('edit_question.html', questionz=question)
 
 
+# @app.route('/answer/<answer_id>/edit', methods=['GET', 'POST'])
+# def edit_answer(answer_id):
+#     answer = data_manager.get_individual_answer(answer_id)
+#     if request.method == 'POST':
+#         #question = request.form.to_dict
+#         q_id = answer.question_id
+#         message_input = request.form['message']
+#         submit_time = util.single_value_dateconverter(round(time.time()))
+#         data_manager.update_answer(answer_id, message_input, submit_time)
+#         # data_manager.update_question(question_id, raw_data, data_manager.QUESTION_HEADER, data_manager.questions_file,
+#         #                              title_input, message_input, time_input)
+#         print(message_input)
+#         print(submit_time)
+#         return redirect(url_for('individual_q_and_a', question_id=q_id))
+#     return render_template('edit_answer.html', answers=answer)
+
+
 @app.route('/answer/<answer_id>/delete')
 def delete_answer(answer_id):
     data_manager.delete_answer(answer_id)
@@ -89,25 +106,26 @@ def delete_question(question_id):
 @app.route('/question/<question_id>/vote_up')
 def vote_up_question(question_id):
     data_manager.increment_question_vote_number(question_id)
-    return redirect(url_for('questions_page'))
+    return redirect(url_for('individual_q_and_a', question_id=question_id))
 
 
 @app.route('/question/<question_id>/vote_down')
 def vote_down_question(question_id):
     data_manager.decrement_question_vote_number(question_id)
-    return redirect(url_for('questions_page'))
+    return redirect(url_for('individual_q_and_a', question_id=question_id))
 
 
-@app.route('/answer/<answer_id>/vote_up')
-def answer_vote_up(answer_id):
+@app.route('/question/<question_id>/vote_up/<answer_id>')
+def answer_vote_up(question_id, answer_id):
     data_manager.increment_answer_vote_number(answer_id)
-    return redirect(url_for('questions_page'))
+    return redirect(url_for('individual_q_and_a', question_id=question_id))
 
 
-@app.route('/answer/<answer_id>/vote_down')
-def answer_vote_down(answer_id):
+
+@app.route('/question/<question_id>/vote_down/<answer_id>')
+def answer_vote_down(question_id, answer_id):
     data_manager.decrement_answer_vote_number(answer_id)
-    return redirect(url_for('questions_page'))
+    return redirect(url_for('individual_q_and_a', question_id=question_id))
 
 
 if __name__ == "__main__":
