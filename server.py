@@ -86,36 +86,28 @@ def delete_question(question_id):
     return redirect(url_for('questions_page', criteria='title', direction='asc'))
 
 
-@app.route("/question/<question_id>/vote_up")
-def vote_up(question_id):
-    data_manager.vote_questions(data_manager.questions_file, question_id, 'up')
-    return redirect(url_for('individual_q_and_a', question_id=question_id))
+@app.route('/question/<question_id>/vote_up')
+def vote_up_question(question_id):
+    data_manager.increment_question_vote_number(question_id)
+    return redirect(url_for('questions_page'))
 
 
-@app.route("/question/<question_id>/vote_down")
-def vote_down(question_id):
-    data_manager.vote_questions(data_manager.questions_file, question_id, 'down')
-    return redirect(url_for('individual_q_and_a', question_id=question_id))
+@app.route('/question/<question_id>/vote_down')
+def vote_down_question(question_id):
+    data_manager.decrement_question_vote_number(question_id)
+    return redirect(url_for('questions_page'))
 
 
 @app.route('/answer/<answer_id>/vote_up')
 def answer_vote_up(answer_id):
-    answers = data_manager.read_from_csv(data_manager.answers_file)
-    for row in answers:
-        if row['id'] == answer_id:
-            question_id = row['question_id']
-    data_manager.vote_answer(data_manager.answers_file, answer_id, 'up')
-    return redirect(url_for('individual_q_and_a', question_id=question_id))
+    data_manager.increment_answer_vote_number(answer_id)
+    return redirect(url_for('questions_page'))
 
 
 @app.route('/answer/<answer_id>/vote_down')
 def answer_vote_down(answer_id):
-    answers = data_manager.read_from_csv(data_manager.answers_file)
-    for row in answers:
-        if row['id'] == answer_id:
-            question_id = row['question_id']
-    data_manager.vote_answer(data_manager.answers_file, answer_id, 'down')
-    return redirect(url_for('individual_q_and_a', question_id=question_id))
+    data_manager.decrement_answer_vote_number(answer_id)
+    return redirect(url_for('questions_page'))
 
 
 if __name__ == "__main__":

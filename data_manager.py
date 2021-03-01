@@ -115,65 +115,50 @@ def delete_question(cursor: RealDictCursor, used_id: int) -> list:
     return cursor.fetchall()
 
 
-def delete_from_csv(question_id, data, header, filename):
-    with open(filename, 'w') as file:
-        csv_dict_writer = csv.DictWriter(file, fieldnames=header, delimiter=',')
-        csv_dict_writer.writeheader()
-        for row in data:
-            if row['id'] == question_id:
-                data.remove(row)
-        for row in data:
-            csv_dict_writer.writerow(row)
+@database_common.connection_handler
+def increment_question_vote_number(cursor: RealDictCursor, used_id: int) -> list:
+    query = """
+        UPDATE question
+        SET vote_number = vote_number + 1
+        WHERE id = %(i)s
+        RETURNING *
+        """
+    cursor.execute(query, {'i': used_id})
+    return cursor.fetchall()
 
 
-def delete_image(filename, question_id):
-    with open(filename, 'r') as file:
-        csv_reader = csv.DictReader(file)
-        for row in csv_reader:
-            if row['id'] == str(question_id):
-                os.remove('static/images/' + row['image'])
+@database_common.connection_handler
+def decrement_question_vote_number(cursor: RealDictCursor, used_id: int) -> list:
+    query = """
+        UPDATE question
+        SET vote_number = vote_number - 1
+        WHERE id = %(i)s
+        RETURNING *
+        """
+    cursor.execute(query, {'i': used_id})
+    return cursor.fetchall()
 
 
-def vote_questions(filename, question_id, action):
-    questions = read_from_csv(filename)
-    for row in questions:
-        if row['id'] == question_id:
-            if action == 'up':
-                row['vote_number'] = str(int(row['vote_number']) + 1)
-            else:
-                row['vote_number'] = str(int(row['vote_number']) - 1)
-    with open(filename, "w") as csv_file:
-        fieldnames = QUESTION_HEADER
-        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
-        writer.writeheader()
-        for row in questions:
-            writer.writerow(row)
+@database_common.connection_handler
+def increment_answer_vote_number(cursor: RealDictCursor, used_id: int) -> list:
+    query = """
+        UPDATE question
+        SET vote_number = vote_number + 1
+        WHERE id = %(i)s
+        RETURNING *
+        """
+    cursor.execute(query, {'i': used_id})
+    return cursor.fetchall()
 
 
-def vote_answer(filename, answer_id, action):
-    answers = read_from_csv(filename)
-    for row in answers:
-        if row['id'] == answer_id:
-            if action == 'up':
-                row['vote_number'] = str(int(row['vote_number']) + 1)
-            elif action == 'down':
-                row['vote_number'] = str(int(row['vote_number']) - 1)
-    with open(filename, "w") as csv_file:
-        fieldnames = ANSWER_HEADER
-        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
-        writer.writeheader()
-        for row in answers:
-            writer.writerow(row)
+@database_common.connection_handler
+def decrement_answer_vote_number(cursor: RealDictCursor, used_id: int) -> list:
+    query = """
+        UPDATE question
+        SET vote_number = vote_number - 1
+        WHERE id = %(i)s
+        RETURNING *
+        """
+    cursor.execute(query, {'i': used_id})
+    return cursor.fetchall()
 
-
-def update_question(question_id, data, header, filename, title_input, message_input, time_input):
-    with open(filename, 'w', newline='') as file:
-        writer = csv.DictWriter(file, fieldnames=header, delimiter=',')
-        writer.writeheader()
-        for row in data:
-            if row['id'] == question_id:
-                #row.update(question_arg)
-                row['title'] = title_input
-                row['message'] = message_input
-                row['submission_time'] = time_input
-            writer.writerow(row)
