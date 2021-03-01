@@ -1,5 +1,6 @@
 from datetime import datetime
 import os
+import time
 
 
 def sort_data(data, sort_criteria, order):
@@ -23,3 +24,7 @@ def single_value_dateconverter(value):
 
 def delete_image(image_name):
     os.remove('static/images/' + image_name)
+
+
+def current_time():
+    return single_value_dateconverter(round(time.time()))

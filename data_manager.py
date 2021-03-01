@@ -49,6 +49,17 @@ def get_individual_answer(cursor: RealDictCursor, used_id: int) -> list:
 
 
 @database_common.connection_handler
+def get_answer_by_id(cursor: RealDictCursor, used_id: int) -> list:
+    query = """
+        SELECT id, submission_time, vote_number, question_id, message, image
+        FROM answer
+        WHERE id = %(i)s
+        """
+    cursor.execute(query, {'i': used_id})
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
 def get_answers_by_question(cursor: RealDictCursor, used_id: str) -> list:
     query = """
         SELECT id, submission_time, vote_number, image, message
@@ -93,16 +104,16 @@ def update_question(cursor: RealDictCursor, used_id: int, title_input: str, mess
     return cursor.fetchall()
 
 
-# @database_common.connection_handler
-# def update_answer(cursor: RealDictCursor, used_id: int, message_input: str, time_used: str) -> list:
-#     query = """
-#         UPDATE answer
-#         SET message = %(m)s, submission_time = %(ti)s
-#         WHERE id = %(i)s
-#         RETURNING *
-#         """
-#     cursor.execute(query, {'i': used_id, 'm': message_input, 'ti': time_used})
-#     return cursor.fetchall()
+@database_common.connection_handler
+def update_answer(cursor: RealDictCursor, used_id: int, message_input: str, time_used: str) -> list:
+    query = """
+        UPDATE answer
+        SET message = %(m)s, submission_time = %(ti)s
+        WHERE id = %(i)s
+        RETURNING *
+        """
+    cursor.execute(query, {'i': used_id, 'm': message_input, 'ti': time_used})
+    return cursor.fetchall()
 
 
 @database_common.connection_handler
@@ -173,3 +184,5 @@ def decrement_answer_vote_number(cursor: RealDictCursor, used_id: int) -> list:
         """
     cursor.execute(query, {'i': used_id})
     return cursor.fetchall()
+
+

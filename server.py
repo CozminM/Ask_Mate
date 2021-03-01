@@ -33,7 +33,7 @@ def individual_q_and_a(question_id):
 def answer_page(question_id):
     if request.method == 'POST':
         img = request.files['img']
-        submit_time = util.single_value_dateconverter(round(time.time()))
+        submit_time = util.current_time()
         img.save(os.path.join(app.config['UPLOAD_FOLDER'], img.filename))
         data_manager.save_answer(submit_time, 0, question_id, request.form['message'], img.filename)
         return redirect(url_for('individual_q_and_a', question_id=question_id))
@@ -59,34 +59,21 @@ def edit_question(question_id):
     question = data_manager.get_individual_question(question_id)
     if request.method == 'POST':
         #question = request.form.to_dict
-        title_input = request.form['title']
-        message_input = request.form['message']
         submit_time = util.single_value_dateconverter(round(time.time()))
-        data_manager.update_question(question_id, title_input, message_input, submit_time)
-        # data_manager.update_question(question_id, raw_data, data_manager.QUESTION_HEADER, data_manager.questions_file,
-        #                              title_input, message_input, time_input)
-        print(title_input)
-        print(message_input)
-        print(submit_time)
+        data_manager.update_question(question_id, request.form['title'], request.form['message'], submit_time)
         return redirect(url_for('individual_q_and_a', question_id=question_id))
     return render_template('edit_question.html', questionz=question)
 
 
-# @app.route('/answer/<answer_id>/edit', methods=['GET', 'POST'])
-# def edit_answer(answer_id):
-#     answer = data_manager.get_individual_answer(answer_id)
-#     if request.method == 'POST':
-#         #question = request.form.to_dict
-#         q_id = answer.question_id
-#         message_input = request.form['message']
-#         submit_time = util.single_value_dateconverter(round(time.time()))
-#         data_manager.update_answer(answer_id, message_input, submit_time)
-#         # data_manager.update_question(question_id, raw_data, data_manager.QUESTION_HEADER, data_manager.questions_file,
-#         #                              title_input, message_input, time_input)
-#         print(message_input)
-#         print(submit_time)
-#         return redirect(url_for('individual_q_and_a', question_id=q_id))
-#     return render_template('edit_answer.html', answers=answer)
+@app.route('/answer/<answer_id>/edit', methods=['GET', 'POST'])
+def edit_answer(answer_id):
+    answer = data_manager.get_answer_by_id(answer_id)
+    question_id = [dict(row) for row in data_manager.get_answer_by_id(answer_id)][0].get('question_id')
+    if request.method == 'POST':
+        submit_time = util.current_time()
+        data_manager.update_answer(answer_id, request.form['message'], submit_time)
+        return redirect(url_for('individual_q_and_a', question_id=question_id))
+    return render_template('edit_answer.html', answer=answer, question_id=question_id)
 
 
 @app.route('/answer/<answer_id>/delete')
@@ -119,7 +106,6 @@ def vote_down_question(question_id):
 def answer_vote_up(question_id, answer_id):
     data_manager.increment_answer_vote_number(answer_id)
     return redirect(url_for('individual_q_and_a', question_id=question_id))
-
 
 
 @app.route('/question/<question_id>/vote_down/<answer_id>')

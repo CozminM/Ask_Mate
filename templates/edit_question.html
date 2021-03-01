@@ -14,11 +14,11 @@
             <input cols="40" rows="5" name="title" value="{{ question.title }}" required>
             <h3>Message:</h3>
             <textarea cols="40" rows="5" name="message" required>{{ question.message }}</textarea>
-            {% endfor %}
             <br/>
             <br/>
             <button type="submit" class="button">Edit</button>
-{#        <button class="button" type="button"><a href="{{ url_for('individual_q_and_a', criteria='id') }}"> Back </a></button>#}
+        <button class="button" type="button"><a href="{{ url_for('individual_q_and_a', question_id=question.id) }}"> Back </a></button>
+            {% endfor %}
             </form>
         </div>
 </body>
