@@ -104,6 +104,17 @@ def delete_answer(cursor: RealDictCursor, used_id: int) -> list:
     return cursor.fetchall()
 
 
+@database_common.connection_handler
+def delete_question(cursor: RealDictCursor, used_id: int) -> list:
+    query = """
+            DELETE FROM question
+            WHERE id = %(i)s
+            RETURNING *
+            """
+    cursor.execute(query, {'i': used_id})
+    return cursor.fetchall()
+
+
 def delete_from_csv(question_id, data, header, filename):
     with open(filename, 'w') as file:
         csv_dict_writer = csv.DictWriter(file, fieldnames=header, delimiter=',')

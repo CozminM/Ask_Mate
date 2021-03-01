@@ -19,7 +19,7 @@ def questions_page():
     # direction = request.args.get('order_direction', 'desc')
     unsorted_data = data_manager.get_questions()
     # sorted_data = util.sort_data(unsorted_data, criteria, direction)
-    return render_template('list_questions.html', data=unsorted_data, hey=[dict(row) for (row) in unsorted_data][-1].get('id'))
+    return render_template('list_questions.html', data=unsorted_data)
 
 
 @app.route('/question/<question_id>')
@@ -80,9 +80,9 @@ def delete_answer(answer_id):
 
 @app.route('/question/<question_id>/delete')
 def delete_question(question_id):
-    raw_data = data_manager.read_from_csv(data_manager.questions_file)
-    data_manager.delete_image(data_manager.questions_file, question_id)
-    data_manager.delete_from_csv(question_id, raw_data, data_manager.QUESTION_HEADER, data_manager.questions_file)
+    image_name = [dict(row) for row in data_manager.get_individual_question(question_id)][0].get('image')
+    util.delete_image(image_name)
+    data_manager.delete_question(question_id)
     return redirect(url_for('questions_page', criteria='title', direction='asc'))
 
 

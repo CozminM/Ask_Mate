@@ -22,4 +22,4 @@ def single_value_dateconverter(value):
 
 
 def delete_image(image_name):
-    os.remove('static/' + image_name)
+    os.remove('static/images/' + image_name)
