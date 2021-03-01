@@ -47,6 +47,40 @@ def get_individual_answer(cursor: RealDictCursor, used_id: int) -> list:
     cursor.execute(query, {'i': used_id})
     return cursor.fetchall()
 
+
+@database_common.connection_handler
+def get_answers_by_question(cursor: RealDictCursor, used_id: str) -> list:
+    query = """
+        SELECT id, submission_time, view_number, vote_number, title, image, message
+        FROM answer
+        WHERE question_id = %(i)s
+        """
+    cursor.execute(query, {'i': used_id})
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def save_answer(cursor: RealDictCursor, submission_time: int, vote_number: int, question_id: str, message: str, image: str) -> list:
+    query = """
+        INSERT INTO answer (submission_time, vote_number, question_id, message, image)
+        VALUES (%(s_t)s, %(vote_n)s, %(q)s, %(m)s, %(im)s)
+        RETURNING *
+        """
+    cursor.execute(query, {'s_t': submission_time, 'vote_n': vote_number, 'q': question_id, 'm': message, 'im': image})
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def save_question(cursor: RealDictCursor, submission_time: int, view_number: int, vote_number: str, title: str, message: str, image: str) -> list:
+    query = """
+        INSERT INTO question (submission_time, view_number, vote_number, title, message, image)
+        VALUES (%(s_t)s, %(view_n)s, %(vote_n)s, %(t)s, %(m)s, %(im)s)
+        RETURNING *
+        """
+    cursor.execute(query, {'s_t': submission_time, 'view_n': view_number, 'vote_n': vote_number, 't': title, 'm': message, 'im': image})
+    return cursor.fetchall()
+
+
 def append_to_csv(data_row, header, filename):
     with open(filename, 'a+') as file:
         csv_dict_writer = csv.DictWriter(file, fieldnames=header)

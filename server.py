@@ -19,7 +19,7 @@ def questions_page():
     # direction = request.args.get('order_direction', 'desc')
     unsorted_data = data_manager.get_questions()
     # sorted_data = util.sort_data(unsorted_data, criteria, direction)
-    return render_template('list_questions.html', data=unsorted_data)
+    return render_template('list_questions.html', data=unsorted_data, hey=[dict(row) for (row) in unsorted_data][-1].get('id'))
 
 
 @app.route('/question/<question_id>')
@@ -31,31 +31,24 @@ def individual_q_and_a(question_id):
 
 @app.route('/question/<question_id>/new-answer', methods=['GET', 'POST'])
 def answer_page(question_id):
-    raw_data = data_manager.read_from_csv(data_manager.answers_file)
     if request.method == 'POST':
-        new_id = int(raw_data[-1].get('id')) + 1
         img = request.files['img']
         submit_time = util.single_value_dateconverter(round(time.time()))
         img.save(os.path.join(app.config['UPLOAD_FOLDER'], img.filename))
-        data_row = {'id': new_id, 'submission_time': submit_time, 'vote_number': 0,
-                    'question_id': question_id, 'message': request.form['message'], 'image': img.filename}
-        data_manager.append_to_csv(data_row, data_manager.ANSWER_HEADER, data_manager.answers_file)
+        data_manager.save_answer(submit_time, 0, question_id, request.form['message'], img.filename)
         return redirect(url_for('individual_q_and_a', question_id=question_id))
     return render_template('add_answers.html')
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
 def add_question_page():
-    raw_data = data_manager.read_from_csv(data_manager.questions_file)
     if request.method == 'POST':
-        new_id = int(raw_data[-1].get('id')) + 1
         img = request.files['img']
+        submit_time = util.single_value_dateconverter(round(time.time()))
         #filename = str(uuid4())
         img.save(os.path.join(app.config['UPLOAD_FOLDER'], img.filename))
-        data_row = {'id': new_id, 'submission_time': util.single_value_dateconverter(round(time.time())), 'view_number': 0,
-                    'vote_number': 0, 'title': request.form['title'], 'image': img.filename,
-                    'message': request.form['message']}
-        data_manager.append_to_csv(data_row, data_manager.QUESTION_HEADER, data_manager.questions_file)
+        data_manager.save_question(submit_time, 0, 0, request.form['title'], request.form['message'], img.filename)
+        new_id = [dict(row) for (row) in data_manager.get_questions()][-1].get('id')
         return redirect(url_for('individual_q_and_a', question_id=new_id))
     return render_template('add_question.html')
 
