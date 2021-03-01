@@ -216,3 +216,25 @@ def insert_questions_tag(cursor: RealDictCursor, question_id: str, tag_id: str) 
         """
     cursor.execute(query, {'q': question_id, 't': tag_id})
     return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_question_tags(cursor: RealDictCursor, question_id: int) -> list:
+    query = """
+        SELECT question.id, tag.name, tag.id FROM question INNER JOIN question_tag 
+        ON question.id=question_tag.question_id 
+        INNER JOIN tag ON question_tag.tag_id=tag.id WHERE question.id=%(i)s;
+        """
+    cursor.execute(query, {'i': question_id})
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def delete_tag(cursor: RealDictCursor, question_id: str, tag_id: str) -> list:
+    query = """
+            DELETE FROM question_tag
+            WHERE tag_id = %(t)s and question_id = %(q)s
+            RETURNING *
+            """
+    cursor.execute(query, {'q': question_id, 't': tag_id})
+    return cursor.fetchall()

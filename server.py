@@ -26,7 +26,8 @@ def questions_page():
 def individual_q_and_a(question_id):
     question = data_manager.get_individual_question(question_id)
     answer = data_manager.get_individual_answer(question_id)
-    return render_template('individual_question_and_answer_page.html', questions=question, answers=answer)
+    question_tags = data_manager.get_question_tags(question_id)
+    return render_template('individual_question_and_answer_page.html', questions=question, answers=answer, question_tags=question_tags)
 
 
 @app.route('/question/<question_id>/new-answer', methods=['GET', 'POST'])
@@ -128,6 +129,12 @@ def add_new_tag(question_id):
             data_manager.insert_questions_tag(question_id, tag_id)
             return redirect(url_for('individual_q_and_a', question_id=question_id))
     return render_template('add_tag.html', current_tags=current_tags)
+
+
+@app.route('/question/<question_id>/tag/<tag_id>/delete')
+def delete_tag(question_id, tag_id):
+    data_manager.delete_tag(question_id, tag_id)
+    return redirect(url_for('individual_q_and_a', question_id=question_id))
 
 
 if __name__ == "__main__":
