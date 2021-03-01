@@ -81,20 +81,16 @@ def save_question(cursor: RealDictCursor, submission_time: int, view_number: int
     return cursor.fetchall()
 
 
-def append_to_csv(data_row, header, filename):
-    with open(filename, 'a+') as file:
-        csv_dict_writer = csv.DictWriter(file, fieldnames=header)
-        csv_dict_writer.writerow(data_row)
-
-
-def get_question_or_answer(matching_id, filename, used_id):#functie privata si o transformam in 2 functii
-    list_of_items = []
-    with open(filename, 'r') as file:
-        csv_reader = csv.DictReader(file)
-        for row in csv_reader:
-            if row[matching_id] == used_id:
-                list_of_items.append(row)
-    return list_of_items
+@database_common.connection_handler
+def update_question(cursor: RealDictCursor, used_id: int, title_input: str, message_input: str, time_used: str) -> list:
+    query = """
+        UPDATE question
+        SET title = %(t)s, message = %(m)s, submission_time = %(ti)s
+        WHERE id = %(i)s
+        RETURNING *
+        """
+    cursor.execute(query, {'i': used_id, 't': title_input, 'm': message_input, 'ti': time_used})
+    return cursor.fetchall()
 
 
 def delete_from_csv(question_id, data, header, filename):

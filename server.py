@@ -48,6 +48,7 @@ def add_question_page():
         #filename = str(uuid4())
         img.save(os.path.join(app.config['UPLOAD_FOLDER'], img.filename))
         data_manager.save_question(submit_time, 0, 0, request.form['title'], request.form['message'], img.filename)
+        # fetches the id of the new question
         new_id = [dict(row) for (row) in data_manager.get_questions()][-1].get('id')
         return redirect(url_for('individual_q_and_a', question_id=new_id))
     return render_template('add_question.html')
@@ -55,15 +56,15 @@ def add_question_page():
 
 @app.route('/question/<question_id>/edit', methods=['GET', 'POST'])
 def edit_question(question_id):
-    question = data_manager.get_question_or_answer('id', data_manager.questions_file, question_id)
-    raw_data = data_manager.read_from_csv(data_manager.questions_file)
+    question = data_manager.get_individual_question(question_id)
     if request.method == 'POST':
         #question = request.form.to_dict
         title_input = request.form['title']
         message_input = request.form['message']
-        time_input = util.single_value_dateconverter(round(time.time()))
-        data_manager.update_question(question_id, raw_data, data_manager.QUESTION_HEADER, data_manager.questions_file,
-                                     title_input, message_input, time_input)
+        submit_time = util.single_value_dateconverter(round(time.time()))
+        # data_manager.update_question(question_id, raw_data, data_manager.QUESTION_HEADER, data_manager.questions_file,
+        #                              title_input, message_input, time_input)
+        data_manager.update_question(question_id, title_input, message_input, submit_time)
         return redirect(url_for('individual_q_and_a', question_id=question_id))
     return render_template('edit_question.html', questionz=question)
 
