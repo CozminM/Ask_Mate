@@ -186,3 +186,33 @@ def decrement_answer_vote_number(cursor: RealDictCursor, used_id: int) -> list:
     return cursor.fetchall()
 
 
+@database_common.connection_handler
+def insert_tag(cursor: RealDictCursor, tag_name: str) -> list:
+    query = """
+        INSERT INTO tag (name)
+        VALUES (%(t_n)s)
+        RETURNING *
+        """
+    cursor.execute(query, {'t_n': tag_name})
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_existing_tags(cursor: RealDictCursor) -> list:
+    query = """
+        SELECT id, name
+        FROM tag
+        """
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def insert_questions_tag(cursor: RealDictCursor, question_id: str, tag_id: str) -> list:
+    query = """
+        INSERT INTO question_tag (question_id, tag_id)
+        VALUES (%(q)s, %(t)s)
+        RETURNING *
+        """
+    cursor.execute(query, {'q': question_id, 't': tag_id})
+    return cursor.fetchall()

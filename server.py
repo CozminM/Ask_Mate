@@ -114,5 +114,21 @@ def answer_vote_down(question_id, answer_id):
     return redirect(url_for('individual_q_and_a', question_id=question_id))
 
 
+@app.route('/question/<question_id>/new-tag', methods=['GET', 'POST'])
+def add_new_tag(question_id):
+    current_tags = [dict(row) for row in data_manager.get_existing_tags()]
+    if request.method == 'POST':
+        if request.form['building'] == 'casinos':
+            data_manager.insert_tag(request.form['tag-name'])
+            return redirect(url_for('add_new_tag', question_id=question_id))
+        if request.form['building'] == 'caves':
+            for row in current_tags:
+                if row['name'] == request.form['tag-select']:
+                    tag_id = row.get('id')
+            data_manager.insert_questions_tag(question_id, tag_id)
+            return redirect(url_for('individual_q_and_a', question_id=question_id))
+    return render_template('add_tag.html', current_tags=current_tags)
+
+
 if __name__ == "__main__":
     app.run(debug=True)
