@@ -50,7 +50,7 @@ def delete_image(filename, question_id):
         csv_reader = csv.DictReader(file)
         for row in csv_reader:
             if row['id'] == str(question_id):
-                os.remove('/home/tutu/Desktop/projects/web/ask-mate-1-python-bogdaniordan/static/images/' + row['image'])
+                os.remove('static/images/' + row['image'])
 
 
 def vote_questions(filename, question_id, action):

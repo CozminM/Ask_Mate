@@ -1,2 +1,6 @@
-venv/
-.vscode/
+/venv/
+/.vscode/
+/.idea/
+__pycache__/
+*.pyc
+/static/images/

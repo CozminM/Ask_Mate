@@ -50,6 +50,7 @@ def add_question_page():
     if request.method == 'POST':
         new_id = int(raw_data[-1].get('id')) + 1
         img = request.files['img']
+        #filename = str(uuid4())
         img.save(os.path.join(app.config['UPLOAD_FOLDER'], img.filename))
         data_row = {'id': new_id, 'submission_time': util.single_value_dateconverter(round(time.time())), 'view_number': 0,
                     'vote_number': 0, 'title': request.form['title'], 'image': img.filename,
