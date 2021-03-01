@@ -15,8 +15,8 @@ def index_page():
 
 @app.route('/list')
 def questions_page():
-    criteria = request.args.get('order_by', 'submission_time')
-    direction = request.args.get('order_direction', 'desc')
+    # criteria = request.args.get('order_by', 'submission_time')
+    # direction = request.args.get('order_direction', 'desc')
     unsorted_data = data_manager.get_questions()
     # sorted_data = util.sort_data(unsorted_data, criteria, direction)
     return render_template('list_questions.html', data=unsorted_data)
@@ -24,8 +24,8 @@ def questions_page():
 
 @app.route('/question/<question_id>')
 def individual_q_and_a(question_id):
-    question = data_manager.get_question_or_answer('id', data_manager.questions_file, question_id)
-    answer = data_manager.get_question_or_answer('question_id', data_manager.answers_file, question_id)
+    question = data_manager.get_individual_question(question_id)
+    answer = data_manager.get_individual_answer(question_id)
     return render_template('individual_question_and_answer_page.html', questions=question, answers=answer)
 
 

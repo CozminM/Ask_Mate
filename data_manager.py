@@ -26,6 +26,27 @@ def get_questions(cursor: RealDictCursor) -> list:
     return cursor.fetchall()
 
 
+@database_common.connection_handler
+def get_individual_question(cursor: RealDictCursor, used_id: int) -> list:
+    query = """
+        SELECT id, submission_time, view_number, vote_number, title, image, message
+        FROM question
+        WHERE id = %(i)s
+        """
+    cursor.execute(query, {'i': used_id})
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_individual_answer(cursor: RealDictCursor, used_id: int) -> list:
+    query = """
+        SELECT id, submission_time, vote_number, question_id, message, image
+        FROM answer
+        WHERE question_id = %(i)s
+        """
+    cursor.execute(query, {'i': used_id})
+    return cursor.fetchall()
+
 def append_to_csv(data_row, header, filename):
     with open(filename, 'a+') as file:
         csv_dict_writer = csv.DictWriter(file, fieldnames=header)
