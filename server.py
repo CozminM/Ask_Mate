@@ -17,9 +17,9 @@ def index_page():
 def questions_page():
     criteria = request.args.get('order_by', 'submission_time')
     direction = request.args.get('order_direction', 'desc')
-    unsorted_data = data_manager.read_from_csv(data_manager.questions_file)
-    sorted_data = util.sort_data(unsorted_data, criteria, direction)
-    return render_template('list_questions.html', data=sorted_data)
+    unsorted_data = data_manager.get_questions()
+    # sorted_data = util.sort_data(unsorted_data, criteria, direction)
+    return render_template('list_questions.html', data=unsorted_data)
 
 
 @app.route('/question/<question_id>')

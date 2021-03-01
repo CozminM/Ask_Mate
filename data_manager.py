@@ -2,20 +2,28 @@ import csv
 import util
 import os
 
+from typing import List, Dict
+
+from psycopg2 import sql
+from psycopg2.extras import RealDictCursor
+
+import database_common
+
 
 ANSWER_HEADER = ['id', 'submission_time', 'vote_number', 'question_id', 'message', 'image']
 QUESTION_HEADER = ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image']
-questions_file = '/home/tutu/Desktop/projects/web/ask-mate-1-python-bogdaniordan/sample_data/question.csv'
-answers_file = '/home/tutu/Desktop/projects/web/ask-mate-1-python-bogdaniordan/sample_data/answer.csv'
+questions_file = 'sample_data/question.csv'
+answers_file = 'sample_data/answer.csv'
 
 
-def read_from_csv(filename):
-    list_of_questions = []
-    with open(filename, 'r') as file:
-        csv_reader = csv.DictReader(file)
-        for row in csv_reader:
-            list_of_questions.append(row)
-    return list_of_questions
+@database_common.connection_handler
+def get_questions(cursor: RealDictCursor) -> list:
+    query = """
+        SELECT id, submission_time, view_number, vote_number, title, image, message
+        FROM question
+        """
+    cursor.execute(query)
+    return cursor.fetchall()
 
 
 def append_to_csv(data_row, header, filename):
