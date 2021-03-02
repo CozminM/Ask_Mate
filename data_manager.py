@@ -260,3 +260,15 @@ def search_in_answers(cursor: RealDictCursor, search_input: str) -> list:
         """
     cursor.execute(query, {'s': search_input})
     return cursor.fetchall()
+
+
+@database_common.connection_handler
+def increase_view_count(cursor: RealDictCursor, used_id: int) -> list:
+    query = """
+        UPDATE question
+        SET view_number = view_number + 1
+        WHERE id = %(i)s
+        RETURNING *
+        """
+    cursor.execute(query, {'i': used_id})
+    return cursor.fetchall()

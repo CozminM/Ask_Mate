@@ -29,6 +29,7 @@ def individual_q_and_a(question_id):
     question = data_manager.get_individual_question(question_id)
     answer = data_manager.get_individual_answer(question_id)
     question_tags = data_manager.get_question_tags(question_id)
+    data_manager.increase_view_count(question_id)
     return render_template('individual_question_and_answer_page.html', questions=question, answers=answer, question_tags=question_tags)
 
 
@@ -47,10 +48,9 @@ def answer_page(question_id):
 def add_question_page():
     if request.method == 'POST':
         img = request.files['img']
-        submit_time = util.single_value_dateconverter(round(time.time()))
         #filename = str(uuid4())
         img.save(os.path.join(app.config['UPLOAD_FOLDER'], img.filename))
-        data_manager.save_question(submit_time, 0, 0, request.form['title'], request.form['message'], img.filename)
+        data_manager.save_question(util.current_time(), 0, 0, request.form['title'], request.form['message'], img.filename)
         # fetches the id of the new question
         new_id = [dict(row) for (row) in data_manager.get_questions()][-1].get('id')
         return redirect(url_for('individual_q_and_a', question_id=new_id))
@@ -62,8 +62,7 @@ def edit_question(question_id):
     question = data_manager.get_individual_question(question_id)
     if request.method == 'POST':
         #question = request.form.to_dict
-        submit_time = util.single_value_dateconverter(round(time.time()))
-        data_manager.update_question(question_id, request.form['title'], request.form['message'], submit_time)
+        data_manager.update_question(question_id, request.form['title'], request.form['message'], util.current_time())
         return redirect(url_for('individual_q_and_a', question_id=question_id))
     return render_template('edit_question.html', questionz=question)
 
@@ -73,8 +72,7 @@ def edit_answer(answer_id):
     answer = data_manager.get_answer_by_id(answer_id)
     question_id = [dict(row) for row in data_manager.get_answer_by_id(answer_id)][0].get('question_id')
     if request.method == 'POST':
-        submit_time = util.current_time()
-        data_manager.update_answer(answer_id, request.form['message'], submit_time)
+        data_manager.update_answer(answer_id, request.form['message'], util.current_time())
         return redirect(url_for('individual_q_and_a', question_id=question_id))
     return render_template('edit_answer.html', answer=answer, question_id=question_id)
 
