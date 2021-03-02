@@ -11,18 +11,21 @@ app.config['UPLOAD_FOLDER'] = 'static/images/'
 
 @app.route("/", methods=['GET', 'POST'])
 def index_page():
-    return redirect(url_for('questions_page'))
+    first_questions = data_manager.get_questions_by_time()
+    return render_template('main.html', data = first_questions)
 
 
 @app.route('/list', methods=['GET', 'POST'])
 def questions_page():
-    # criteria = request.args.get('order_by', 'submission_time')
-    # direction = request.args.get('order_direction', 'desc')
-    unsorted_data = data_manager.get_questions()
-    # sorted_data = util.sort_data(unsorted_data, criteria, direction)
+    criteria = request.args.get('order_criteria', 'submission_time')
+    direction = request.args.get('order_direction', 'DESC')
+    # if direction == "ASC":
+    #     sorted_data = data_manager.sort_questions_asc(criteria)
+    # else:
+    sorted_data = data_manager.get_questions(criteria, direction)
     if request.method == 'POST':
         return redirect(url_for('search_results', search_phrase=request.form['search-input']))
-    return render_template('list_questions.html', data=unsorted_data)
+    return render_template('list_questions.html', data=sorted_data)
 
 
 @app.route('/question/<question_id>')

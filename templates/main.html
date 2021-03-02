@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List stories</title>
+    <link rel= "stylesheet" href= "{{ url_for('static',filename='css/main.css') }}">
+{#    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">#}
+</head>
+<body>
+    <div class="header" id="grad1"><h1 class="question-title">Taraful Codecool forum</h1></div>
+    <div class="container">
+
+    <div class="table"><table class="table">
+        <tr>
+            <th>Submission time</th>
+            <th>View number</th>
+            <th>Vote number</th>
+            <th>Title</th>
+            <th>Message</th>
+            <th>Image</th>
+        </tr>
+        {% for dat in data %}
+        <tr>
+            <td>{{ dat.submission_time }}</td>
+            <td>{{ dat.view_number }}</td>
+            <td>{{ dat.vote_number }}</td>
+            <td><a href="{{ url_for('individual_q_and_a', question_id = dat.id) }}">{{ dat.title }}</a></td>
+            <td>{{ dat.message }}</td>
+            {% if not dat.image %}
+            <td>No image</td>
+            {% else %}
+            <td><img src="{{url_for('static', filename='images/' + dat.image)}}" width="100" height="100" alt="question image"></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table></div></div>
+    <button class="button" type="button"><a href="{{ url_for('questions_page') }}"> All Questions </a></button>
+</body>
+</html>

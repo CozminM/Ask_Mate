@@ -17,13 +17,25 @@ answers_file = 'sample_data/answer.csv'
 
 
 @database_common.connection_handler
-def get_questions(cursor: RealDictCursor) -> list:
-    query = """
+def get_questions(cursor: RealDictCursor, criteria: str=None, direction: str=None) -> list:
+    query = f"""
         SELECT id, submission_time, view_number, vote_number, title, image, message
         FROM question
+        ORDER BY {criteria} {direction}
         """
     cursor.execute(query)
     return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_questions_by_time(cursor: RealDictCursor) -> list:
+    query = """
+    SELECT submission_time, view_number, vote_number, title, image, message
+    FROM question 
+    ORDER BY submission_time DESC 
+    """
+    cursor.execute(query)
+    return cursor.fetchmany(5)
 
 
 @database_common.connection_handler

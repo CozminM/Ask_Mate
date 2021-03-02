@@ -13,7 +13,7 @@
         <li><button class="button" type="button"><a href="{{ url_for('add_question_page') }}">Add question</a></button></li>
         <li><div class="sort">
             <form>
-                <select name="order_by">
+                <select name="order_criteria">
                     <option value="title">Title</option>
                     <option value="submission_time">Submission time</option>
                     <option value="view_number">View number</option>
@@ -21,8 +21,8 @@
                     <option value="message">Message</option>
                 </select>
                 <select name="order_direction">
-                    <option value="asc">Ascending</option>
-                    <option value="desc">Descending</option>
+                    <option value="ASC">Ascending</option>
+                    <option value="DESC">Descending</option>
                 </select>
                 <button class="button sort-btn" type="submit" >Sort</button>
             </form>
