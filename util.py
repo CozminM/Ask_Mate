@@ -1,6 +1,7 @@
 from datetime import datetime
 import os
 import time
+import jinja2
 
 
 def sort_data(data, sort_criteria, order):
@@ -34,3 +35,9 @@ def convert_to_dict(value):
     return [dict(row) for row in value]
 
 
+def highlight_searched_phrase(dict_input, search_phrase):
+    for dictionary in dict_input:
+        for key, text in dictionary.items():
+            text = jinja2.escape(text)
+            dictionary[key] = f'<b>{search_phrase}</b>'.join(text.split(search_phrase))
+    return dict_input
