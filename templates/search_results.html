@@ -3,9 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Search results</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/search.css') }}">
 </head>
 <body>
-    <h3>Search results for {{ search_phrase }}: </h3>
+    {% if (questions|length == 0) and (answers|length == 0) %}
+        <h2>No search results were found for {{ search_phrase }}.</h2>
+    {% else %}
+        <h3>Search results for {{ search_phrase }}: </h3>
+    {% endif %}
     {% if questions|length > 0 %}
         <h3>Questions</h3>
         <div class="table-container">
@@ -76,5 +81,6 @@
             </table>
         </div>
     {% endif %}
+    <button class="button" type="button"><a href="{{ url_for('questions_page', criteria='id', direction='asc') }}"> Home </a></button>
 </body>
 </html>

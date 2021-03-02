@@ -82,3 +82,8 @@ a:link {
 .container{
     padding: 20px;
 }
+
+.search-box {
+    padding: 20px;
+    left: 30px;
+}
