@@ -142,6 +142,18 @@ def search_results(search_phrase):
     modified_search_phrase = '%' + search_phrase + '%'
     question_results = data_manager.search_in_questions(modified_search_phrase)
     answer_results = data_manager.search_in_answers(modified_search_phrase)
+    question_dict = [dict(row) for row in question_results]
+    for dictionary in question_dict:
+        for key, value in dictionary.items():
+            indices = [i for i, x in enumerate(value) if x == search_phrase]
+            s = ''
+            for i in range(len(value)):
+                if i in indices:
+                    s += '<b>' + value[i] + '</b>'
+                else:
+                    s += value[i]
+            print(indices)
+            print(s)
     return render_template('search_results.html', questions=question_results, search_phrase=search_phrase,
                            answers=answer_results)
 
