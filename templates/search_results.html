@@ -30,16 +30,8 @@
                     <td>{{ question.submission_time }}</td>
                     <td>{{ question.view_number }}</td>
                     <td>{{ question.vote_number }}</td>
-                    {% if search_phrase in question.title %}
-                        <td><b>{{ question.title }}</b></td>
-                    {% else %}
-                        <td>{{ question.title }}</td>
-                    {% endif %}
-                    {% if search_phrase in question.message %}
-                        <td><b>{{ question.message }}</b></td>
-                    {% else %}
-                        <td>{{ question.message }}</td>
-                    {% endif %}
+                    <td>{{ question.title|safe }}</td>
+                    <td>{{ question.message|safe }}</td>
                     {% if question.image != None %}
                         <td><img src="{{url_for('static', filename=question.image)}}" width="100" height="100"></td>
                     {% else %}
@@ -55,27 +47,11 @@
         <div class="answers-table">
             <table border="1">
                 <tr>
-                    <th>Id</th>
-                    <th>Submission time</th>
-                    <th>Vote number</th>
-                    <th>Image</th>
                     <th>Message</th>
                 </tr>
                     {% for answer in answers %}
                         <tr>
-                            <td>{{ answer.id }}</td>
-                            <td>{{ answer.submission_time }}</td>
-                            <td>{{ answer.vote_number }}</td>
-                            {% if answer.image != None %}
-                                <td><img src="{{url_for('static', filename=answer.image)}}" width="100" height="100"></td>
-                            {% else %}
-                                <td><img src="{{url_for('static', filename='None')}}" width="100" height="100"></td>
-                            {% endif %}
-                            {% if search_phrase in answer.message %}
-                                <td><b>{{ answer.message }}</b></td>
-                            {% else %}
-                                <td>{{ answer.message }}</td>
-                            {% endif %}
+                            <td>{{ answer.message|safe}}</td>
                         </tr>
                     {% endfor %}
             </table>
