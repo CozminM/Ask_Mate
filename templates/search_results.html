@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Search results</title>
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/search.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/main.css') }}">
 </head>
 <body>
     {% if (questions|length == 0) and (answers|length == 0) %}
@@ -43,6 +43,6 @@
             </table>
         </div>
     {% endif %}
-    <button class="button" type="button"><a href="{{ url_for('questions_page', criteria='id', direction='asc') }}"> Home </a></button>
+    <button class="button" type="button"><a href="{{ url_for('questions_page') }}"> Home </a></button>
 </body>
 </html>

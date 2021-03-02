@@ -272,3 +272,14 @@ def increase_view_count(cursor: RealDictCursor, used_id: int) -> list:
         """
     cursor.execute(query, {'i': used_id})
     return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_question_id(cursor: RealDictCursor, title: str) -> list:
+    query = """
+        SELECT id
+        FROM question 
+        WHERE title = %(s)s
+        """
+    cursor.execute(query, {'s': title})
+    return cursor.fetchall()

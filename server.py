@@ -3,7 +3,7 @@ import util
 import time
 import data_manager
 import os
-import jinja2
+
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static/images/'
@@ -52,8 +52,7 @@ def add_question_page():
         #filename = str(uuid4())
         img.save(os.path.join(app.config['UPLOAD_FOLDER'], img.filename))
         data_manager.save_question(util.current_time(), 0, 0, request.form['title'], request.form['message'], img.filename)
-        # fetches the id of the new question
-        new_id = [dict(row) for (row) in data_manager.get_questions()][-1].get('id')
+        new_id = data_manager.get_question_id(request.form['title'])[0].get('id')
         return redirect(url_for('individual_q_and_a', question_id=new_id))
     return render_template('add_question.html')
 
@@ -71,7 +70,7 @@ def edit_question(question_id):
 @app.route('/answer/<answer_id>/edit', methods=['GET', 'POST'])
 def edit_answer(answer_id):
     answer = data_manager.get_answer_by_id(answer_id)
-    question_id = [dict(row) for row in data_manager.get_answer_by_id(answer_id)][0].get('question_id')
+    question_id = answer[0].get('question_id')
     if request.method == 'POST':
         data_manager.update_answer(answer_id, request.form['message'], util.current_time())
         return redirect(url_for('individual_q_and_a', question_id=question_id))
@@ -86,7 +85,7 @@ def delete_answer(answer_id):
 
 @app.route('/question/<question_id>/delete')
 def delete_question(question_id):
-    image_name = [dict(row) for row in data_manager.get_individual_question(question_id)][0].get('image')
+    image_name = data_manager.get_individual_question(question_id)[0].get('image')
     util.delete_image(image_name)
     data_manager.delete_question(question_id)
     return redirect(url_for('questions_page', criteria='title', direction='asc'))
@@ -118,7 +117,7 @@ def answer_vote_down(question_id, answer_id):
 
 @app.route('/question/<question_id>/new-tag', methods=['GET', 'POST'])
 def add_new_tag(question_id):
-    current_tags = [dict(row) for row in data_manager.get_existing_tags()]
+    current_tags = data_manager.get_existing_tags()
     if request.method == 'POST':
         if request.form['building'] == 'casinos':
             data_manager.insert_tag(request.form['tag-name'])
@@ -143,10 +142,6 @@ def search_results(search_phrase):
     modified_search_phrase = '%' + search_phrase + '%'
     question_results = data_manager.search_in_questions(modified_search_phrase)
     answer_results = data_manager.search_in_answers(modified_search_phrase)
-    # for dictionary in question_results:
-    #     for key, text in dictionary.items():
-    #         text = jinja2.escape(text)
-    #         dictionary[key] = f'<b>{search_phrase}</b>'.join(text.split(search_phrase))
     question_results = util.highlight_searched_phrase(question_results, search_phrase)
     answer_results = util.highlight_searched_phrase(answer_results, search_phrase)
     return render_template('search_results.html', questions=question_results, search_phrase=search_phrase,
