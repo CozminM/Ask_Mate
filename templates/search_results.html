@@ -7,13 +7,13 @@
 </head>
 <body>
     {% if (questions|length == 0) and (answers|length == 0) %}
-        <h4 class="results-title">No search results were found for {{ search_phrase }}.</h4>
+        <h2 class="results-title">No search results were found for {{ search_phrase }}.</h2>
     {% else %}
-        <h4 class="results-title">Search results for {{ search_phrase }}: </h4>
+        <h2 class="results-title">Search results for {{ search_phrase }}: </h2>
     {% endif %}
     {% if questions|length > 0 %}
         <div class="table-container">
-        <h3 class="titles">Questions</h3>
+        <h2 class="titles">Questions</h2>
             <table class="table">
                 <tr>
                     <th>Title</th>
@@ -30,7 +30,7 @@
     {% endif %}
     {% if answers|length > 0 %}
         <div class="table-container">
-        <h3 class="titles">Answers</h3>
+        <h2 class="titles">Answers</h2>
             <table class="table answers">
                 <tr>
                     <th>Message</th>
