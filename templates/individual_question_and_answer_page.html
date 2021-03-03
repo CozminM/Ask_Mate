@@ -42,9 +42,18 @@
 
                 <div class="question-tags">
                     <h4>Question tags</h4>
-                    {% for tag in question_tags %}
-                        <p>{{ tag.name }}</p><a href="{{ url_for('delete_tag', question_id=question.id, tag_id=tag.id) }}">🚫</a>
-                    {% endfor %}
+                        <table>
+                            <tr>
+                                <th>Tag</th>
+                                <th>Remove tag</th>
+                            </tr>
+                            {% for tag in question_tags %}
+                            <tr>
+                                <td>{{ tag.name }}</td>
+                                <td><a href="{{ url_for('delete_tag', question_id=question.id, tag_id=tag.id) }}">🚫</a></td>
+                            </tr>
+                            {% endfor %}
+                        </table>
                 </div>
             {% endfor %}
         </table>
