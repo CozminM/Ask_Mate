@@ -27,7 +27,7 @@ def questions_page():
 @app.route('/question/<question_id>')
 def individual_q_and_a(question_id):
     question = data_manager.get_individual_question(question_id)
-    answer = data_manager.get_individual_answer(question_id)
+    answer = data_manager.get_answers(question_id)
     question_tags = data_manager.get_question_tags(question_id)
     comment = data_manager.get_individual_comment(question_id)
     data_manager.increase_view_count(question_id)
@@ -126,7 +126,7 @@ def add_new_tag(question_id):
                     tag_id = row.get('id')
             data_manager.insert_questions_tag(question_id, tag_id)
             return redirect(url_for('individual_q_and_a', question_id=question_id))
-    return render_template('add_tag.html', current_tags=current_tags)
+    return render_template('add_tag.html', current_tags=current_tags, question_id=question_id)
 
 
 @app.route('/question/<question_id>/tag/<tag_id>/delete')

@@ -1,0 +1,61 @@
+
+.home-button {
+    align-items: center;
+    background: #60a3bc;
+    padding: 10px;
+}
+
+.home-button:hover {
+    background: mediumseagreen;
+}
+
+
+.table-container {
+    padding: 20px;
+    left: 40px;
+}
+
+.results-title {
+    text-align: center;
+    border-bottom: 2px solid;
+}
+
+.table {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid;
+    text-align: center;
+    border-spacing: 0.5rem;
+}
+
+.table.answers {
+    width: 20%;
+}
+
+th, td {
+    border: 1px solid #999;
+    padding: 0.5rem ;
+}
+.titles {
+    text-align: center;
+}
+
+.button-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+body {
+    background-color: #F1F1F1;
+    font-family: "Lucida Console", "Courier New", monospace;
+}
+
+tr:nth-child(even){
+    background-color: white;
+}
+
+tr:nth-child(odd){
+    background-color: lightgray;
+}

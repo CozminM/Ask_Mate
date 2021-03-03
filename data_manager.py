@@ -46,7 +46,7 @@ def get_individual_question(cursor: RealDictCursor, used_id: int) -> list:
 
 
 @database_common.connection_handler
-def get_individual_answer(cursor: RealDictCursor, used_id: int) -> list:
+def get_answers(cursor: RealDictCursor, used_id: int) -> list:
     query = """
         SELECT id, submission_time, vote_number, question_id, message, image
         FROM answer

@@ -4,6 +4,7 @@ import time
 import jinja2
 import data_manager
 
+
 def sort_data(data, sort_criteria, order):
     # if sort criteria is vote-number or view-count, the data gets so it can be sorted
     if data[0].get(sort_criteria).isnumeric():

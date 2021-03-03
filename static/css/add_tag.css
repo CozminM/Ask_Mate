@@ -1,0 +1,15 @@
+body{
+    background-color: #F1F1F1;
+    margin: 0;
+    font-family: "Lucida Console", "Courier New", monospace;
+}
+
+.choose-tag {
+    padding: 40px;
+    text-align: center;
+    border-top: 1px solid;
+}
+
+.add-tag {
+    text-align: justify;
+}

@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Search results</title>
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/main.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/search.css') }}">
 </head>
 <body>
     {% if (questions|length == 0) and (answers|length == 0) %}
-        <h2>No search results were found for {{ search_phrase }}.</h2>
+        <h2 class="results-title">No search results were found for {{ search_phrase }}.</h2>
     {% else %}
-        <h3>Search results for {{ search_phrase }}: </h3>
+        <h3 class="results-title">Search results for {{ search_phrase }}: </h3>
     {% endif %}
     {% if questions|length > 0 %}
-        <h3>Questions</h3>
         <div class="table-container">
-            <table border="1">
+        <h3 class="titles">Questions</h3>
+            <table class="table">
                 <tr>
                     <th>Title</th>
                     <th>Message</th>
@@ -29,9 +29,9 @@
         </div>
     {% endif %}
     {% if answers|length > 0 %}
-        <h3>Answers</h3>
-        <div class="answers-table">
-            <table border="1">
+        <div class="table-container">
+        <h3 class="titles">Answers</h3>
+            <table class="table answers">
                 <tr>
                     <th>Message</th>
                 </tr>
@@ -43,6 +43,8 @@
             </table>
         </div>
     {% endif %}
-    <button class="button" type="button"><a href="{{ url_for('questions_page') }}"> Home </a></button>
+    <div class="button-container">
+        <button class="home-button" type="button"><a href="{{ url_for('questions_page') }}"> Home </a></button>
+    </div>
 </body>
 </html>
