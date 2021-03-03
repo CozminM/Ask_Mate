@@ -291,3 +291,55 @@ def get_question_id(cursor: RealDictCursor, title: str) -> list:
         """
     cursor.execute(query, {'s': title})
     return cursor.fetchall()
+
+
+@database_common.connection_handler
+def save_comment(cursor: RealDictCursor, submission_time: int, question_id: int, answer_id: int, edited_count: int, message: str) -> list:
+    query = """
+        INSERT INTO comment (question_id, answer_id, message, submission_time, edited_count)
+        VALUES (%(q_i)s, %(a_i)s, %(m)s, %(s_t)s, %(e_c)s)
+        RETURNING *
+        """
+    cursor.execute(query, {'q_i': question_id, 'a_i': answer_id, 'm': message, 's_t': submission_time, 'e_c': edited_count})
+    return cursor.fetchall()
+
+@database_common.connection_handler
+def get_comment_by_id(cursor: RealDictCursor, used_id: int) -> list:
+    query = """
+        SELECT id, question_id, answer_id, message, submission_time, edited_count
+        FROM comment
+        WHERE id = %(i)s
+        """
+    cursor.execute(query, {'i': used_id})
+    return cursor.fetchall()
+
+@database_common.connection_handler
+def get_individual_comment(cursor: RealDictCursor, used_id: int) -> list:
+    query = """
+        SELECT id, question_id, answer_id, message, submission_time, edited_count
+        FROM comment
+        WHERE question_id = %(i)s
+        """
+    cursor.execute(query, {'i': used_id})
+    return cursor.fetchall()
+
+@database_common.connection_handler
+def update_comment(cursor: RealDictCursor, used_id: int, message_input: str,  edited_count: int, time_used: int) -> list:
+    query = """
+        UPDATE comment
+        SET message = %(m)s, submission_time = %(ti)s, edited_count = %(e_t)s
+        WHERE id = %(i)s
+        RETURNING *
+        """
+    cursor.execute(query, {'i': used_id, 'm': message_input, 'ti': time_used, 'e_t': edited_count})
+    return cursor.fetchall()
+
+@database_common.connection_handler
+def delete_comment(cursor: RealDictCursor, used_id: int) -> list:
+    query = """
+            DELETE FROM comment
+            WHERE id = %(i)s
+            RETURNING *
+            """
+    cursor.execute(query, {'i': used_id})
+    return cursor.fetchall()
