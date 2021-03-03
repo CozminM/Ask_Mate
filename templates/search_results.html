@@ -7,9 +7,9 @@
 </head>
 <body>
     {% if (questions|length == 0) and (answers|length == 0) %}
-        <h2 class="results-title">No search results were found for {{ search_phrase }}.</h2>
+        <h4 class="results-title">No search results were found for {{ search_phrase }}.</h4>
     {% else %}
-        <h3 class="results-title">Search results for {{ search_phrase }}: </h3>
+        <h4 class="results-title">Search results for {{ search_phrase }}: </h4>
     {% endif %}
     {% if questions|length > 0 %}
         <div class="table-container">
