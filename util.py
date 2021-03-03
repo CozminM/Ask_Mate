@@ -2,7 +2,7 @@ from datetime import datetime
 import os
 import time
 import jinja2
-
+import data_manager
 
 def sort_data(data, sort_criteria, order):
     # if sort criteria is vote-number or view-count, the data gets so it can be sorted
@@ -41,3 +41,14 @@ def highlight_searched_phrase(dict_input, search_phrase):
             text = jinja2.escape(text)
             dictionary[key] = f'<b>{search_phrase}</b>'.join(text.split(search_phrase))
     return dict_input
+
+
+def delete_question_or_answer(input_id, criteria):
+    if criteria == 'question':
+        image_name = data_manager.get_individual_question(input_id)[0].get('image')
+        delete_image(image_name)
+        data_manager.delete_question(input_id)
+    else:
+        image_name = data_manager.get_answer_by_id(input_id)[0].get('image')
+        delete_image(image_name)
+        data_manager.delete_answer(input_id)

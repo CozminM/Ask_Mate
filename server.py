@@ -1,9 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for
 import util
-import time
 import data_manager
 import os
-
+import uuid
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static/images/'
@@ -12,16 +11,13 @@ app.config['UPLOAD_FOLDER'] = 'static/images/'
 @app.route("/", methods=['GET', 'POST'])
 def index_page():
     first_questions = data_manager.get_questions_by_time()
-    return render_template('main.html', data = first_questions)
+    return render_template('main.html', data=first_questions)
 
 
 @app.route('/list', methods=['GET', 'POST'])
 def questions_page():
     criteria = request.args.get('order_criteria', 'submission_time')
     direction = request.args.get('order_direction', 'DESC')
-    # if direction == "ASC":
-    #     sorted_data = data_manager.sort_questions_asc(criteria)
-    # else:
     sorted_data = data_manager.get_questions(criteria, direction)
     if request.method == 'POST':
         return redirect(url_for('search_results', search_phrase=request.form['search-input']))
@@ -42,19 +38,20 @@ def answer_page(question_id):
     if request.method == 'POST':
         img = request.files['img']
         submit_time = util.current_time()
-        img.save(os.path.join(app.config['UPLOAD_FOLDER'], img.filename))
-        data_manager.save_answer(submit_time, 0, question_id, request.form['message'], img.filename)
+        img_filename = str(uuid.uuid4())
+        img.save(os.path.join(app.config['UPLOAD_FOLDER'], img_filename))
+        data_manager.save_answer(submit_time, 0, question_id, request.form['message'], img_filename)
         return redirect(url_for('individual_q_and_a', question_id=question_id))
-    return render_template('add_answers.html')
+    return render_template('add_answers.html', question_id=question_id)
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
 def add_question_page():
     if request.method == 'POST':
         img = request.files['img']
-        #filename = str(uuid4())
-        img.save(os.path.join(app.config['UPLOAD_FOLDER'], img.filename))
-        data_manager.save_question(util.current_time(), 0, 0, request.form['title'], request.form['message'], img.filename)
+        img_filename = str(uuid.uuid4())
+        img.save(os.path.join(app.config['UPLOAD_FOLDER'], img_filename))
+        data_manager.save_question(util.current_time(), 0, 0, request.form['title'], request.form['message'], img_filename)
         new_id = data_manager.get_question_id(request.form['title'])[0].get('id')
         return redirect(url_for('individual_q_and_a', question_id=new_id))
     return render_template('add_question.html')
@@ -64,7 +61,6 @@ def add_question_page():
 def edit_question(question_id):
     question = data_manager.get_individual_question(question_id)
     if request.method == 'POST':
-        #question = request.form.to_dict
         data_manager.update_question(question_id, request.form['title'], request.form['message'], util.current_time())
         return redirect(url_for('individual_q_and_a', question_id=question_id))
     return render_template('edit_question.html', questionz=question)
@@ -82,16 +78,14 @@ def edit_answer(answer_id):
 
 @app.route('/answer/<answer_id>/delete')
 def delete_answer(answer_id):
-    data_manager.delete_answer(answer_id)
-    return redirect(url_for('questions_page', criteria='id', direction='asc'))
+    util.delete_question_or_answer(answer_id, 'answer')
+    return redirect(url_for('questions_page'))
 
 
 @app.route('/question/<question_id>/delete')
 def delete_question(question_id):
-    image_name = data_manager.get_individual_question(question_id)[0].get('image')
-    util.delete_image(image_name)
-    data_manager.delete_question(question_id)
-    return redirect(url_for('questions_page', criteria='title', direction='asc'))
+    util.delete_question_or_answer(question_id, 'question')
+    return redirect(url_for('individual_q_and_a', question_id=question_id))
 
 
 @app.route('/question/<question_id>/vote_up')
