@@ -185,7 +185,13 @@ def edit_comment(comment_id):
             question = data_manager.get_question_id_by_answer_id(answer_id)
             question_id = question[0].get('question_id')
             return redirect(url_for('individual_q_and_a', question_id=question_id))
-    return render_template('edit_comment.html', comment = comment)
+    if question_id:
+        return render_template('edit_comment.html', comment = comment, question_id = question_id)
+    elif answer_id:
+        question = data_manager.get_question_id_by_answer_id(answer_id)
+        question_id = question[0].get('question_id')
+        return render_template('edit_comment.html', comment = comment, question_id = question_id)
+
 
 
 @app.route('/comment/<comment_id>/delete')
