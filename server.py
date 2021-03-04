@@ -186,19 +186,17 @@ def edit_comment(comment_id):
 
 
 
+
 @app.route('/comment/<comment_id>/delete')
 def delete_comment(comment_id):
     comment = data_manager.get_comment_by_id(comment_id)
     question_id = comment[0].get('question_id')
     answer_id = comment[0].get('answer_id')
     data_manager.delete_comment(comment_id)
-    if question_id:
-        return redirect(url_for('individual_q_and_a', question_id=question_id))
-    if answer_id:
+    if not question_id:
         question = data_manager.get_question_id_by_answer_id(answer_id)
         question_id = question[0].get('question_id')
-        return redirect(url_for('individual_q_and_a', question_id=question_id))
-
+    return redirect(url_for('individual_q_and_a', question_id=question_id))
 
 if __name__ == "__main__":
     app.run(debug=True)

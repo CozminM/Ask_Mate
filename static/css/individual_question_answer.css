@@ -71,12 +71,29 @@ a:link {
     transition: all 0.4s ease 0s;
 }
 
-.container {
+/*.container {*/
+/*    padding: 20px;*/
+/*}*/
+
+.question-container {
+    padding: 20px;
+}
+
+.answer-container {
+    padding: 20px;
+}
+
+.comments-answers-container {
+    padding: 20px;
+}
+
+.comments-question-container {
     padding: 20px;
 }
 
 .home-button-container {
     text-align: center;
+    padding: 20px;
 }
 
 .question-tags {
