@@ -53,3 +53,11 @@ def delete_question_or_answer(input_id, criteria):
         image_name = data_manager.get_answer_by_id(input_id)[0].get('image')
         delete_image(image_name)
         data_manager.delete_answer(input_id)
+
+def get_comment_by_answer(answer):
+    comment_answer = []
+    for i in range(len(answer)):
+        one_comment = data_manager.get_comment_by_answer_id(answer[i].get('id'))
+        for j in one_comment:
+            comment_answer.append(j)
+    return comment_answer
