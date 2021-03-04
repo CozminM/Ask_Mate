@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <title>List stories</title>
     <link rel= "stylesheet" href= "{{ url_for('static',filename='css/main.css') }}">
-{#    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">#}
+
 </head>
 <body>
     <div class="header" id="grad1"><h1 class="question-title">Taraful Codecool forum</h1></div>
     <div class="container">
 
-    <div class="table"><table class="table">
+    <div class="table">
+        <table class="table">
         <tr>
             <th>Submission time</th>
             <th>View number</th>
@@ -33,7 +34,10 @@
             {% endif %}
         </tr>
         {% endfor %}
-    </table></div></div>
-    <button class="button" type="button"><a href="{{ url_for('questions_page') }}"> All Questions </a></button>
+    </table></div>
+    </div>
+    <div id="all-questions-btn">
+        <button class="new-button" type="button"><a href="{{ url_for('questions_page') }}"> All Questions </a></button>
+    </div>
 </body>
 </html>
