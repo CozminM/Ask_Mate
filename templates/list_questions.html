@@ -10,7 +10,7 @@
     <div class="header" id="grad1"><h1 class="question-title">Taraful Codecool Forum</h1></div>
     <div class="container">
     <div class="menu" id="grad2"><ul>
-        <li><button class="button" type="button"><a href="{{ url_for('add_question_page') }}">Add question</a></button></li>
+        <li><button class="new-button" type="button"><a href="{{ url_for('add_question_page') }}">Add question</a></button></li>
         <li><div class="sort">
             <form>
                 <select name="order_criteria">
@@ -24,7 +24,7 @@
                     <option value="ASC">Ascending</option>
                     <option value="DESC">Descending</option>
                 </select>
-                <button class="button sort-btn" type="submit" >Sort</button>
+                <button class="new-button sort-btn" type="submit" >Sort</button>
             </form>
         </div></li>
     </ul></div>
@@ -54,11 +54,11 @@
         {% endfor %}
     </table></div></div>
     <div class="search-box">
-         <h3>Search</h3>
+         <h3>Search in the DB</h3>
           <form method="post" action="">
             <input type="hidden" name="searching" value="searcher">
             <input type="text" name="search-input">
-            <button class="button" type="submit">Submit</button>
+            <button class="new-button" type="submit">Submit</button>
           </form>
     </div>
 </body>

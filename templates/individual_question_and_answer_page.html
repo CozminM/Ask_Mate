@@ -143,9 +143,9 @@
             {% endfor %}
         </table>
     {% endif %}
-    </div>
-    <br>
-    <button class="button" type="button"><a href="{{ url_for('questions_page', criteria='id', direction='asc') }}"> Home </a></button>
+        <br>
+    <div class="home-btn-container">
+        <button class="button" type="button"><a href="{{ url_for('questions_page', criteria='id', direction='asc') }}"> Home </a></button>
     </div>
 </body>
 </html>
