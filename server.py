@@ -176,21 +176,13 @@ def edit_comment(comment_id):
     edit_count = comment[0].get('edited_count') + 1
     question_id = comment[0].get('question_id')
     answer_id = comment[0].get('answer_id')
-    if request.method == 'POST':
-        if question_id:
-            data_manager.update_comment(comment_id, request.form['message'], edit_count, util.current_time())
-            return redirect(url_for('individual_q_and_a', question_id=question_id))
-        elif answer_id:
-            data_manager.update_comment(comment_id, request.form['message'], edit_count, util.current_time())
-            question = data_manager.get_question_id_by_answer_id(answer_id)
-            question_id = question[0].get('question_id')
-            return redirect(url_for('individual_q_and_a', question_id=question_id))
-    if question_id:
-        return render_template('edit_comment.html', comment = comment, question_id = question_id)
-    elif answer_id:
+    if not question_id:
         question = data_manager.get_question_id_by_answer_id(answer_id)
         question_id = question[0].get('question_id')
-        return render_template('edit_comment.html', comment = comment, question_id = question_id)
+    if request.method == 'POST':
+        data_manager.update_comment(comment_id, request.form['message'], edit_count, util.current_time())
+        return redirect(url_for('individual_q_and_a', question_id=question_id))
+    return render_template('edit_comment.html', comment = comment, question_id = question_id)
 
 
 
