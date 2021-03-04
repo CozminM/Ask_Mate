@@ -19,6 +19,7 @@ body{
 table, th, td{
     text-align: center;
     border-collapse: collapse;
+    border: solid 1px;
 }
 
 th, td{
@@ -98,4 +99,19 @@ a:link {
 
 .question-tags {
     padding: 20px;
+}
+
+/*.five-question-table{*/
+/*    border: 5px solid;*/
+/*}*/
+
+.home-btn-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container{
+    align-items: center;
+    text-align: center;
 }

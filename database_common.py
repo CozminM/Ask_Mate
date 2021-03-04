@@ -1,15 +1,10 @@
+
 # Creates a decorator to handle the database connection/cursor opening/closing.
 # Creates the cursor with RealDictCursor, thus it returns real dictionaries, where the column names are the keys.
 import os
 
 import psycopg2
 import psycopg2.extras
-
-
-os.environ['PSQL_USER_NAME'] = 'postgres'
-os.environ['PSQL_PASSWORD'] = 'codecool'
-os.environ['PSQL_HOST'] = 'localhost'
-os.environ['PSQL_DB_NAME'] = 'postgres'
 
 
 def get_connection_string():
@@ -54,5 +49,4 @@ def connection_handler(function):
         dict_cur.close()
         connection.close()
         return ret_value
-
     return wrapper

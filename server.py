@@ -30,9 +30,11 @@ def individual_q_and_a(question_id):
     answer = data_manager.get_answers(question_id)
     question_tags = data_manager.get_question_tags(question_id)
     comment_question = data_manager.get_individual_comment(question_id)
-    comment_answer = util.get_comment_by_answer(answer)
+    comment_answer = util.comments_linked_to_answers(answer)
     data_manager.increase_view_count(question_id)
-    return render_template('individual_question_and_answer_page.html', questions=question, answers=answer, question_tags=question_tags, comments_question=comment_question, comments_answer=comment_answer)
+    return render_template('individual_question_and_answer_page.html', questions=question, answers=answer,
+                           question_tags=question_tags, comments_question=comment_question,
+                           comments_answer=comment_answer)
 
 
 @app.route('/question/<question_id>/new-answer', methods=['GET', 'POST'])
@@ -174,29 +176,20 @@ def add_comment_answer(answer_id):
 def edit_comment(comment_id):
     comment = data_manager.get_comment_by_id(comment_id)
     edit_count = comment[0].get('edited_count') + 1
-    question_id = comment[0].get('question_id')
-    answer_id = comment[0].get('answer_id')
-    if not question_id:
-        question = data_manager.get_question_id_by_answer_id(answer_id)
-        question_id = question[0].get('question_id')
+    question_id = util.get_parent_question_id(comment)
     if request.method == 'POST':
         data_manager.update_comment(comment_id, request.form['message'], edit_count, util.current_time())
         return redirect(url_for('individual_q_and_a', question_id=question_id))
-    return render_template('edit_comment.html', comment = comment, question_id = question_id)
-
-
+    return render_template('edit_comment.html', comment=comment, question_id=question_id)
 
 
 @app.route('/comment/<comment_id>/delete')
 def delete_comment(comment_id):
     comment = data_manager.get_comment_by_id(comment_id)
-    question_id = comment[0].get('question_id')
-    answer_id = comment[0].get('answer_id')
+    question_id = util.get_parent_question_id(comment)
     data_manager.delete_comment(comment_id)
-    if not question_id:
-        question = data_manager.get_question_id_by_answer_id(answer_id)
-        question_id = question[0].get('question_id')
     return redirect(url_for('individual_q_and_a', question_id=question_id))
+
 
 if __name__ == "__main__":
     app.run(debug=True)

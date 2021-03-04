@@ -55,11 +55,21 @@ def delete_question_or_answer(input_id, criteria):
         data_manager.delete_answer(input_id)
 
 
-def get_comment_by_answer(answer):
+def comments_linked_to_answers(answer):
     comment_answer = []
-    for i in range(len(answer)):
-        one_comment = data_manager.get_comment_by_answer_id(answer[i].get('id'))
-        for j in one_comment:
-            comment_answer.append(j)
+    for item in range(len(answer)):
+        comments = data_manager.get_comment_by_answer_id(answer[item].get('id'))
+        for comment in comments:
+            comment_answer.append(comment)
     return comment_answer
 
+
+def get_parent_question_id(comment):
+    question_id = comment[0].get('question_id')
+    answer_id = comment[0].get('answer_id')
+    if question_id:
+        return question_id
+    else:
+        question = data_manager.get_question_id_by_answer_id(answer_id)
+        question_id = question[0].get('question_id')
+        return question_id
