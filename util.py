@@ -54,6 +54,7 @@ def delete_question_or_answer(input_id, criteria):
         delete_image(image_name)
         data_manager.delete_answer(input_id)
 
+
 def get_comment_by_answer(answer):
     comment_answer = []
     for i in range(len(answer)):
@@ -61,3 +62,4 @@ def get_comment_by_answer(answer):
         for j in one_comment:
             comment_answer.append(j)
     return comment_answer
+

@@ -40,9 +40,8 @@
                 <button class="button" type="button"><a href="{{ url_for('add_comment_question', question_id=question.id) }}">Add a comment</a></button>
                 <button class="button" type="button"><a href="{{ url_for('add_new_tag', question_id=question.id) }}">Add tag</a></button>
                 <br>
-
+            {% if question_tags|length > 0 %}
                 <div class="question-tags">
-                    <h4>Question tags</h4>
                         <table>
                             <tr>
                                 <th>Tag</th>
@@ -56,12 +55,13 @@
                             {% endfor %}
                         </table>
                 </div>
+            {% endif %}
             {% endfor %}
         </table>
     </div>
-
+    {% if comments_question|length > 0 %}
     <div class="comments-question-container">
-    <h2>Comments</h2>
+    <h4>Comments for the questions</h4>
         <table class="table">
             <tr>
                 <th style="text-align: center; vertical-align: middle;">Last time edited</th>
@@ -81,7 +81,8 @@
             {% endfor %}
         </table>
     </div>
-
+    {% endif %}
+        {% if answers|length > 0 %}
     <div class="answer-container">
     <h2>Answers</h2>
         <table class="table">
@@ -113,14 +114,14 @@
                 <td><button type="button"><a href="{{url_for('delete_answer', answer_id=answer.id)}}"> 🚫 </a></button></td>
                 <td><button type="button"><a href="{{ url_for('edit_answer', answer_id=answer.id) }}">Edit answer</a></button></td>
                 <td><button type="button"><a href="{{ url_for('add_comment_answer', answer_id=answer.id) }}">Add comment</a></button></td>
-
             </tr>
             {% endfor %}
         </table>
     </div>
-
-<div class="comments-answers-container">
-    <h2>Comments</h2>
+        {% endif %}
+    {% if comments_answer|length %}
+    <div class="comments-answers-container">
+    <h4>Comments for the answers</h4>
         <table class="table">
             <tr>
                 <th style="text-align: center; vertical-align: middle;">Answer id</th>
@@ -141,8 +142,8 @@
             </tr>
             {% endfor %}
         </table>
+    {% endif %}
     </div>
-
     <br>
     <button class="button" type="button"><a href="{{ url_for('questions_page', criteria='id', direction='asc') }}"> Home </a></button>
     </div>

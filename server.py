@@ -149,6 +149,7 @@ def search_results(search_phrase):
     return render_template('search_results.html', questions=question_results, search_phrase=search_phrase,
                            answers=answer_results)
 
+
 @app.route('/question/<question_id>/new-comment', methods=['GET', 'POST'])
 def add_comment_question(question_id):
     if request.method == 'POST':
@@ -156,6 +157,7 @@ def add_comment_question(question_id):
         data_manager.save_comment(submit_time, question_id, None, 0, request.form['message'])
         return redirect(url_for('individual_q_and_a', question_id=question_id))
     return render_template('add_comment.html')
+
 
 @app.route('/answer/<answer_id>/new-comment', methods=['GET', 'POST'])
 def add_comment_answer(answer_id):
@@ -166,6 +168,7 @@ def add_comment_answer(answer_id):
         data_manager.save_comment(submit_time, None, answer_id, 0, request.form['message'])
         return redirect(url_for('individual_q_and_a', question_id=question_id))
     return render_template('add_comment.html')
+
 
 @app.route('/comment/<comment_id>/edit', methods=['GET', 'POST'])
 def edit_comment(comment_id):
@@ -184,6 +187,7 @@ def edit_comment(comment_id):
             return redirect(url_for('individual_q_and_a', question_id=question_id))
     return render_template('edit_comment.html', comment = comment)
 
+
 @app.route('/comment/<comment_id>/delete')
 def delete_comment(comment_id):
     comment = data_manager.get_comment_by_id(comment_id)
@@ -196,7 +200,6 @@ def delete_comment(comment_id):
         question = data_manager.get_question_id_by_answer_id(answer_id)
         question_id = question[0].get('question_id')
         return redirect(url_for('individual_q_and_a', question_id=question_id))
-
 
 
 if __name__ == "__main__":
