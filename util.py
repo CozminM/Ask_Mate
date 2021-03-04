@@ -46,8 +46,10 @@ def highlight_searched_phrase(dict_input, search_phrase):
 
 def delete_question(question_id):
     # deletes question and it's related items
-    answer = data_manager.get_answers(question_id)
-    comments_answer = comments_linked_to_answers(answer)
+    answers = data_manager.get_answers(question_id)
+    for answer in answers:
+        delete_image(answer.get('image'))
+    comments_answer = comments_linked_to_answers(answers)
     for comment in comments_answer:
         data_manager.delete_comment(comment.get('id'))
     data_manager.delete_answers_by_question_id(question_id)
@@ -66,10 +68,10 @@ def delete_question_or_answer(input_id, criteria):
         data_manager.delete_answer(input_id)
 
 
-def comments_linked_to_answers(answer):
+def comments_linked_to_answers(answers):
     comment_answer = []
-    for item in range(len(answer)):
-        comments = data_manager.get_comment_by_answer_id(answer[item].get('id'))
+    for item in range(len(answers)):
+        comments = data_manager.get_comment_by_answer_id(answers[item].get('id'))
         for comment in comments:
             comment_answer.append(comment)
     return comment_answer
