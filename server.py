@@ -11,6 +11,7 @@ app.config['UPLOAD_FOLDER'] = 'static/images/'
 @app.route("/", methods=['GET', 'POST'])
 def index_page():
     first_questions = data_manager.get_questions_by_time()
+    print(first_questions)
     return render_template('main.html', data=first_questions)
 
 

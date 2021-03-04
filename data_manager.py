@@ -26,7 +26,7 @@ def get_questions(cursor: RealDictCursor, criteria: str=None, direction: str=Non
 @database_common.connection_handler
 def get_questions_by_time(cursor: RealDictCursor) -> list:
     query = """
-    SELECT submission_time, view_number, vote_number, title, image, message
+    SELECT id, submission_time, view_number, vote_number, title, image, message
     FROM question 
     ORDER BY submission_time DESC 
     """
