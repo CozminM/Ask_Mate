@@ -75,7 +75,7 @@ def edit_answer(answer_id):
     if request.method == 'POST':
         data_manager.update_answer(answer_id, request.form['message'], util.current_time())
         return redirect(url_for('individual_q_and_a', question_id=question_id))
-    return render_template('edit_answer.html', answer=answer)
+    return render_template('edit_answer.html', answer=answer, question_id=question_id)
 
 
 @app.route('/answer/<answer_id>/delete')
