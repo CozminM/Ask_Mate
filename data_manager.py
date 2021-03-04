@@ -374,20 +374,20 @@ def get_comment_by_answer_id(cursor: RealDictCursor, answer_id: int) -> list:
 @database_common.connection_handler
 def delete_answers_by_question_id(cursor: RealDictCursor, question_id: str) -> list:
     query = """
-            DELETE FROM answers
+            DELETE FROM answer
             WHERE question_id = %(q)s
             RETURNING *
             """
-    cursor.execute(query, {'q': question_id,})
+    cursor.execute(query, {'q': question_id})
     return cursor.fetchall()
 
 
 @database_common.connection_handler
 def delete_comments_by_question_id(cursor: RealDictCursor, question_id: str) -> list:
     query = """
-            DELETE FROM comments
+            DELETE FROM comment
             WHERE question_id = %(q)s
             RETURNING *
             """
-    cursor.execute(query, {'q': question_id,})
+    cursor.execute(query, {'q': question_id})
     return cursor.fetchall()

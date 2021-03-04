@@ -29,12 +29,12 @@ def individual_q_and_a(question_id):
     question = data_manager.get_individual_question(question_id)
     answer = data_manager.get_answers(question_id)
     question_tags = data_manager.get_question_tags(question_id)
-    comment_question = data_manager.get_individual_comment(question_id)
-    comment_answer = util.comments_linked_to_answers(answer)
+    comments_question = data_manager.get_individual_comment(question_id)
+    comments_answer = util.comments_linked_to_answers(answer)
     data_manager.increase_view_count(question_id)
     return render_template('individual_question_and_answer_page.html', questions=question, answers=answer,
-                           question_tags=question_tags, comments_question=comment_question,
-                           comments_answer=comment_answer)
+                           question_tags=question_tags, comments_question=comments_question,
+                           comments_answer=comments_answer)
 
 
 @app.route('/question/<question_id>/new-answer', methods=['GET', 'POST'])
