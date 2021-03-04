@@ -37,6 +37,7 @@
             </tr>
                 <button class="button" type="button"><a href="{{ url_for('answer_page', question_id=question.id) }}">Add an answer</a></button>
                 <button class="button" type="button"><a href="{{ url_for('edit_question', question_id=question.id) }}">Edit question</a></button>
+                <button class="button" type="button"><a href="{{ url_for('add_comment_question', question_id=question.id) }}">Add a comment</a></button>
                 <button class="button" type="button"><a href="{{ url_for('add_new_tag', question_id=question.id) }}">Add tag</a></button>
                 <br>
 
@@ -59,10 +60,32 @@
         </table>
     </div>
 
+    <div class="comments-question-container">
+    <h2>Comments</h2>
+        <table class="table">
+            <tr>
+                <th style="text-align: center; vertical-align: middle;">Last time edited</th>
+                <th style="text-align: center; vertical-align: middle;">Message</th>
+                <th style="text-align: center; vertical-align: middle;">Edit count</th>
+                <th>Delete</th>
+            </tr>
+            {% for comment in comments_question %}
+            <tr>
+                <td>{{ comment.submission_time }}</td>
+                <td>{{ comment.message }}</td>
+                <td>{{ comment.edited_count }}</td>
+                <td><button type="button"><a href="{{url_for('delete_comment', comment_id=comment.id)}}"> 🚫 </a></button></td>
+                <td><button type="button"><a href="{{ url_for('edit_comment', comment_id=comment.id) }}">Edit comment</a></button></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
     <div class="answer-container">
     <h2>Answers</h2>
         <table class="table">
             <tr>
+                <th style="text-align: center; vertical-align: middle;">Id</th>
                 <th style="text-align: center; vertical-align: middle;">Submission time</th>
                 <th style="text-align: center; vertical-align: middle;">Vote number</th>
                 <th style="text-align: center; vertical-align: middle;">Vote up</th>
@@ -73,8 +96,9 @@
             </tr>
             {% for answer in answers %}
             <tr>
+                <td>{{ answer.id }}</td>
                 <td>{{ answer.submission_time }}</td>
-                <td>{{ answer.vote_number }}
+                <td>{{ answer.vote_number }}</td>
                 <td><button type="button"><a href="/question/{{answer['question_id']}}/vote_up/{{answer['id']}}">⇧</a></button></td>
                 <td><button type="button"><a href="/question/{{answer['question_id']}}/vote_down/{{answer['id']}}">⇩</a></button></td>
                 <td>{{ answer.message }}</td>
@@ -85,10 +109,36 @@
                 {% endif %}
                 <td><button type="button"><a href="{{url_for('delete_answer', answer_id=answer.id)}}"> 🚫 </a></button></td>
                 <td><button type="button"><a href="{{ url_for('edit_answer', answer_id=answer.id) }}">Edit answer</a></button></td>
+                <td><button type="button"><a href="{{ url_for('add_comment_answer', answer_id=answer.id) }}">Add comment</a></button></td>
+
             </tr>
             {% endfor %}
         </table>
     </div>
+
+<div class="comments-answers-container">
+    <h2>Comments</h2>
+        <table class="table">
+            <tr>
+                <th style="text-align: center; vertical-align: middle;">Answer id</th>
+                <th style="text-align: center; vertical-align: middle;">Last time edited</th>
+                <th style="text-align: center; vertical-align: middle;">Message</th>
+                <th style="text-align: center; vertical-align: middle;">Edit count</th>
+                <th>Delete</th>
+            </tr>
+            {% for comment in comments_answer %}
+            <tr>
+                <td>{{ comment.answer_id }}</td>
+                <td>{{ comment.submission_time }}</td>
+                <td>{{ comment.message }}</td>
+                <td>{{ comment.edited_count }}</td>
+                <td><button type="button"><a href="{{url_for('delete_comment', comment_id=comment.id)}}"> 🚫 </a></button></td>
+                <td><button type="button"><a href="{{url_for('edit_comment', comment_id=comment.id)}}">Edit comment</a></button></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
     <br>
     <button class="button" type="button"><a href="{{ url_for('questions_page', criteria='id', direction='asc') }}"> Home </a></button>
     </div>

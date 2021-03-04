@@ -343,3 +343,23 @@ def delete_comment(cursor: RealDictCursor, used_id: int) -> list:
             """
     cursor.execute(query, {'i': used_id})
     return cursor.fetchall()
+
+@database_common.connection_handler
+def get_question_id_by_answer_id(cursor: RealDictCursor, answer_id: int) -> list:
+    query = """
+        SELECT question_id
+        FROM answer
+        WHERE id = %(i)s
+        """
+    cursor.execute(query, {'i': answer_id})
+    return cursor.fetchall()
+
+@database_common.connection_handler
+def get_comment_by_answer_id(cursor: RealDictCursor, answer_id: int) -> list:
+    query = """
+        SELECT id, question_id, answer_id, message, submission_time, edited_count
+        FROM comment
+        WHERE answer_id = %(i)s
+        """
+    cursor.execute(query, {'i': answer_id})
+    return cursor.fetchall()
