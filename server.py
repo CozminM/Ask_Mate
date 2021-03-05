@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session, escape, make_response, flash
 import util
 import data_manager
 import os
@@ -6,6 +6,7 @@ import uuid
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static/images/'
+app.config['SECRET_KEY'] = 'BogdanBestProgrammerEver'
 
 
 @app.route("/", methods=['GET', 'POST'])
