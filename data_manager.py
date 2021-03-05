@@ -391,3 +391,14 @@ def delete_comments_by_question_id(cursor: RealDictCursor, question_id: str) -> 
             """
     cursor.execute(query, {'q': question_id})
     return cursor.fetchall()
+
+
+@database_common.connection_handler
+def delete_tags_by_question_id(cursor: RealDictCursor, question_id: str) -> list:
+    query = """
+            DELETE FROM question_tag
+            WHERE question_id = %(q)s
+            RETURNING *
+            """
+    cursor.execute(query, {'q': question_id})
+    return cursor.fetchall()

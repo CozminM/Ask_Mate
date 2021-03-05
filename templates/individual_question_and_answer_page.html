@@ -32,7 +32,7 @@
                     <td>{{ question.vote_number }}</td>
                     <td>{{ question.view_number }}</td>
                     <td><button class="home-btn" type="button"><a href="{{ url_for('vote_up_question', question_id=question.id) }}">⬆️</a></button></td>
-                    <td><button class="home-btn" type="button"><a href="{{ url_for('vote_down_question', question_id=question.id) }}">⬆️</a></button></td>
+                    <td><button class="home-btn" type="button"><a href="{{ url_for('vote_down_question', question_id=question.id) }}">⬇️</a></button></td>
                     <td><button type="button"><a href="{{url_for('delete_question', question_id=question.id)}}"> 🚫 </a></button></td>
                 </tr>
                     <button class="button" type="button"><a href="{{ url_for('answer_page', question_id=question.id) }}">Add an answer</a></button>
@@ -104,7 +104,7 @@
                     <td>{{ answer.submission_time }}</td>
                     <td>{{ answer.vote_number }}</td>
                     <td><button type="button"><a href="/question/{{answer['question_id']}}/vote_up/{{answer['id']}}">⬆️</a></button></td>
-                    <td><button type="button"><a href="/question/{{answer['question_id']}}/vote_down/{{answer['id']}}">⬆️</a></button></td>
+                    <td><button type="button"><a href="/question/{{answer['question_id']}}/vote_down/{{answer['id']}}">⬇️</a></button></td>
                     <td>{{ answer.message }}</td>
                     {% if not answer.image %}
                         <td>No image</td>

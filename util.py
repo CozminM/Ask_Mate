@@ -46,6 +46,7 @@ def highlight_searched_phrase(dict_input, search_phrase):
 
 def delete_question(question_id):
     # deletes question and it's related items
+    data_manager.delete_tags_by_question_id(question_id)
     answers = data_manager.get_answers(question_id)
     for answer in answers:
         delete_image(answer.get('image'))
