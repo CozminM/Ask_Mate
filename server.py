@@ -249,5 +249,11 @@ def logout_page():
     return redirect(url_for('questions_page'))
 
 
+@app.route("/question/<question_id>/answer/<answer_id>/accept")
+def accept_answer(question_id, answer_id):
+    data_manager.accept_answer(answer_id)
+    return redirect("/question/" + str(question_id))
+
+
 if __name__ == "__main__":
     app.run(debug=True)

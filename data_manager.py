@@ -81,8 +81,8 @@ def get_answers_by_question(cursor: RealDictCursor, used_id: str) -> list:
 def save_answer(cursor: RealDictCursor, submission_time: int, vote_number: int, question_id: str, message: str,
                 image: str, user_id: str) -> list:
     query = """
-        INSERT INTO answer (submission_time, vote_number, question_id, message, image, user_id)
-        VALUES (%(s_t)s, %(vote_n)s, %(q)s, %(m)s, %(im)s, %(u)s)
+        INSERT INTO answer (submission_time, vote_number, question_id, message, image, user_id, accepted)
+        VALUES (%(s_t)s, %(vote_n)s, %(q)s, %(m)s, %(im)s, %(u)s, FALSE)
         RETURNING *
         """
     cursor.execute(query, {'s_t': submission_time, 'vote_n': vote_number, 'q': question_id, 'm': message,
@@ -501,4 +501,12 @@ def decrease_user_reputation(cursor: RealDictCursor, user_id: int) -> list:
     cursor.execute(query, {'i': user_id})
     return cursor.fetchall()
 
+@database_common.connection_handler
+def accept_answer(cursor: RealDictCursor, answer_id: int):
+    query = """
+        UPDATE answer
+        SET accepted = TRUE 
+        WHERE id = %(i)s
+    """
+    cursor.execute(query, {'i': answer_id})
 
