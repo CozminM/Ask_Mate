@@ -192,5 +192,30 @@ def delete_comment(comment_id):
     return redirect(url_for('individual_q_and_a', question_id=question_id))
 
 
+@app.route('/register', methods=['GET', 'POST'])
+def registration_page():
+    if request.method == 'POST':
+        hashed_password = util.hash_password(request.form['password'])
+        data_manager.add_user(request.form['username'], hashed_password, util.current_time())
+        return redirect(url_for('questions_page'))
+    return render_template('register.html')
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login_page():
+    if request.method == 'POST':
+        input_password = request.form['password']
+        username = request.form['username']
+        data = data_manager.get_password(username)
+        hashed_password = data[0].get('password')
+        if util.verify_password(input_password, hashed_password):
+            session['user'] = username
+            session['user_id'] = data[0].get('user_id')
+            return redirect(url_for('questions_page'))
+        else:
+            flash('Incorrect username and password')
+    return render_template('login.html')
+
+
 if __name__ == "__main__":
     app.run(debug=True)

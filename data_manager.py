@@ -402,3 +402,24 @@ def delete_tags_by_question_id(cursor: RealDictCursor, question_id: str) -> list
             """
     cursor.execute(query, {'q': question_id})
     return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_all_users(cursor: RealDictCursor) -> list:
+    query = """
+        SELECT username, password, user_id
+        FROM users
+        """
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def add_user(cursor: RealDictCursor, username: str, password: str, submission_time: str) -> list:
+    query = """
+        INSERT INTO users (username, password, submission_time)
+        VALUES (%(u)s, %(p)s, %(s_t)s)
+        RETURNING *
+        """
+    cursor.execute(query, {'u': username, 'p': password, 's_t': submission_time})
+    return cursor.fetchall()

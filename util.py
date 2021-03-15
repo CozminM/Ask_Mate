@@ -3,6 +3,7 @@ import os
 import time
 import jinja2
 import data_manager
+import bcrypt
 
 
 def sort_data(data, sort_criteria, order):
@@ -87,3 +88,13 @@ def get_parent_question_id(comment):
         question = data_manager.get_question_id_by_answer_id(answer_id)
         question_id = question[0].get('question_id')
         return question_id
+
+
+def hash_password(plain_text_password):
+    hashed_bytes = bcrypt.hashpw(plain_text_password.encode('utf-8'), bcrypt.gensalt())
+    return hashed_bytes.decode('utf-8')
+
+
+def verify_password(plain_text_password, hashed_password):
+    hashed_bytes_password = hashed_password.encode('utf-8')
+    return bcrypt.checkpw(plain_text_password.encode('utf-8'), hashed_bytes_password)
