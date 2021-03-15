@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tags</title>
+</head>
+<body>
+    <div>
+        <table class="tags_table">
+            <tr>
+                <th>Tag name</th>
+                <th>Tag count</th>
+            </tr>
+            {% for tag in tags_list%}
+                <tr>
+                    <td>{{ tag['name']  }}</td>
+                    <td>{{ tag['count'] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>
