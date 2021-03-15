@@ -46,7 +46,8 @@ def answer_page(question_id):
             submit_time = util.current_time()
             img_filename = str(uuid.uuid4())
             img.save(os.path.join(app.config['UPLOAD_FOLDER'], img_filename))
-            data_manager.save_answer(submit_time, 0, question_id, request.form['message'], img_filename)
+            data_manager.save_answer(submit_time, 0, question_id, request.form['message'], img_filename,
+                                     session['user_id'])
             return redirect(url_for('individual_q_and_a', question_id=question_id))
         return render_template('add_answers.html', question_id=question_id)
     else:
@@ -163,7 +164,7 @@ def search_results(search_phrase):
 def add_comment_question(question_id):
     if request.method == 'POST':
         submit_time = util.current_time()
-        data_manager.save_comment(submit_time, question_id, None, 0, request.form['message'])
+        data_manager.save_comment(submit_time, question_id, None, 0, request.form['message'], session['user_id'])
         return redirect(url_for('individual_q_and_a', question_id=question_id))
     return render_template('add_comment.html')
 
@@ -174,7 +175,7 @@ def add_comment_answer(answer_id):
         submit_time = util.current_time()
         question = data_manager.get_question_id_by_answer_id(answer_id)
         question_id = question[0].get('question_id')
-        data_manager.save_comment(submit_time, None, answer_id, 0, request.form['message'])
+        data_manager.save_comment(submit_time, None, answer_id, 0, request.form['message'], session['user_id'])
         return redirect(url_for('individual_q_and_a', question_id=question_id))
     return render_template('add_comment.html')
 
