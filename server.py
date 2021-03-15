@@ -164,7 +164,10 @@ def search_results(search_phrase):
 def add_comment_question(question_id):
     if request.method == 'POST':
         submit_time = util.current_time()
-        data_manager.save_comment(submit_time, question_id, None, 0, request.form['message'], session['user_id'])
+        if 'user' in session:
+            data_manager.save_comment(submit_time, question_id, None, 0, request.form['message'], session['user_id'])
+        else:
+            data_manager.save_comment_no_user(submit_time, question_id, None, 0, request.form['message'])
         return redirect(url_for('individual_q_and_a', question_id=question_id))
     return render_template('add_comment.html')
 

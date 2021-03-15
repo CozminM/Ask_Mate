@@ -310,6 +310,20 @@ def save_comment(cursor: RealDictCursor, submission_time: int, question_id: int,
 
 
 @database_common.connection_handler
+def save_comment_no_user(cursor: RealDictCursor, submission_time: int, question_id: int, answer_id: int, edited_count: int,
+                 message: str) -> list:
+    query = """
+        INSERT INTO comment (question_id, answer_id, message, submission_time, edited_count)
+        VALUES (%(q_i)s, %(a_i)s, %(m)s, %(s_t)s, %(e_c)s)
+        RETURNING *
+        """
+    cursor.execute(query,
+                   {'q_i': question_id, 'a_i': answer_id, 'm': message, 's_t': submission_time, 'e_c': edited_count,
+                    })
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
 def get_comment_by_id(cursor: RealDictCursor, used_id: int) -> list:
     query = """
         SELECT id, question_id, answer_id, message, submission_time, edited_count
