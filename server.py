@@ -51,7 +51,7 @@ def answer_page(question_id):
             return redirect(url_for('individual_q_and_a', question_id=question_id))
         return render_template('add_answers.html', question_id=question_id)
     else:
-        return '<a href="{{ url_for(\'login_page()\') }}"> Please log in</a>'
+        return '<a href="{{ url_for(\'login_page\') }}"> Please log in</a>'
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
@@ -66,7 +66,7 @@ def add_question_page():
             return redirect(url_for('individual_q_and_a', question_id=new_id))
         return render_template('add_question.html')
     else:
-        return '<a href="{{ url_for(\'login_page()\') }}"> Please log in</a>'
+        return '<a href="{{ url_for(\'login_page\') }}"> Please log in</a>'
 
 
 @app.route('/question/<question_id>/edit', methods=['GET', 'POST'])
