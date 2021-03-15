@@ -326,7 +326,7 @@ def save_comment_no_user(cursor: RealDictCursor, submission_time: int, question_
 @database_common.connection_handler
 def get_comment_by_id(cursor: RealDictCursor, used_id: int) -> list:
     query = """
-        SELECT id, question_id, answer_id, message, submission_time, edited_count
+        SELECT id, question_id, answer_id, message, submission_time, edited_count, user_id
         FROM comment
         WHERE id = %(i)s
         """
@@ -337,7 +337,7 @@ def get_comment_by_id(cursor: RealDictCursor, used_id: int) -> list:
 @database_common.connection_handler
 def get_individual_comment(cursor: RealDictCursor, used_id: int) -> list:
     query = """
-        SELECT id, question_id, answer_id, message, submission_time, edited_count
+        SELECT id, question_id, answer_id, message, submission_time, edited_count, user_id
         FROM comment
         WHERE question_id = %(i)s
         """
@@ -500,6 +500,7 @@ def decrease_user_reputation(cursor: RealDictCursor, user_id: int) -> list:
         """
     cursor.execute(query, {'i': user_id})
     return cursor.fetchall()
+
 
 @database_common.connection_handler
 def accept_answer(cursor: RealDictCursor, answer_id: int):

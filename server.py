@@ -71,21 +71,31 @@ def add_question_page():
 
 @app.route('/question/<question_id>/edit', methods=['GET', 'POST'])
 def edit_question(question_id):
-    question = data_manager.get_individual_question(question_id)
-    if request.method == 'POST':
-        data_manager.update_question(question_id, request.form['title'], request.form['message'], util.current_time())
-        return redirect(url_for('individual_q_and_a', question_id=question_id))
-    return render_template('edit_question.html', questionz=question)
+    user_id = data_manager.get_individual_question(question_id)[0].get('user_id')
+    if 'user' in session:
+        if session['user_id'] == user_id:
+            question = data_manager.get_individual_question(question_id)
+            if request.method == 'POST':
+                data_manager.update_question(question_id, request.form['title'], request.form['message'], util.current_time())
+                return redirect(url_for('individual_q_and_a', question_id=question_id))
+            return render_template('edit_question.html', questionz=question)
+    else:
+        return '<p>You can\'t edit this question</p'
 
 
 @app.route('/answer/<answer_id>/edit', methods=['GET', 'POST'])
 def edit_answer(answer_id):
+    user_id = data_manager.get_answer_by_id(answer_id)[0].get('user_id')
     answer = data_manager.get_answer_by_id(answer_id)
-    question_id = answer[0].get('question_id')
-    if request.method == 'POST':
-        data_manager.update_answer(answer_id, request.form['message'], util.current_time())
-        return redirect(url_for('individual_q_and_a', question_id=question_id))
-    return render_template('edit_answer.html', answer=answer, question_id=question_id)
+    if 'user' in session:
+        if session['user_id'] == user_id:
+            question_id = answer[0].get('question_id')
+            if request.method == 'POST':
+                data_manager.update_answer(answer_id, request.form['message'], util.current_time())
+                return redirect(url_for('individual_q_and_a', question_id=question_id))
+            return render_template('edit_answer.html', answer=answer, question_id=question_id)
+    else:
+        return '<p>You can\'t edit this answer</p'
 
 
 @app.route('/answer/<answer_id>/delete')
@@ -193,13 +203,15 @@ def add_comment_answer(answer_id):
 
 @app.route('/comment/<comment_id>/edit', methods=['GET', 'POST'])
 def edit_comment(comment_id):
+    comment_user_id = data_manager.get_comment_by_id(comment_id)[0].get('user_id')
     comment = data_manager.get_comment_by_id(comment_id)
     edit_count = comment[0].get('edited_count') + 1
     question_id = util.get_parent_question_id(comment)
     if request.method == 'POST':
         data_manager.update_comment(comment_id, request.form['message'], edit_count, util.current_time())
         return redirect(url_for('individual_q_and_a', question_id=question_id))
-    return render_template('edit_comment.html', comment=comment, question_id=question_id)
+    return render_template('edit_comment.html', comment=comment, question_id=question_id, comment_user_id=comment_user_id,
+                           session=session)
 
 
 @app.route('/comment/<comment_id>/delete')
