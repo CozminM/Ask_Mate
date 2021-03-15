@@ -5,7 +5,6 @@ from psycopg2.extras import RealDictCursor
 
 import database_common
 
-
 ANSWER_HEADER = ['id', 'submission_time', 'vote_number', 'question_id', 'message', 'image']
 QUESTION_HEADER = ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image']
 questions_file = 'sample_data/question.csv'
@@ -13,7 +12,7 @@ answers_file = 'sample_data/answer.csv'
 
 
 @database_common.connection_handler
-def get_questions(cursor: RealDictCursor, criteria: str=None, direction: str=None) -> list:
+def get_questions(cursor: RealDictCursor, criteria: str = None, direction: str = None) -> list:
     query = f"""
         SELECT id, submission_time, view_number, vote_number, title, image, message
         FROM question
@@ -79,7 +78,8 @@ def get_answers_by_question(cursor: RealDictCursor, used_id: str) -> list:
 
 
 @database_common.connection_handler
-def save_answer(cursor: RealDictCursor, submission_time: int, vote_number: int, question_id: str, message: str, image: str) -> list:
+def save_answer(cursor: RealDictCursor, submission_time: int, vote_number: int, question_id: str, message: str,
+                image: str) -> list:
     query = """
         INSERT INTO answer (submission_time, vote_number, question_id, message, image)
         VALUES (%(s_t)s, %(vote_n)s, %(q)s, %(m)s, %(im)s)
@@ -294,13 +294,15 @@ def get_question_id(cursor: RealDictCursor, title: str) -> list:
 
 
 @database_common.connection_handler
-def save_comment(cursor: RealDictCursor, submission_time: int, question_id: int, answer_id: int, edited_count: int, message: str) -> list:
+def save_comment(cursor: RealDictCursor, submission_time: int, question_id: int, answer_id: int, edited_count: int,
+                 message: str) -> list:
     query = """
         INSERT INTO comment (question_id, answer_id, message, submission_time, edited_count)
         VALUES (%(q_i)s, %(a_i)s, %(m)s, %(s_t)s, %(e_c)s)
         RETURNING *
         """
-    cursor.execute(query, {'q_i': question_id, 'a_i': answer_id, 'm': message, 's_t': submission_time, 'e_c': edited_count})
+    cursor.execute(query,
+                   {'q_i': question_id, 'a_i': answer_id, 'm': message, 's_t': submission_time, 'e_c': edited_count})
     return cursor.fetchall()
 
 
@@ -327,7 +329,7 @@ def get_individual_comment(cursor: RealDictCursor, used_id: int) -> list:
 
 
 @database_common.connection_handler
-def update_comment(cursor: RealDictCursor, used_id: int, message_input: str,  edited_count: int, time_used: int) -> list:
+def update_comment(cursor: RealDictCursor, used_id: int, message_input: str, edited_count: int, time_used: int) -> list:
     query = """
         UPDATE comment
         SET message = %(m)s, submission_time = %(ti)s, edited_count = %(e_t)s
@@ -425,6 +427,16 @@ def add_user(cursor: RealDictCursor, username: str, password: str, submission_ti
     return cursor.fetchall()
 
 
+def get_tags(cursor: RealDictCursor) -> list:
+    query = """
+            SELECT COUNT(question_tag.tag_id) , tag.name FROM question_tag
+	        RIGHT JOIN tag ON question_tag.tag_id = tag.id
+	        GROUP BY tag_id, tag.name
+	        """
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
 @database_common.connection_handler
 def get_user_credentials(cursor: RealDictCursor, username_input: str) -> list:
     query = """
@@ -434,3 +446,4 @@ def get_user_credentials(cursor: RealDictCursor, username_input: str) -> list:
         """
     cursor.execute(query, {'u': username_input})
     return cursor.fetchall()
+

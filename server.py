@@ -223,6 +223,12 @@ def login_page():
     return render_template('login.html')
 
 
+@app.route('/tags')
+def tags_page():
+    tags_list = data_manager.get_tags()
+    return render_template('list_tags.html', tags_list=tags_list)
+
+
 @app.route('/logout')
 def logout_page():
     if 'user' in session:
