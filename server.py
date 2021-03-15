@@ -1,17 +1,3 @@
-<<<<<<< HEAD
-from flask import Flask
-
-app = Flask(__name__)
-
-
-@app.route("/")
-def hello():
-    return "Hello World!"
-
-
-if __name__ == "__main__":
-    app.run()
-=======
 from flask import Flask, render_template, request, redirect, url_for, session, escape, make_response, flash
 import util
 import data_manager
@@ -208,4 +194,3 @@ def delete_comment(comment_id):
 
 if __name__ == "__main__":
     app.run(debug=True)
->>>>>>> 3eab0b141e5ea74ff606edfc9ae407401c6d0a0d
