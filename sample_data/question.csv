@@ -1,0 +1,5 @@
+id,submission_time,view_number,vote_number,title,message,image
+1,2021-02-18 12:54:32,29,10,How to make li2222sts in python? ,"I am totally new to this, any hints? ",kisspng-logo-brand-organization-number-erp-icon-5b5b9ccb70c970.489304551532730571462.png
+3,2017-04-24 06:30:32,1364,57,Drawing canvas with an image picked with Cordova Camera Plugin,"I'm getting an image from device and drawing a canvas with filters using Pixi JS. It works all well using computer to get an image. But when I'm on IOS, it throws errors such as cross origin issue, or that I'm trying to use an unknown format.
+
+This is the code I'm using to draw the image (that works on web/desktop but not cordova built ios app)",battlefield_5_2018_video_game-wallpaper-3440x1440.jpg
