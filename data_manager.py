@@ -423,3 +423,14 @@ def add_user(cursor: RealDictCursor, username: str, password: str, submission_ti
         """
     cursor.execute(query, {'u': username, 'p': password, 's_t': submission_time})
     return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_password(cursor: RealDictCursor, username_input: str) -> list:
+    query = """
+        SELECT username, password
+        FROM users
+        WHERE username = %(u)s
+        """
+    cursor.execute(query, {'u': username_input})
+    return cursor.fetchall()
