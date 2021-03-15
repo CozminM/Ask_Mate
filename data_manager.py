@@ -90,13 +90,13 @@ def save_answer(cursor: RealDictCursor, submission_time: int, vote_number: int, 
 
 
 @database_common.connection_handler
-def save_question(cursor: RealDictCursor, submission_time: int, view_number: int, vote_number: str, title: str, message: str, image: str) -> list:
+def save_question(cursor: RealDictCursor, submission_time: int, view_number: int, vote_number: str, title: str, message: str, image: str, user_id) -> list:
     query = """
-        INSERT INTO question (submission_time, view_number, vote_number, title, message, image)
-        VALUES (%(s_t)s, %(view_n)s, %(vote_n)s, %(t)s, %(m)s, %(im)s)
+        INSERT INTO question (submission_time, view_number, vote_number, title, message, image, user_id)
+        VALUES (%(s_t)s, %(view_n)s, %(vote_n)s, %(t)s, %(m)s, %(im)s, %(u)s)
         RETURNING *
         """
-    cursor.execute(query, {'s_t': submission_time, 'view_n': view_number, 'vote_n': vote_number, 't': title, 'm': message, 'im': image})
+    cursor.execute(query, {'s_t': submission_time, 'view_n': view_number, 'vote_n': vote_number, 't': title, 'm': message, 'im': image, 'u': user_id})
     return cursor.fetchall()
 
 
@@ -407,7 +407,7 @@ def delete_tags_by_question_id(cursor: RealDictCursor, question_id: str) -> list
 @database_common.connection_handler
 def get_all_users(cursor: RealDictCursor) -> list:
     query = """
-        SELECT username, password, user_id
+        SELECT username, password, user_id, user_id
         FROM users
         """
     cursor.execute(query)
@@ -426,9 +426,9 @@ def add_user(cursor: RealDictCursor, username: str, password: str, submission_ti
 
 
 @database_common.connection_handler
-def get_password(cursor: RealDictCursor, username_input: str) -> list:
+def get_user_credentials(cursor: RealDictCursor, username_input: str) -> list:
     query = """
-        SELECT username, password
+        SELECT username, password, user_id
         FROM users
         WHERE username = %(u)s
         """

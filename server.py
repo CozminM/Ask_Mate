@@ -60,7 +60,7 @@ def add_question_page():
             img = request.files['img']
             img_filename = str(uuid.uuid4())
             img.save(os.path.join(app.config['UPLOAD_FOLDER'], img_filename))
-            data_manager.save_question(util.current_time(), 0, 0, request.form['title'], request.form['message'], img_filename)
+            data_manager.save_question(util.current_time(), 0, 0, request.form['title'], request.form['message'], img_filename, session['user_id'])
             new_id = data_manager.get_question_id(request.form['title'])[0].get('id')
             return redirect(url_for('individual_q_and_a', question_id=new_id))
         return render_template('add_question.html')
@@ -212,7 +212,7 @@ def login_page():
     if request.method == 'POST':
         input_password = request.form['password']
         username = request.form['username']
-        data = data_manager.get_password(username)
+        data = data_manager.get_user_credentials(username)
         hashed_password = data[0].get('password')
         if util.verify_password(input_password, hashed_password):
             session['user'] = username
