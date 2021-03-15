@@ -67,5 +67,13 @@
     <div class="register">
         <a href="{{ url_for('registration_page') }}">Register</a>
     </div>
+    <div class="login-container">
+        <a href="{{ url_for('login_page') }}">Login</a>
+    </div>
+    <div class="logout">
+        {% if 'user' in session %}
+            <a href="{{ url_for('logout_page') }}">Logout</a>
+        {% endif %}
+    </div>
 </body>
 </html>

@@ -439,3 +439,15 @@ def get_tags(cursor: RealDictCursor) -> list:
 	        """
     cursor.execute(query)
     return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_password(cursor: RealDictCursor, username_input: str) -> list:
+    query = """
+        SELECT username, password
+        FROM users
+        WHERE username = %(u)s
+        """
+    cursor.execute(query, {'u': username_input})
+    return cursor.fetchall()
+
