@@ -36,7 +36,7 @@ def get_questions_by_time(cursor: RealDictCursor) -> list:
 @database_common.connection_handler
 def get_individual_question(cursor: RealDictCursor, used_id: int) -> list:
     query = """
-        SELECT id, submission_time, view_number, vote_number, title, image, message
+        SELECT id, submission_time, view_number, vote_number, title, image, message, user_id
         FROM question
         WHERE id = %(i)s
         """
@@ -58,7 +58,7 @@ def get_answers(cursor: RealDictCursor, used_id: int) -> list:
 @database_common.connection_handler
 def get_answer_by_id(cursor: RealDictCursor, used_id: int) -> list:
     query = """
-        SELECT id, submission_time, vote_number, question_id, message, image
+        SELECT id, submission_time, vote_number, question_id, message, image, user_id
         FROM answer
         WHERE id = %(i)s
         """
@@ -464,4 +464,41 @@ def get_user_credentials(cursor: RealDictCursor, username_input: str) -> list:
         """
     cursor.execute(query, {'u': username_input})
     return cursor.fetchall()
+
+
+@database_common.connection_handler
+def increase_user_rep_by_question(cursor: RealDictCursor, user_id: int) -> list:
+    query = """
+        UPDATE users
+        SET reputation = reputation + 5
+        WHERE user_id = %(i)s
+        RETURNING *
+        """
+    cursor.execute(query, {'i': user_id})
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def increase_user_rep_by_answer(cursor: RealDictCursor, user_id: int) -> list:
+    query = """
+        UPDATE users
+        SET reputation = reputation + 10
+        WHERE user_id = %(i)s
+        RETURNING *
+        """
+    cursor.execute(query, {'i': user_id})
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def decrease_user_reputation(cursor: RealDictCursor, user_id: int) -> list:
+    query = """
+        UPDATE users
+        SET reputation = reputation - 2
+        WHERE user_id = %(i)s
+        RETURNING *
+        """
+    cursor.execute(query, {'i': user_id})
+    return cursor.fetchall()
+
 

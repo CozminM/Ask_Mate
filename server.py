@@ -106,24 +106,32 @@ def delete_question(question_id):
 @app.route('/question/<question_id>/vote_up')
 def vote_up_question(question_id):
     data_manager.increment_question_vote_number(question_id)
+    user_id = data_manager.get_individual_question(question_id)[0].get('user_id')
+    data_manager.increase_user_rep_by_question(user_id)
     return redirect(url_for('individual_q_and_a', question_id=question_id))
 
 
 @app.route('/question/<question_id>/vote_down')
 def vote_down_question(question_id):
     data_manager.decrement_question_vote_number(question_id)
+    user_id = data_manager.get_individual_question(question_id)[0].get('user_id')
+    data_manager.decrease_user_reputation(user_id)
     return redirect(url_for('individual_q_and_a', question_id=question_id))
 
 
 @app.route('/question/<question_id>/vote_up/<answer_id>')
 def answer_vote_up(question_id, answer_id):
     data_manager.increment_answer_vote_number(answer_id)
+    user_id = data_manager.get_answer_by_id(answer_id)[0].get('user_id')
+    data_manager.increase_user_rep_by_answer(user_id)
     return redirect(url_for('individual_q_and_a', question_id=question_id))
 
 
 @app.route('/question/<question_id>/vote_down/<answer_id>')
 def answer_vote_down(question_id, answer_id):
     data_manager.decrement_answer_vote_number(answer_id)
+    user_id = data_manager.get_answer_by_id(answer_id)[0].get('user_id')
+    data_manager.decrease_user_reputation(user_id)
     return redirect(url_for('individual_q_and_a', question_id=question_id))
 
 
