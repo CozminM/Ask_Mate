@@ -33,10 +33,6 @@ def current_time():
     return single_value_dateconverter(round(time.time()))
 
 
-def convert_to_dict(value):
-    return [dict(row) for row in value]
-
-
 def highlight_searched_phrase(dict_input, search_phrase):
     for dictionary in dict_input:
         for key, text in dictionary.items():

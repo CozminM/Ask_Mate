@@ -1,0 +1,25 @@
+.cards-container {
+    margin: 0 auto;
+    padding: 10px;
+    /*text-align: center;*/
+    align-items: center;
+    justify-content: center;
+
+
+}
+
+a{
+    color: black;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+.body {
+     background-color: darkgray;
+}
+
+.title {
+    padding: 20px;
+}

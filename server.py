@@ -22,7 +22,7 @@ def questions_page():
     sorted_data = data_manager.get_questions(criteria, direction)
     if request.method == 'POST':
         return redirect(url_for('search_results', search_phrase=request.form['search-input']))
-    return render_template('list_questions.html', data=sorted_data, session=session)
+    return render_template('new_list_questions.html', data=sorted_data, session=session)
 
 
 @app.route('/question/<question_id>')
