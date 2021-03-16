@@ -49,13 +49,13 @@
                   <option value="ASC">Ascending</option>
                    <option value="DESC">Descending</option>
             </select>
-                <button type="submit" class="btn btn-primary">Sort</button>
-            </form>
+            <button type="submit" class="btn btn-primary">Sort</button>
+        </form>
     </div>
 
     <div class="cards-container">
     {% for dat in data %}
-        <div class="card mb-3" style="background-color:#F1F1F1">
+        <div class="card mb-3" style="max-width: 540px;background-color:#F1F1F1;margin: 0 auto;">
           <div class="row g-0">
             <div class="col-md-4">
             {% if not dat.image %}
