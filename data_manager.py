@@ -474,7 +474,7 @@ def get_user_id(cursor: RealDictCursor, username: str) -> list:
     WHERE username = %(u)s
     """
     cursor.execute(query, {'u': username})
-    return cursor.fetchall()
+    return cursor.fetchone()
 
 
 @database_common.connection_handler

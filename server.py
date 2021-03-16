@@ -213,16 +213,17 @@ def delete_comment(comment_id):
 
 @app.route('/register', methods=['GET', 'POST'])
 def registration_page():
+    if request.method == 'GET':
+        return render_template('register.html')
     if request.method == 'POST':
-        hashed_password = util.hash_password(request.form['password'])
         username = request.form['username']
         user_id = data_manager.get_user_id(username)
         if user_id is not None:
             flash('This username has been taken')
-        else:
-            data_manager.add_user(username, hashed_password, util.current_time())
-            return redirect(url_for('questions_page'))
-    return render_template('register.html')
+            return render_template('register.html')
+        hashed_password = util.hash_password(request.form['password'])
+        data_manager.add_user(username, hashed_password, util.current_time())
+        return redirect(url_for('questions_page'))
 
 
 @app.route('/login', methods=['GET', 'POST'])
