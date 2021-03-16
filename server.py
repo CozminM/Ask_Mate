@@ -72,30 +72,23 @@ def add_question_page():
 @app.route('/question/<question_id>/edit', methods=['GET', 'POST'])
 def edit_question(question_id):
     user_id = data_manager.get_individual_question(question_id)[0].get('user_id')
-    if 'user' in session:
-        if session['user_id'] == user_id:
-            question = data_manager.get_individual_question(question_id)
-            if request.method == 'POST':
-                data_manager.update_question(question_id, request.form['title'], request.form['message'], util.current_time())
-                return redirect(url_for('individual_q_and_a', question_id=question_id))
-            return render_template('edit_question.html', questionz=question)
-    else:
-        return '<p>You can\'t edit this question</p'
+    question = data_manager.get_individual_question(question_id)
+    if request.method == 'POST':
+        data_manager.update_question(question_id, request.form['title'], request.form['message'], util.current_time())
+        return redirect(url_for('individual_q_and_a', question_id=question_id))
+    return render_template('edit_question.html', questionz=question, question_user_id=user_id, session=session)
 
 
 @app.route('/answer/<answer_id>/edit', methods=['GET', 'POST'])
 def edit_answer(answer_id):
     user_id = data_manager.get_answer_by_id(answer_id)[0].get('user_id')
     answer = data_manager.get_answer_by_id(answer_id)
-    if 'user' in session:
-        if session['user_id'] == user_id:
-            question_id = answer[0].get('question_id')
-            if request.method == 'POST':
-                data_manager.update_answer(answer_id, request.form['message'], util.current_time())
-                return redirect(url_for('individual_q_and_a', question_id=question_id))
-            return render_template('edit_answer.html', answer=answer, question_id=question_id)
-    else:
-        return '<p>You can\'t edit this answer</p'
+    question_id = answer[0].get('question_id')
+    if request.method == 'POST':
+        data_manager.update_answer(answer_id, request.form['message'], util.current_time())
+        return redirect(url_for('individual_q_and_a', question_id=question_id))
+    return render_template('edit_answer.html', answer=answer, question_id=question_id, session=session,
+                           answer_user_id=user_id)
 
 
 @app.route('/answer/<answer_id>/delete')

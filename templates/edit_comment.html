@@ -23,11 +23,10 @@
                 </div>
             {% endif %}
     {% else %}
-        <div clas="access-denied">
+        <div class="access-denied">
             <h4>You're not the user of this comment, you don't have the right to edit this comment.</h4>
             <a href="{{ url_for('login_page') }}"> Login</a>
         </div>
-
     {% endif %}
 </body>
 </html>

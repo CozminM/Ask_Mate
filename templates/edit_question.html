@@ -6,20 +6,29 @@
 
 </head>
 <body>
-    <div class="header"><h1>Edit question</h1></div>
-        <div class="container">
-            <form method="post" action="" name="user_form" enctype="multipart/form-data">
-            {% for question in questionz %}
-                <h3>Title:</h3>
-            <input cols="40" rows="5" name="title" value="{{ question.title }}" required>
-            <h3>Message:</h3>
-            <textarea cols="40" rows="5" name="message" required>{{ question.message }}</textarea>
-            <br/>
-            <br/>
-            <button type="submit" class="button">Edit</button>
-        <button class="button" type="button"><a href="{{ url_for('individual_q_and_a', question_id=question.id) }}"> Back </a></button>
-            {% endfor %}
-            </form>
+    {% if 'user' in session %}
+        {% if question_user_id == session['user_id'] %}
+            <div class="header"><h1>Edit question</h1></div>
+                <div class="container">
+                    <form method="post" action="" name="user_form" enctype="multipart/form-data">
+                    {% for question in questionz %}
+                        <h3>Title:</h3>
+                    <input cols="40" rows="5" name="title" value="{{ question.title }}" required>
+                    <h3>Message:</h3>
+                    <textarea cols="40" rows="5" name="message" required>{{ question.message }}</textarea>
+                    <br/>
+                    <br/>
+                    <button type="submit" class="button">Edit</button>
+                <button class="button" type="button"><a href="{{ url_for('individual_q_and_a', question_id=question.id) }}"> Back </a></button>
+                    {% endfor %}
+                    </form>
+                </div>
+           {% endif %}
+    {% else %}
+        <div class="access-denied">
+            <h4>You're not the user of this question, you don't have the right to edit this comment.</h4>
+            <a href="{{ url_for('login_page') }}"> Login</a>
         </div>
+    {% endif %}
 </body>
 </html>
