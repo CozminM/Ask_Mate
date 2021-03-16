@@ -7,18 +7,25 @@
 
 </head>
 <body>
-    <div class="header"><h1 class="title">Add a new answer</h1></div>
-                <div class="container"><form method="post" action="" name="user_form" enctype="multipart/form-data">
-                <h3>Message:</h3>
-                <label>
-                    <textarea cols="40" rows="5" name="message" required></textarea>
-                </label>
-                    <h3>Image: </h3>
-                    <input type="file" id="img" name="img" required>
-                <br/>
-                <br/>
-                <button class="button" type="submit" value="submit" name="submit_button">Add answer</button>
-                <button class="button" type="button"><a href="{{ url_for('individual_q_and_a', question_id=question_id) }}"> Back </a></button>
-            </form></div>
+    {% if 'user' in session %}
+        <div class="header"><h1 class="title">Add a new answer</h1></div>
+                    <div class="container"><form method="post" action="" name="user_form" enctype="multipart/form-data">
+                    <h3>Message:</h3>
+                    <label>
+                        <textarea cols="40" rows="5" name="message" required></textarea>
+                    </label>
+                        <h3>Image: </h3>
+                        <input type="file" id="img" name="img" required>
+                    <br/>
+                    <br/>
+                    <button class="button" type="submit" value="submit" name="submit_button">Add answer</button>
+                    <button class="button" type="button"><a href="{{ url_for('individual_q_and_a', question_id=question_id) }}"> Back </a></button>
+                </form></div>
+    {% else %}
+        <div class="access-denied">
+            <h4>You have to be logged in to add an answer.</h4>
+            <a href="{{ url_for('login_page') }}"> Login</a>
+        </div>
+    {% endif %}
 </body>
 </html>

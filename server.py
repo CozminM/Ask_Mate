@@ -40,33 +40,28 @@ def individual_q_and_a(question_id):
 
 @app.route('/question/<question_id>/new-answer', methods=['GET', 'POST'])
 def answer_page(question_id):
-    if 'user' in session:
-        if request.method == 'POST':
-            img = request.files['img']
-            submit_time = util.current_time()
-            img_filename = str(uuid.uuid4())
-            img.save(os.path.join(app.config['UPLOAD_FOLDER'], img_filename))
-            data_manager.save_answer(submit_time, 0, question_id, request.form['message'], img_filename,
-                                     session['user_id'])
-            return redirect(url_for('individual_q_and_a', question_id=question_id))
-        return render_template('add_answers.html', question_id=question_id)
-    else:
-        return '<a href="{{ url_for(\'login_page\') }}"> Please log in</a>'
+    if request.method == 'POST':
+        img = request.files['img']
+        submit_time = util.current_time()
+        img_filename = str(uuid.uuid4())
+        img.save(os.path.join(app.config['UPLOAD_FOLDER'], img_filename))
+        data_manager.save_answer(submit_time, 0, question_id, request.form['message'], img_filename,
+                                 session['user_id'])
+        return redirect(url_for('individual_q_and_a', question_id=question_id))
+    return render_template('add_answers.html', question_id=question_id, session=session)
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
 def add_question_page():
-    if 'user' in session:
-        if request.method == 'POST':
-            img = request.files['img']
-            img_filename = str(uuid.uuid4())
-            img.save(os.path.join(app.config['UPLOAD_FOLDER'], img_filename))
-            data_manager.save_question(util.current_time(), 0, 0, request.form['title'], request.form['message'], img_filename, session['user_id'])
-            new_id = data_manager.get_question_id(request.form['title'])[0].get('id')
-            return redirect(url_for('individual_q_and_a', question_id=new_id))
-        return render_template('add_question.html')
-    else:
-        return '<a href="{{ url_for(\'login_page\') }}"> Please log in</a>'
+    if request.method == 'POST':
+        img = request.files['img']
+        img_filename = str(uuid.uuid4())
+        img.save(os.path.join(app.config['UPLOAD_FOLDER'], img_filename))
+        data_manager.save_question(util.current_time(), 0, 0, request.form['title'], request.form['message'],
+                                   img_filename, session['user_id'])
+        new_id = data_manager.get_question_id(request.form['title'])[0].get('id')
+        return redirect(url_for('individual_q_and_a', question_id=new_id))
+    return render_template('add_question.html', session=session)
 
 
 @app.route('/question/<question_id>/edit', methods=['GET', 'POST'])
@@ -203,7 +198,8 @@ def edit_comment(comment_id):
     if request.method == 'POST':
         data_manager.update_comment(comment_id, request.form['message'], edit_count, util.current_time())
         return redirect(url_for('individual_q_and_a', question_id=question_id))
-    return render_template('edit_comment.html', comment=comment, question_id=question_id, comment_user_id=comment_user_id,
+    return render_template('edit_comment.html', comment=comment, question_id=question_id,
+                           comment_user_id=comment_user_id,
                            session=session)
 
 
@@ -257,7 +253,7 @@ def logout_page():
 @app.route("/question/<question_id>/answer/<answer_id>/accept")
 def accept_answer(question_id, answer_id):
     data_manager.accept_answer(answer_id)
-    return redirect("/question/" + str(question_id))
+    return redirect(url_for('individual_q_and_a', question_id=question_id))
 
 
 if __name__ == "__main__":
