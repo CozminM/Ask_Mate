@@ -88,16 +88,16 @@ def edit_answer(answer_id):
 
 @app.route('/answer/<answer_id>/delete')
 def delete_answer(answer_id):
+    answer = data_manager.get_answer_by_id(answer_id)
+    question_id = answer[0].get('question_id')
     if 'user' in session:
         user_id = data_manager.get_answer_by_id(answer_id)[0].get('user_id')
         if session['user_id'] == user_id:
-            answer = data_manager.get_answer_by_id(answer_id)
             util.delete_question_or_answer(answer_id, 'answer')
-            question_id = answer[0].get('question_id')
             data_manager.delete_answer(answer_id)
             return redirect(url_for('individual_q_and_a', question_id=question_id))
     else:
-        return '<p>You can\'t delete this answer.</p'
+        return render_template('access_denied.html', question_id=question_id)
 
 
 @app.route('/question/<question_id>/delete')
@@ -108,7 +108,7 @@ def delete_question(question_id):
             util.delete_question_or_answer(question_id, 'question')
         return redirect(url_for('questions_page'))
     else:
-        return '<p>You can\'t delete this question.</p'
+        return render_template('access_denied.html', question_id=question_id)
 
 
 @app.route('/question/<question_id>/vote_up')
@@ -212,15 +212,16 @@ def edit_comment(comment_id):
 
 @app.route('/comment/<comment_id>/delete')
 def delete_comment(comment_id):
+    comment = data_manager.get_comment_by_id(comment_id)
+    question_id = util.get_parent_question_id(comment)
     if 'user' in session:
         user_id = data_manager.get_comment_userid(comment_id)[0].get('user_id')
         if session['user_id'] == user_id:
-            comment = data_manager.get_comment_by_id(comment_id)
-            question_id = util.get_parent_question_id(comment)
+
             data_manager.delete_comment(comment_id)
             return redirect(url_for('individual_q_and_a', question_id=question_id))
     else:
-        return '<p>You can\'t delete this comment</p'
+        return render_template('access_denied.html', question_id=question_id)
 
 
 @app.route('/register', methods=['GET', 'POST'])

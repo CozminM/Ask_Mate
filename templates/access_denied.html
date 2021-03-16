@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Access denied</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='css/access_denied.css') }}">
+</head>
+<body>
+    <div class="access-container">
+        <h2>You don't have the right to edit this: question, answer or comment.</h2>
+    </div>
+    <div class="home-btn-container">
+        <button class="button" type="button"><a href="{{ url_for('individual_q_and_a', question_id=question_id) }}">BACK</a></button>
+    </div>
+</body>
+</html>
