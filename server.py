@@ -88,17 +88,27 @@ def edit_answer(answer_id):
 
 @app.route('/answer/<answer_id>/delete')
 def delete_answer(answer_id):
-    answer = data_manager.get_answer_by_id(answer_id)
-    util.delete_question_or_answer(answer_id, 'answer')
-    question_id = answer[0].get('question_id')
-    data_manager.delete_answer(answer_id)
-    return redirect(url_for('individual_q_and_a', question_id=question_id))
+    if 'user' in session:
+        user_id = data_manager.get_answer_by_id(answer_id)[0].get('user_id')
+        if session['user_id'] == user_id:
+            answer = data_manager.get_answer_by_id(answer_id)
+            util.delete_question_or_answer(answer_id, 'answer')
+            question_id = answer[0].get('question_id')
+            data_manager.delete_answer(answer_id)
+            return redirect(url_for('individual_q_and_a', question_id=question_id))
+    else:
+        return '<p>You can\'t delete this answer.</p'
 
 
 @app.route('/question/<question_id>/delete')
 def delete_question(question_id):
-    util.delete_question_or_answer(question_id, 'question')
-    return redirect(url_for('questions_page'))
+    if 'user' in session:
+        user_id = data_manager.get_individual_question(question_id)[0].get('user_id')
+        if session['user_id'] == user_id:
+            util.delete_question_or_answer(question_id, 'question')
+        return redirect(url_for('questions_page'))
+    else:
+        return '<p>You can\'t delete this question.</p'
 
 
 @app.route('/question/<question_id>/vote_up')
@@ -170,10 +180,7 @@ def search_results(search_phrase):
 def add_comment_question(question_id):
     if request.method == 'POST':
         submit_time = util.current_time()
-        if 'user' in session:
-            data_manager.save_comment(submit_time, question_id, None, 0, request.form['message'], session['user_id'])
-        else:
-            data_manager.save_comment_no_user(submit_time, question_id, None, 0, request.form['message'])
+        data_manager.save_comment(submit_time, question_id, None, 0, request.form['message'], session['user_id'])
         return redirect(url_for('individual_q_and_a', question_id=question_id))
     return render_template('add_comment.html')
 
@@ -205,10 +212,15 @@ def edit_comment(comment_id):
 
 @app.route('/comment/<comment_id>/delete')
 def delete_comment(comment_id):
-    comment = data_manager.get_comment_by_id(comment_id)
-    question_id = util.get_parent_question_id(comment)
-    data_manager.delete_comment(comment_id)
-    return redirect(url_for('individual_q_and_a', question_id=question_id))
+    if 'user' in session:
+        user_id = data_manager.get_comment_userid(comment_id)[0].get('user_id')
+        if session['user_id'] == user_id:
+            comment = data_manager.get_comment_by_id(comment_id)
+            question_id = util.get_parent_question_id(comment)
+            data_manager.delete_comment(comment_id)
+            return redirect(url_for('individual_q_and_a', question_id=question_id))
+    else:
+        return '<p>You can\'t delete this comment</p'
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -259,6 +271,8 @@ def logout_page():
 @app.route("/question/<question_id>/answer/<answer_id>/accept")
 def accept_answer(question_id, answer_id):
     data_manager.accept_answer(answer_id)
+    user_id = data_manager.get_answer_by_id(answer_id)[0].get('user_id')
+    data_manager.increase_rep_accepted_answer(user_id)
     return redirect(url_for('individual_q_and_a', question_id=question_id))
 
 

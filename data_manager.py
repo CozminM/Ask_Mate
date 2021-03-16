@@ -522,3 +522,25 @@ def accept_answer(cursor: RealDictCursor, answer_id: int):
     """
     cursor.execute(query, {'i': answer_id})
 
+
+@database_common.connection_handler
+def increase_rep_accepted_answer(cursor: RealDictCursor, user_id: int) -> list:
+    query = """
+        UPDATE users
+        SET reputation = reputation + 15
+        WHERE user_id = %(i)s
+        RETURNING *
+        """
+    cursor.execute(query, {'i': user_id})
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_comment_userid(cursor: RealDictCursor, comment_id: str) -> list:
+    query = """
+        SELECT user_id
+        FROM comment 
+        WHERE id = %(id)s
+        """
+    cursor.execute(query, {'id': comment_id})
+    return cursor.fetchall()
