@@ -467,6 +467,17 @@ def get_user_credentials(cursor: RealDictCursor, username_input: str) -> list:
 
 
 @database_common.connection_handler
+def get_user_id(cursor: RealDictCursor, username: str) -> list:
+    query = """
+    SELECT user_id
+    FROM users
+    WHERE username = %(u)s
+    """
+    cursor.execute(query, {'u': username})
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
 def increase_user_rep_by_question(cursor: RealDictCursor, user_id: int) -> list:
     query = """
         UPDATE users
