@@ -6,35 +6,44 @@
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/add_tag.css') }}">
 </head>
 <body>
-    <div class="choose-tag">
-        <h2>Choose from existing tags</h2>
-        <span>Tag the selected question, you can choose from the tags in the database.</span>
-        <br>
-        <br>
-        <form method="post" action="">
-            <input type="hidden" name="building" value="caves">
-            <select name="tag-select">
-            {% for tag in current_tags %}
-                <option value="{{ tag.name }}">{{ tag.name }}</option>
-            {% endfor %}
-            </select>
-            <button class="btn" type="submit" value="submit" name="submit_button">Use tag</button>
-        </form>
-    </div>
-        <br>
-    <div class="add-tag">
-        <h2>Add a new tag</h2>
-        <span>Create a new tag and add it to the database.</span>
-        <br>
-        <br>
-        <form method="post" action="" name="user_form" enctype="multipart/form-data">
-            <input type="hidden" name="building" value="casinos">
-            <input  name="tag-name" required>
-            <br>
-            <br>
-            <button class="btn" type="submit" value="submit" name="submit_button">Add new tag</button>
-        </form>
-    </div>
+    {% if 'user' in session %}
+        {% if tag_user_id == session['user_id'] %}
+            <div class="choose-tag">
+                <h2>Choose from existing tags</h2>
+                <span>Tag the selected question, you can choose from the tags in the database.</span>
+                <br>
+                <br>
+                <form method="post" action="">
+                    <input type="hidden" name="building" value="caves">
+                    <select name="tag-select">
+                    {% for tag in current_tags %}
+                        <option value="{{ tag.name }}">{{ tag.name }}</option>
+                    {% endfor %}
+                    </select>
+                    <button class="btn" type="submit" value="submit" name="submit_button">Use tag</button>
+                </form>
+            </div>
+                <br>
+            <div class="add-tag">
+                <h2>Add a new tag</h2>
+                <span>Create a new tag and add it to the database.</span>
+                <br>
+                <br>
+                <form method="post" action="" name="user_form" enctype="multipart/form-data">
+                    <input type="hidden" name="building" value="casinos">
+                    <input  name="tag-name" required>
+                    <br>
+                    <br>
+                    <button class="btn" type="submit" value="submit" name="submit_button">Add new tag</button>
+                </form>
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="access-denied">
+            <h4>You're not the user who asked this question. You cannot tag it.</h4>
+            <a href="{{ url_for('login_page') }}"> Login</a>
+        </div>
+    {% endif %}
     <div class="button-container">
         <button class="btn" type="button"><a href="{{ url_for('individual_q_and_a', question_id=question_id) }}"> Back </a></button>
     </div>

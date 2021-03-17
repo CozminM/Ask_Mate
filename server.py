@@ -66,7 +66,7 @@ def add_question_page():
 
 @app.route('/question/<question_id>/edit', methods=['GET', 'POST'])
 def edit_question(question_id):
-    user_id = data_manager.get_individual_question(question_id)[0].get('user_id')
+    user_id = util.get_user_id_by_question(question_id)
     question = data_manager.get_individual_question(question_id)
     if request.method == 'POST':
         data_manager.update_question(question_id, request.form['title'], request.form['message'], util.current_time())
@@ -76,7 +76,7 @@ def edit_question(question_id):
 
 @app.route('/answer/<answer_id>/edit', methods=['GET', 'POST'])
 def edit_answer(answer_id):
-    user_id = data_manager.get_answer_by_id(answer_id)[0].get('user_id')
+    user_id = util.get_user_id_by_answer(answer_id)
     answer = data_manager.get_answer_by_id(answer_id)
     question_id = answer[0].get('question_id')
     if request.method == 'POST':
@@ -103,7 +103,7 @@ def delete_answer(answer_id):
 @app.route('/question/<question_id>/delete')
 def delete_question(question_id):
     if 'user' in session:
-        user_id = data_manager.get_individual_question(question_id)[0].get('user_id')
+        user_id = util.get_user_id_by_question(question_id)
         if session['user_id'] == user_id:
             util.delete_question_or_answer(question_id, 'question')
         return redirect(url_for('questions_page'))
@@ -114,7 +114,7 @@ def delete_question(question_id):
 @app.route('/question/<question_id>/vote_up')
 def vote_up_question(question_id):
     data_manager.increment_question_vote_number(question_id)
-    user_id = data_manager.get_individual_question(question_id)[0].get('user_id')
+    user_id = util.get_user_id_by_question(question_id)
     data_manager.increase_user_rep_by_question(user_id)
     return redirect(url_for('individual_q_and_a', question_id=question_id))
 
@@ -122,7 +122,7 @@ def vote_up_question(question_id):
 @app.route('/question/<question_id>/vote_down')
 def vote_down_question(question_id):
     data_manager.decrement_question_vote_number(question_id)
-    user_id = data_manager.get_individual_question(question_id)[0].get('user_id')
+    user_id = util.get_user_id_by_question(question_id)
     data_manager.decrease_user_reputation(user_id)
     return redirect(url_for('individual_q_and_a', question_id=question_id))
 
@@ -130,7 +130,7 @@ def vote_down_question(question_id):
 @app.route('/question/<question_id>/vote_up/<answer_id>')
 def answer_vote_up(question_id, answer_id):
     data_manager.increment_answer_vote_number(answer_id)
-    user_id = data_manager.get_answer_by_id(answer_id)[0].get('user_id')
+    user_id = util.get_user_id_by_answer(answer_id)
     data_manager.increase_user_rep_by_answer(user_id)
     return redirect(url_for('individual_q_and_a', question_id=question_id))
 
@@ -138,13 +138,14 @@ def answer_vote_up(question_id, answer_id):
 @app.route('/question/<question_id>/vote_down/<answer_id>')
 def answer_vote_down(question_id, answer_id):
     data_manager.decrement_answer_vote_number(answer_id)
-    user_id = data_manager.get_answer_by_id(answer_id)[0].get('user_id')
+    user_id = util.get_user_id_by_answer(answer_id)
     data_manager.decrease_user_reputation(user_id)
     return redirect(url_for('individual_q_and_a', question_id=question_id))
 
 
 @app.route('/question/<question_id>/new-tag', methods=['GET', 'POST'])
 def add_new_tag(question_id):
+    user_id = util.get_user_id_by_question(question_id)
     current_tags = data_manager.get_existing_tags()
     if request.method == 'POST':
         if request.form['building'] == 'casinos':
@@ -156,7 +157,8 @@ def add_new_tag(question_id):
                     tag_id = row.get('id')
             data_manager.insert_questions_tag(question_id, tag_id)
             return redirect(url_for('individual_q_and_a', question_id=question_id))
-    return render_template('add_tag.html', current_tags=current_tags, question_id=question_id)
+    return render_template('add_tag.html', current_tags=current_tags, question_id=question_id, session=session,
+                           tag_user_id=user_id)
 
 
 @app.route('/question/<question_id>/tag/<tag_id>/delete')

@@ -94,3 +94,11 @@ def hash_password(plain_text_password):
 def verify_password(plain_text_password, hashed_password):
     hashed_bytes_password = hashed_password.encode('utf-8')
     return bcrypt.checkpw(plain_text_password.encode('utf-8'), hashed_bytes_password)
+
+
+def get_user_id_by_question(question_id):
+    return data_manager.get_individual_question(question_id)[0].get('user_id')
+
+
+def get_user_id_by_answer(answer_id):
+    return data_manager.get_answer_by_id(answer_id)[0].get('user_id')
