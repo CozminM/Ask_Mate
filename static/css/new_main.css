@@ -1,7 +1,6 @@
 .cards-container {
     margin: 0 auto;
     padding: 10px;
-    /*text-align: center;*/
     align-items: center;
     justify-content: center;
 
@@ -17,8 +16,10 @@ a:link {
     text-decoration: none;
 }
 
-.body {
-     background-color: darkgray;
+body{
+    background-color: #F1F1F1;
+    margin: 0;
+    font-family: "Lucida Console", "Courier New", monospace;
 }
 
 .title {

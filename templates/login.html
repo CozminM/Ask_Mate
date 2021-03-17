@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link rel= "stylesheet" href= "{{ url_for('static', filename='css/new_main.css') }}">
 </head>
 <body>
     {% with messages = get_flashed_messages() %}
@@ -12,19 +14,21 @@
             {% endfor %}
         {% endif %}
     {% endwith %}
-    <div>
+
+    <div style="text-align:center">
         <h4>Please login</h4>
-        <form method="post" action="">
-            <p>User name:</p>
-            <label>
-                <input name="username">
-            </label>
-            <p>Password: </p>
-            <label>
-                <input name="password">
-            </label>
-            <button type="submit">Submit</button>
-        </form>
     </div>
+    <form method="post" action="">
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Email address</label>
+        <input class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="username">
+        <div id="emailHelp" class="form-text">Enter your registered username.</div>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Password</label>
+        <input type="password" class="form-control" id="exampleInputPassword1" name="password">
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
 </body>
 </html>

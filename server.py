@@ -245,13 +245,16 @@ def login_page():
         input_password = request.form['password']
         username = request.form['username']
         data = data_manager.get_user_credentials(username)
-        hashed_password = data[0].get('password')
-        if util.verify_password(input_password, hashed_password):
-            session['user'] = username
-            session['user_id'] = data[0].get('user_id')
-            return redirect(url_for('questions_page'))
-        else:
+        if len(data) == 0:
             flash('Incorrect username and password')
+        else:
+            hashed_password = data[0].get('password')
+            if util.verify_password(input_password, hashed_password):
+                session['user'] = username
+                session['user_id'] = data[0].get('user_id')
+                return redirect(url_for('questions_page'))
+            else:
+                flash('Incorrect username and password')
     return render_template('login.html')
 
 
