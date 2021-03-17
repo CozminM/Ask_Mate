@@ -277,7 +277,7 @@ def logout_page():
 @app.route("/question/<question_id>/answer/<answer_id>/accept")
 def accept_answer(question_id, answer_id):
     data_manager.accept_answer(answer_id)
-    user_id = data_manager.get_answer_by_id(answer_id)[0].get('user_id')
+    user_id = util.get_user_id_by_answer(answer_id)
     data_manager.increase_rep_accepted_answer(user_id)
     return redirect(url_for('individual_q_and_a', question_id=question_id))
 
