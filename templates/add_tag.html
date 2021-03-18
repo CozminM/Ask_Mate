@@ -3,49 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <title>Add a new tag</title>
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/add_tag.css') }}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 </head>
 <body>
     {% if 'user' in session %}
         {% if tag_user_id == session['user_id'] %}
-            <div class="choose-tag">
-                <h2>Choose from existing tags</h2>
-                <span>Tag the selected question, you can choose from the tags in the database.</span>
-                <br>
-                <br>
-                <form method="post" action="">
-                    <input type="hidden" name="building" value="caves">
-                    <select name="tag-select">
-                    {% for tag in current_tags %}
-                        <option value="{{ tag.name }}">{{ tag.name }}</option>
-                    {% endfor %}
-                    </select>
-                    <button class="btn" type="submit" value="submit" name="submit_button">Use tag</button>
-                </form>
+            <div class="container-fluid">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <h1 class="navbar-brand">Add tag</h1>
+                </nav>
             </div>
+            <br>
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Choose from existing tags</h2>
+                    </div>
+                    <div class="card-body">
+                        <span>Tag the selected question, you can choose from the tags in the database.</span>
+                        <br>
+                        <form method="post" action="">
+                            <input type="hidden" name="building" value="caves">
+                            <select class="form-select form-select-lg mb-3" name="tag-select">
+                            {% for tag in current_tags %}
+                                <option value="{{ tag.name }}">{{ tag.name }}</option>
+                            {% endfor %}
+                                </select>
+                            <button class="btn btn-primary mb-3" type="submit">Use tag</button>
+                        </form>
+                    </div>
+                </div>
                 <br>
-            <div class="add-tag">
-                <h2>Add a new tag</h2>
-                <span>Create a new tag and add it to the database.</span>
-                <br>
-                <br>
-                <form method="post" action="" name="user_form" enctype="multipart/form-data">
-                    <input type="hidden" name="building" value="casinos">
-                    <input  name="tag-name" required>
-                    <br>
-                    <br>
-                    <button class="btn" type="submit" value="submit" name="submit_button">Add new tag</button>
-                </form>
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Add a new tag</h2>
+                    </div>
+                    <div class="card-body">
+                        <span>Create a new tag and add it to the database.</span>
+                        <br>
+                        <form method="post" action="" name="user_form" enctype="multipart/form-data">
+                            <input type="hidden" name="building" value="casinos">
+                            <input class="form-control" id="exampleFormControlInput1" name="tag-name" required>
+                            <br>
+                            <button class="btn btn-primary mb-3" type="submit">Add new tag</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         {% endif %}
     {% else %}
         <div class="access-denied">
             <h4>You're not the user who asked this question. You cannot tag it.</h4>
-            <a href="{{ url_for('login_page') }}"> Login</a>
+            <a class="nav-link" href="{{ url_for('login_page') }}"> Login</a>
         </div>
     {% endif %}
-    <div class="button-container">
-        <button class="btn" type="button"><a href="{{ url_for('individual_q_and_a', question_id=question_id) }}"> Back </a></button>
+        <a class="nav-link" href="{{ url_for('individual_q_and_a', question_id=question_id) }}"> Back </a>
     </div>
 </body>
 </html>

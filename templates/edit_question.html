@@ -2,24 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/add_and_edit.css') }}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 
 </head>
 <body>
     {% if 'user' in session %}
         {% if question_user_id == session['user_id'] %}
-            <div class="header"><h1>Edit question</h1></div>
-                <div class="container">
+            <div class="container-fluid">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <h1 class="navbar-brand">Add a new question</h1>
+                </nav>
+            </div>
+                <div class="container-fluid">
                     <form method="post" action="" name="user_form" enctype="multipart/form-data">
                     {% for question in questionz %}
-                        <h3>Title:</h3>
-                    <input cols="40" rows="5" name="title" value="{{ question.title }}" required>
-                    <h3>Message:</h3>
-                    <textarea cols="40" rows="5" name="message" required>{{ question.message }}</textarea>
+                     <div class="mb-3">
+                         <h3>Title</h3>
+                         <input type="text" class="form-control" id="exampleFormControlInput1" name="title" value="{{ question.title }}" required>
+                     </div>
+                    <div class="mb-3">
+                        <h3>Message:</h3>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="message" required>{{ question.message }}</textarea>
+                    </div>
                     <br/>
                     <br/>
-                    <button type="submit" class="button">Edit</button>
-                <button class="button" type="button"><a href="{{ url_for('individual_q_and_a', question_id=question.id) }}"> Back </a></button>
+                    <button type="submit" class="btn btn-primary mb-3">Edit</button>
+                    <a class="nav-link" href="{{ url_for('individual_q_and_a', question_id=question.id) }}"> Back </a>
                     {% endfor %}
                     </form>
                 </div>
