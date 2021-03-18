@@ -35,7 +35,7 @@ def individual_q_and_a(question_id):
     data_manager.increase_view_count(question_id)
     return render_template('individual_question_and_answer_page.html', questions=question, answers=answer,
                            question_tags=question_tags, comments_question=comments_question,
-                           comments_answer=comments_answer)
+                           comments_answer=comments_answer, session=session)
 
 
 @app.route('/question/<question_id>/new-answer', methods=['GET', 'POST'])

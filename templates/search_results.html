@@ -13,21 +13,6 @@
         <h2 class="results-title">Search results for {{ search_phrase }}: </h2>
     {% endif %}
     {% if questions|length > 0 %}
-{#        <div class="table-container">#}
-{#        <h2 class="titles">Questions</h2>#}
-{#            <table class="table">#}
-{#                <tr>#}
-{#                    <th>Title</th>#}
-{#                    <th>Message</th>#}
-{#                </tr>#}
-{#                  {% for question in questions %}#}
-{#                <tr>#}
-{#                    <td>{{ question.title|safe }}</td>#}
-{#                    <td>{{ question.message|safe }}</td>#}
-{#                </tr>#}
-{#                {% endfor %}#}
-{#            </table>#}
-{#        </div>#}
         {% for question in questions %}
             <div class="card mb-3" style="max-width: 540px;background-color:#F1F1F1;margin: 0 auto;">
           <div class="row g-0">
