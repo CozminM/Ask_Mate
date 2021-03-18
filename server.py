@@ -296,7 +296,6 @@ def users_page():
         users = util.link_questions_answers_and_comments_to_users(users)
         return render_template('users.html', users=users, session=session)
     else:
-        #flash('Please login or register first!')
         return redirect(url_for('login_page'))
 
 
