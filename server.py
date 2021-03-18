@@ -281,6 +281,28 @@ def accept_answer(question_id, answer_id):
     data_manager.increase_rep_accepted_answer(user_id)
     return redirect(url_for('individual_q_and_a', question_id=question_id))
 
+@app.route('/users')
+def users_page():
+    if 'user' in session:
+        users = data_manager.get_all_users()
+        users = util.link_questions_answers_and_comments_to_users(users)
+        return render_template('users.html', users=users, session=session)
+    else:
+        #flash('Please login or register first!')
+        return redirect(url_for('login_page'))
+
+
+
+@app.route('/user/<user_id>')
+def individual_user(user_id):
+    if 'user' in session:
+        user = data_manager.get_user_by_id(user_id)
+        user = util.link_questions_answers_and_comments_to_user(user)
+        questions = data_manager.get_questions_by_user_id(user_id)
+        answers = data_manager.get_answers_by_user_id(user_id)
+        comments = data_manager.get_comments_by_user_id(user_id)
+        return render_template('individual_user.html', user=user, questions=questions, answers=answers,
+                               comments=comments, session=session)
 
 if __name__ == "__main__":
     app.run(debug=True)

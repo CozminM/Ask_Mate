@@ -426,7 +426,7 @@ def delete_tags_by_question_id(cursor: RealDictCursor, question_id: str) -> list
 @database_common.connection_handler
 def get_all_users(cursor: RealDictCursor) -> list:
     query = """
-        SELECT username, password, user_id, user_id
+        SELECT username, password, user_id, username, submission_time, reputation
         FROM users
         """
     cursor.execute(query)
@@ -544,3 +544,54 @@ def get_comment_userid(cursor: RealDictCursor, comment_id: str) -> list:
         """
     cursor.execute(query, {'id': comment_id})
     return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_answer_userid(cursor: RealDictCursor, answer_id: str) -> list:
+    query = """
+        SELECT user_id
+        FROM answer 
+        WHERE id = %(id)s
+        """
+    cursor.execute(query, {'id': answer_id})
+    return cursor.fetchall()
+
+@database_common.connection_handler
+def get_comments_by_user_id(cursor: RealDictCursor, user_id: str) -> list:
+    query = """
+        SELECT id, question_id, answer_id, message, submission_time, edited_count, user_id
+        FROM comment
+        WHERE user_id = %(i)s
+        """
+    cursor.execute(query, {'i': user_id})
+    return cursor.fetchall()
+
+@database_common.connection_handler
+def get_answers_by_user_id(cursor: RealDictCursor, user_id: str) -> list:
+    query = """
+        SELECT id, submission_time, vote_number, image, message, user_id, question_id
+        FROM answer
+        WHERE user_id = %(i)s
+        """
+    cursor.execute(query, {'i': user_id})
+    return cursor.fetchall()
+
+@database_common.connection_handler
+def get_questions_by_user_id(cursor: RealDictCursor, user_id: str) -> list:
+    query = """
+        SELECT id, submission_time, view_number, vote_number, title, image, message, user_id
+        FROM question
+        WHERE user_id = %(i)s
+        """
+    cursor.execute(query, {'i': user_id})
+    return cursor.fetchall()
+
+@database_common.connection_handler
+def get_user_by_id(cursor: RealDictCursor, user_id: str) -> list:
+    query = """
+        SELECT username, user_id, submission_time, reputation
+        FROM users
+        WHERE user_id = %(i)s
+        """
+    cursor.execute(query, {'i': user_id})
+    return cursor.fetchone()
