@@ -14,6 +14,9 @@
     </figure>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
+      {% if 'user' in session %}
+        <a class="navbar-brand" href="{{ url_for('individual_user', user_id = session.user_id )}}">Logged in as: {{ session.user }}</a>
+      {% endif %}
         <a class="navbar-brand" href="{{ url_for('registration_page') }}">Register</a>
        {% if 'user' not in session %}
         <a class="navbar-brand" href="{{ url_for('login_page') }}">Login</a>

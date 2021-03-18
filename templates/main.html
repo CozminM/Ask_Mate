@@ -3,41 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <title>List stories</title>
-    <link rel= "stylesheet" href= "{{ url_for('static',filename='css/main.css') }}">
-
+    <link rel= "stylesheet" href= "{{ url_for('static', filename='css/new_main.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 </head>
-<body>
-    <div class="header" id="grad1"><h1 class="question-title">Taraful Codecool forum</h1></div>
-    <div class="container">
-
-    <div class="table">
-        <table class="five-question-table">
-        <tr>
-            <th>Submission time</th>
-            <th>View number</th>
-            <th>Vote number</th>
-            <th>Title</th>
-            <th>Message</th>
-            <th>Image</th>
-        </tr>
-        {% for dat in data %}
-        <tr>
-            <td>{{ dat.submission_time }}</td>
-            <td>{{ dat.view_number }}</td>
-            <td>{{ dat.vote_number }}</td>
-            <td><a href="{{ url_for('individual_q_and_a', question_id = dat.id) }}">{{ dat.title }}</a></td>
-            <td>{{ dat.message }}</td>
-            {% if not dat.image %}
-            <td>No image</td>
-            {% else %}
-            <td><img src="{{url_for('static', filename='images/' + dat.image)}}" width="100" height="100" alt="question image"></td>
-            {% endif %}
-        </tr>
-        {% endfor %}
-    </table></div>
-    </div>
+<body style="background-color:#F1F1F1">
     <div id="all-questions-btn">
-        <button class="new-button" type="button"><a href="{{ url_for('questions_page') }}"> All Questions </a></button>
+              <a class="btn btn-primary" style="padding:5px" href="{{ url_for('questions_page') }}" role="button">All questions</a>
+    </div>
+    <figure class="text-center">
+      <blockquote class="blockquote">
+        <h1 class="title">Taraful Codecool Forum</h1>
+      </blockquote>
+    </figure>
+      <div class="container-fluid">
+    {% for dat in data %}
+        <div class="card mb-3" style="max-width: 540px;background-color:#F1F1F1;margin: 0 auto;">
+          <div class="row g-0">
+            <div class="col-md-4">
+            {% if not dat.image %}
+                <p>No image</p>
+                {% else %}
+              <img src="{{url_for('static', filename='images/' + dat.image)}}" height=170px width=170px alt="...">
+            {% endif %}
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title"><a href="{{ url_for('individual_q_and_a', question_id = dat.id) }}">{{ dat.title }}</a></h5>
+                  <small>Vote number: {{ dat.vote_number }}</small>
+                  <small>View number: {{ dat.view_number }}</small>
+                <p class="card-text">{{ dat.message }}</p>
+                <p class="card-text"><small class="text-muted">{{ dat.submission_time }}</small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+    {% endfor %}
     </div>
 </body>
 </html>
