@@ -244,15 +244,13 @@ def registration_page():
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
     if request.method == 'POST':
-        input_password = request.form['password']
-        username = request.form['username']
-        data = data_manager.get_user_credentials(username)
+        data = data_manager.get_user_credentials(request.form['username'])
         if len(data) == 0:
             flash('Incorrect username and password')
         else:
             hashed_password = data[0].get('password')
-            if util.verify_password(input_password, hashed_password):
-                session['user'] = username
+            if util.verify_password(request.form['password'], hashed_password):
+                session['user'] = request.form['username']
                 session['user_id'] = data[0].get('user_id')
                 return redirect(url_for('questions_page'))
             else:
@@ -281,6 +279,7 @@ def accept_answer(question_id, answer_id):
     data_manager.increase_rep_accepted_answer(user_id)
     return redirect(url_for('individual_q_and_a', question_id=question_id))
 
+
 @app.route('/users')
 def users_page():
     if 'user' in session:
@@ -290,7 +289,6 @@ def users_page():
     else:
         #flash('Please login or register first!')
         return redirect(url_for('login_page'))
-
 
 
 @app.route('/user/<user_id>')
@@ -303,6 +301,7 @@ def individual_user(user_id):
         comments = data_manager.get_comments_by_user_id(user_id)
         return render_template('individual_user.html', user=user, questions=questions, answers=answers,
                                comments=comments, session=session)
+
 
 if __name__ == "__main__":
     app.run(debug=True)

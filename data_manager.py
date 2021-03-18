@@ -253,7 +253,7 @@ def delete_tag(cursor: RealDictCursor, question_id: str, tag_id: str) -> list:
 @database_common.connection_handler
 def search_in_questions(cursor: RealDictCursor, search_input: str) -> list:
     query = """
-        SELECT title, message
+        SELECT title, message, image
         FROM question
         WHERE title LIKE %(s)s OR message like %(s)s
         """
@@ -264,7 +264,7 @@ def search_in_questions(cursor: RealDictCursor, search_input: str) -> list:
 @database_common.connection_handler
 def search_in_answers(cursor: RealDictCursor, search_input: str) -> list:
     query = """
-        SELECT message
+        SELECT message, image
         FROM answer
         WHERE message like %(s)s
         """

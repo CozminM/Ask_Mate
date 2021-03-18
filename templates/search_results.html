@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Search results</title>
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/search.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 </head>
 <body>
     {% if (questions|length == 0) and (answers|length == 0) %}
@@ -12,36 +13,64 @@
         <h2 class="results-title">Search results for {{ search_phrase }}: </h2>
     {% endif %}
     {% if questions|length > 0 %}
-        <div class="table-container">
-        <h2 class="titles">Questions</h2>
-            <table class="table">
-                <tr>
-                    <th>Title</th>
-                    <th>Message</th>
-                </tr>
-                  {% for question in questions %}
-                <tr>
-                    <td>{{ question.title|safe }}</td>
-                    <td>{{ question.message|safe }}</td>
-                </tr>
-                {% endfor %}
-            </table>
+{#        <div class="table-container">#}
+{#        <h2 class="titles">Questions</h2>#}
+{#            <table class="table">#}
+{#                <tr>#}
+{#                    <th>Title</th>#}
+{#                    <th>Message</th>#}
+{#                </tr>#}
+{#                  {% for question in questions %}#}
+{#                <tr>#}
+{#                    <td>{{ question.title|safe }}</td>#}
+{#                    <td>{{ question.message|safe }}</td>#}
+{#                </tr>#}
+{#                {% endfor %}#}
+{#            </table>#}
+{#        </div>#}
+        {% for question in questions %}
+            <div class="card mb-3" style="max-width: 540px;background-color:#F1F1F1;margin: 0 auto;">
+          <div class="row g-0">
+            <div class="col-md-4">
+                    {% if not question.image %}
+                <p>No image</p>
+                {% else %}
+              <img src="{{url_for('static', filename='images/' + question.image)}}" height=170px width=170px alt="...">
+            {% endif %}
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <p>{{ question.title|safe }}</p>
+                <p class="card-text">{{ question.message|safe }}</p>
+                <p class="card-text"><small class="text-muted">{{ question.submission_time }}</small></p>
+              </div>
+            </div>
+          </div>
         </div>
+        {% endfor %}
     {% endif %}
     {% if answers|length > 0 %}
-        <div class="table-container">
         <h2 class="titles">Answers</h2>
-            <table class="table answers">
-                <tr>
-                    <th>Message</th>
-                </tr>
-                    {% for answer in answers %}
-                        <tr>
-                            <td>{{ answer.message|safe}}</td>
-                        </tr>
-                    {% endfor %}
-            </table>
+        {% for answer in answers %}
+            <div class="card mb-3" style="max-width: 540px;background-color:#F1F1F1;margin: 0 auto;">
+          <div class="row g-0">
+            <div class="col-md-4">
+                {% if not answer.image %}
+                <p>No image</p>
+                {% else %}
+              <img src="{{url_for('static', filename='images/' + answer.image)}}" height=170px width=170px alt="...">
+            {% endif %}
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <p>{{ answer.title|safe }}</p>
+                <p class="card-text">{{ answer.message|safe }}</p>
+                <p class="card-text"><small class="text-muted">{{ answer.submission_time }}</small></p>
+              </div>
+            </div>
+          </div>
         </div>
+        {% endfor %}
     {% endif %}
     <div class="button-container">
         <button class="home-button" type="button"><a href="{{ url_for('questions_page') }}"> Home </a></button>

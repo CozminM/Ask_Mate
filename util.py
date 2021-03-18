@@ -112,6 +112,7 @@ def comments_linked_to_users(users):
         users[item]['num_of_com'] = len(comments)
     return users
 
+
 def answers_linked_to_users(users):
     for i in range(len(users)):
         users[i]['num_of_ans'] = 0
@@ -119,6 +120,7 @@ def answers_linked_to_users(users):
         answers = data_manager.get_answers_by_user_id(users[item].get('user_id'))
         users[item]['num_of_ans'] = len(answers)
     return users
+
 
 def questions_linked_to_users(users):
     for i in range(len(users)):
@@ -128,11 +130,13 @@ def questions_linked_to_users(users):
         users[item]['num_of_q'] = len(questions)
     return users
 
+
 def comments_linked_to_user(users):
     users['num_of_com'] = 0
     comments = data_manager.get_comments_by_user_id(users.get('user_id'))
     users['num_of_com'] = len(comments)
     return users
+
 
 def answers_linked_to_user(users):
     users['num_of_ans'] = 0
@@ -140,17 +144,20 @@ def answers_linked_to_user(users):
     users['num_of_ans'] = len(answers)
     return users
 
+
 def questions_linked_to_user(users):
     users['num_of_q'] = 0
     questions = data_manager.get_questions_by_user_id(users.get('user_id'))
     users['num_of_q'] = len(questions)
     return users
 
+
 def link_questions_answers_and_comments_to_user(users):
     users = comments_linked_to_user(users)
     users = answers_linked_to_user(users)
     users = questions_linked_to_user(users)
     return users
+
 
 def link_questions_answers_and_comments_to_users(users):
     users = comments_linked_to_users(users)
