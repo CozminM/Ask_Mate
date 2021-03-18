@@ -66,7 +66,7 @@
     </div>
         {% for comment in comments %}
             <div class="card-body">
-                <h4 class="card-title"> Message: {{ comment.message }}</h4>
+                <h4 class="card-title"><a class="nav-link" href="{{ url_for('individual_q_and_a', question_id = comment.question_id) }}"> Message: {{ comment.message }}</a></h4>
             </div>
             <div class="card-footer">
                 <small class="text-muted">Edited count: {{ comment.edited_count }}</small>

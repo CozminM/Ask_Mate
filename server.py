@@ -307,7 +307,7 @@ def individual_user(user_id):
         user = util.link_questions_answers_and_comments_to_user(user)
         questions = data_manager.get_questions_by_user_id(user_id)
         answers = data_manager.get_answers_by_user_id(user_id)
-        comments = data_manager.get_comments_by_user_id(user_id)
+        comments = util.link_question_id_to_comment(user_id)
         return render_template('individual_user.html', user=user, questions=questions, answers=answers,
                                comments=comments, session=session)
 

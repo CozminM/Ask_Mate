@@ -166,3 +166,13 @@ def link_questions_answers_and_comments_to_users(users):
     return users
 
 
+def link_question_id_to_comment(user_id):
+    comments = data_manager.get_comments_by_user_id(user_id)
+    for i in range(len(comments)):
+        question_id = comments[i].get('question_id')
+        answer_id = comments[i].get('answer_id')
+        if question_id is None:
+            question = data_manager.get_question_id_by_answer_id(answer_id)
+            question_id = question[0].get('question_id')
+            comments[i]['question_id'] = question_id
+    return comments
