@@ -47,7 +47,7 @@ def get_individual_question(cursor: RealDictCursor, used_id: int) -> list:
 @database_common.connection_handler
 def get_answers(cursor: RealDictCursor, used_id: int) -> list:
     query = """
-        SELECT id, submission_time, vote_number, question_id, message, image
+        SELECT id, submission_time, vote_number, question_id, message, image, accepted
         FROM answer
         WHERE question_id = %(i)s
         """
@@ -81,8 +81,8 @@ def get_answers_by_question(cursor: RealDictCursor, used_id: str) -> list:
 def save_answer(cursor: RealDictCursor, submission_time: int, vote_number: int, question_id: str, message: str,
                 image: str, user_id: str) -> list:
     query = """
-        INSERT INTO answer (submission_time, vote_number, question_id, message, image, user_id, accepted)
-        VALUES (%(s_t)s, %(vote_n)s, %(q)s, %(m)s, %(im)s, %(u)s, FALSE)
+        INSERT INTO answer (submission_time, vote_number, question_id, message, image, user_id)
+        VALUES (%(s_t)s, %(vote_n)s, %(q)s, %(m)s, %(im)s, %(u)s)
         RETURNING *
         """
     cursor.execute(query, {'s_t': submission_time, 'vote_n': vote_number, 'q': question_id, 'm': message,
@@ -517,7 +517,7 @@ def decrease_user_reputation(cursor: RealDictCursor, user_id: int) -> list:
 def accept_answer(cursor: RealDictCursor, answer_id: int):
     query = """
         UPDATE answer
-        SET accepted = TRUE 
+        SET accepted = 'true' 
         WHERE id = %(i)s
     """
     cursor.execute(query, {'i': answer_id})
@@ -569,7 +569,7 @@ def get_comments_by_user_id(cursor: RealDictCursor, user_id: str) -> list:
 @database_common.connection_handler
 def get_answers_by_user_id(cursor: RealDictCursor, user_id: str) -> list:
     query = """
-        SELECT id, submission_time, vote_number, image, message, user_id, question_id
+        SELECT id, submission_time, vote_number, image, message, user_id, question_id, accepted
         FROM answer
         WHERE user_id = %(i)s
         """

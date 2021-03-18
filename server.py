@@ -274,9 +274,14 @@ def logout_page():
 
 @app.route("/question/<question_id>/answer/<answer_id>/accept")
 def accept_answer(question_id, answer_id):
-    data_manager.accept_answer(answer_id)
-    user_id = util.get_user_id_by_answer(answer_id)
-    data_manager.increase_rep_accepted_answer(user_id)
+    if 'user' in session:
+        user_id = util.get_user_id_by_question(question_id)
+        if session['user_id'] == user_id:
+            data_manager.accept_answer(answer_id)
+            user_id = util.get_user_id_by_answer(answer_id)
+            data_manager.increase_rep_accepted_answer(user_id)
+        else:
+            flash('You do not have permission to do that')
     return redirect(url_for('individual_q_and_a', question_id=question_id))
 
 
