@@ -33,9 +33,10 @@ def individual_q_and_a(question_id):
     comments_question = data_manager.get_individual_comment(question_id)
     comments_answer = util.comments_linked_to_answers(answer)
     data_manager.increase_view_count(question_id)
+    username = data_manager.get_user_by_id(util.get_user_id_by_question(question_id))
     return render_template('individual_question_and_answer_page.html', questions=question, answers=answer,
                            question_tags=question_tags, comments_question=comments_question,
-                           comments_answer=comments_answer, session=session)
+                           comments_answer=comments_answer, session=session, username=username)
 
 
 @app.route('/question/<question_id>/new-answer', methods=['GET', 'POST'])
@@ -184,18 +185,18 @@ def add_comment_question(question_id):
         submit_time = util.current_time()
         data_manager.save_comment(submit_time, question_id, None, 0, request.form['message'], session['user_id'])
         return redirect(url_for('individual_q_and_a', question_id=question_id))
-    return render_template('add_comment.html')
+    return render_template('add_comment.html', question_id=question_id)
 
 
 @app.route('/answer/<answer_id>/new-comment', methods=['GET', 'POST'])
 def add_comment_answer(answer_id):
+    question = data_manager.get_question_id_by_answer_id(answer_id)
+    question_id = question[0].get('question_id')
     if request.method == 'POST':
         submit_time = util.current_time()
-        question = data_manager.get_question_id_by_answer_id(answer_id)
-        question_id = question[0].get('question_id')
         data_manager.save_comment(submit_time, None, answer_id, 0, request.form['message'], session['user_id'])
         return redirect(url_for('individual_q_and_a', question_id=question_id))
-    return render_template('add_comment.html')
+    return render_template('add_comment.html', question_id=question_id)
 
 
 @app.route('/comment/<comment_id>/edit', methods=['GET', 'POST'])
@@ -243,19 +244,22 @@ def registration_page():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
-    if request.method == 'POST':
-        data = data_manager.get_user_credentials(request.form['username'])
-        if len(data) == 0:
-            flash('Incorrect username and password')
-        else:
-            hashed_password = data[0].get('password')
-            if util.verify_password(request.form['password'], hashed_password):
-                session['user'] = request.form['username']
-                session['user_id'] = data[0].get('user_id')
-                return redirect(url_for('questions_page'))
-            else:
+    if 'user' in session:
+        return redirect(url_for('questions_page'))
+    else:
+        if request.method == 'POST':
+            data = data_manager.get_user_credentials(request.form['username'])
+            if len(data) == 0:
                 flash('Incorrect username and password')
-    return render_template('login.html')
+            else:
+                hashed_password = data[0].get('password')
+                if util.verify_password(request.form['password'], hashed_password):
+                    session['user'] = request.form['username']
+                    session['user_id'] = data[0].get('user_id')
+                    return redirect(url_for('questions_page'))
+                else:
+                    flash('Incorrect username and password')
+        return render_template('login.html')
 
 
 @app.route('/tags')

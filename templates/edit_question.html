@@ -23,7 +23,12 @@
                     {% endfor %}
                     </form>
                 </div>
-           {% endif %}
+           {% else %}
+            <div class="access-denied">
+                <h4>You're not the user of this question, you don't have the right to edit this comment.</h4>
+                <a href="{{ url_for('login_page') }}"> Login</a>
+            </div>
+        {% endif %}
     {% else %}
         <div class="access-denied">
             <h4>You're not the user of this question, you don't have the right to edit this comment.</h4>

@@ -21,6 +21,11 @@
                     </form>
                 <button class="button" type="button"><a href="{{ url_for('individual_q_and_a', question_id=question_id) }}"> Back </a></button>
                 </div>
+            {% else %}
+                <div class="access-denied">
+                    <h4>You're not the user of this comment, you don't have the right to edit this comment.</h4>
+                    <a href="{{ url_for('login_page') }}"> Login</a>
+                </div>
             {% endif %}
     {% else %}
         <div class="access-denied">

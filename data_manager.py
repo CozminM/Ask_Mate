@@ -556,6 +556,7 @@ def get_answer_userid(cursor: RealDictCursor, answer_id: str) -> list:
     cursor.execute(query, {'id': answer_id})
     return cursor.fetchall()
 
+
 @database_common.connection_handler
 def get_comments_by_user_id(cursor: RealDictCursor, user_id: str) -> list:
     query = """
@@ -565,6 +566,7 @@ def get_comments_by_user_id(cursor: RealDictCursor, user_id: str) -> list:
         """
     cursor.execute(query, {'i': user_id})
     return cursor.fetchall()
+
 
 @database_common.connection_handler
 def get_answers_by_user_id(cursor: RealDictCursor, user_id: str) -> list:
@@ -576,6 +578,7 @@ def get_answers_by_user_id(cursor: RealDictCursor, user_id: str) -> list:
     cursor.execute(query, {'i': user_id})
     return cursor.fetchall()
 
+
 @database_common.connection_handler
 def get_questions_by_user_id(cursor: RealDictCursor, user_id: str) -> list:
     query = """
@@ -586,6 +589,7 @@ def get_questions_by_user_id(cursor: RealDictCursor, user_id: str) -> list:
     cursor.execute(query, {'i': user_id})
     return cursor.fetchall()
 
+
 @database_common.connection_handler
 def get_user_by_id(cursor: RealDictCursor, user_id: str) -> list:
     query = """
@@ -595,3 +599,16 @@ def get_user_by_id(cursor: RealDictCursor, user_id: str) -> list:
         """
     cursor.execute(query, {'i': user_id})
     return cursor.fetchone()
+
+
+@database_common.connection_handler
+def get_user_by_id(cursor: RealDictCursor, user_id: str) -> list:
+    query = """
+        SELECT username, user_id, submission_time, reputation
+        FROM users
+        WHERE user_id = %(i)s
+        """
+    cursor.execute(query, {'i': user_id})
+    return cursor.fetchone()
+
+
