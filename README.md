@@ -47,7 +47,7 @@ add their own, upvote/downvote each post. It is also the page where the question
 
 - Individual user page where someone can see all the posts that user has made and his reputation,
  gained by the number of upvotes he has on his posts.<br/><br/>
-  <img src="https://raw.githubusercontent.com/CozminM/Ask_Mate/master/public/.png" height="500" width="auto">
+  <img src="https://raw.githubusercontent.com/CozminM/Ask_Mate/master/public/user-page.png" height="500" width="auto">
   <br/><br/><br/>
 
 ## Future implementation
