@@ -52,9 +52,9 @@ add their own, upvote/downvote each post. It is also the page where the question
 
 ## Future implementation
 
-- Update main menu and inventory UI
-- Add new maps, items, monsters
-- Add ranged combat
+- Update overall visuals
+- Add admin dashboard
+- Add blog page for guides
 
 
 ### Built With
